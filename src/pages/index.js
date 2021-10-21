@@ -112,6 +112,12 @@ const Home = () => {
     /* tbappChange(); */
   };
 
+  const enterKey = (e) => {
+    if (e.key === "Enter") {
+      getArticles();
+    }
+  };
+
   let whirligig
   const next = () => whirligig.next()
   const prev = () => whirligig.prev()
@@ -161,10 +167,11 @@ const Home = () => {
               id="searchBar" placeholder="Use Stock Codes (e.g. AAPL)"
               /* value={inputValue} */
                onChange={stockChange} 
+               onKeyPress={enterKey}
           />
 
             <Button id="searchButton" 
-            onClick={getArticles}>
+              onClick={getArticles}>
               Search 
             </Button>
           </Form>

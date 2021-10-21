@@ -96,6 +96,11 @@ const Home = () => {
     /* tbappChange(); */
   };
   
+  const enterKey = (e) => {
+    if (e.key === "Enter") {
+      getArticles();
+    }
+  };
 
   let whirligig
   const next = () => whirligig.next()
@@ -136,6 +141,7 @@ const Home = () => {
           <FormControl type="text" autoComplete="off"
             id="searchBar" placeholder="Use Stock Codes (e.g. AAPL)"
             onChange={stockChange} 
+            onKeyPress={enterKey}
         />
 
           <Button id="searchButton" 
@@ -316,7 +322,7 @@ const Home = () => {
 
       <Form inline id="productSearchBar">
         <FormControl type="text" onChange={stockChange} id="productSearchBar" 
-        autoComplete="off" placeholder="Use Stock Codes (e.g. AAPL)"/>
+        autoComplete="off" placeholder="Use Stock Codes (e.g. AAPL)" onKeyPress={enterKey}/>
         <Button id="productSearchButton" onClick={getArticles}>
           Search
         </Button>   
