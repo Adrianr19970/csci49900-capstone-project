@@ -47,6 +47,25 @@ const Home = () => {
     console.log(toggleLine);
   }
 
+  /*
+  const [tbapp, settbapp]= useState("");
+  const [found, setFound]= useState(false);
+
+  
+  async function tbappChange() {
+    try {
+    let response = await axios.get('/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-06&end_date=2021-10-10' , { mode: "no-cors" });
+    let response = await axios.get("https://goweather.herokuapp.com/weather/"+ stock ); 
+      settbapp(response);
+      console.log(response.data); 
+    }catch(error) {
+      if(error.response) {
+        console.log(error.response.data);
+      }
+    }
+  }
+  */
+
   const getStockInfo = async () => {
     const info = await axios.get (
       'https://api.marketstack.com/v1/eod/latest?access_key=7ba49202483340bca37ab953c66b592c&symbols=' + stock /*+ '&%20date_from=2021-10-15'*/ , { mode: "no-cors" }

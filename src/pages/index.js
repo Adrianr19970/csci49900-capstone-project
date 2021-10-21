@@ -49,23 +49,20 @@ const Home = () => {
     console.log(toggleLine);
   }
   
-/*
+  /*
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
 
+  
   async function tbappChange() {
     try {
     let response = await axios.get('/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-06&end_date=2021-10-10' , { mode: "no-cors" });
-    let response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy');
     let response = await axios.get("https://goweather.herokuapp.com/weather/"+ stock ); 
-    The above line is for Testing pursposes to see if app connects to an external api which it does*
-      settbapp(response.data);
+      settbapp(response);
       console.log(response.data); 
-      setFound(true);
     }catch(error) {
       if(error.response) {
         console.log(error.response.data);
-        setFound(false);
       }
     }
   }
