@@ -78,7 +78,12 @@ const About = () => {
     setStockName(stock);
     /* tbappChange(); */
   };
-  
+
+  const enterKey = (e) => {
+    if (e.key === "Enter") {
+      getArticles();
+    }
+  };
 
   let whirligig
   const next = () => whirligig.next()
@@ -118,6 +123,7 @@ const About = () => {
           <FormControl type="text" autoComplete="off"
             id="searchBar" placeholder="Use Stock Codes (e.g. AAPL)"
             onChange={stockChange} 
+            onKeyPress={enterKey}
         />
 
           <Button id="searchButton" 
