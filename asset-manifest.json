@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/csci49900-capstone-project/static/css/main.2d110c00.chunk.css",
-    "main.js": "/csci49900-capstone-project/static/js/main.d12ab174.chunk.js",
-    "main.js.map": "/csci49900-capstone-project/static/js/main.d12ab174.chunk.js.map",
+    "main.js": "/csci49900-capstone-project/static/js/main.0b2bf065.chunk.js",
+    "main.js.map": "/csci49900-capstone-project/static/js/main.0b2bf065.chunk.js.map",
     "runtime-main.js": "/csci49900-capstone-project/static/js/runtime-main.c034eed0.js",
     "runtime-main.js.map": "/csci49900-capstone-project/static/js/runtime-main.c034eed0.js.map",
     "static/css/2.d548169e.chunk.css": "/csci49900-capstone-project/static/css/2.d548169e.chunk.css",
@@ -28,6 +28,6 @@
     "static/css/2.d548169e.chunk.css",
     "static/js/2.8355d863.chunk.js",
     "static/css/main.2d110c00.chunk.css",
-    "static/js/main.d12ab174.chunk.js"
+    "static/js/main.0b2bf065.chunk.js"
   ]
 }
