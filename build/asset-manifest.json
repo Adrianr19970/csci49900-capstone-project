@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/csci49900-capstone-project/static/css/main.134cd7c6.chunk.css",
-    "main.js": "/csci49900-capstone-project/static/js/main.56f122fd.chunk.js",
-    "main.js.map": "/csci49900-capstone-project/static/js/main.56f122fd.chunk.js.map",
+    "main.css": "/csci49900-capstone-project/static/css/main.3afcae75.chunk.css",
+    "main.js": "/csci49900-capstone-project/static/js/main.1129e494.chunk.js",
+    "main.js.map": "/csci49900-capstone-project/static/js/main.1129e494.chunk.js.map",
     "runtime-main.js": "/csci49900-capstone-project/static/js/runtime-main.c034eed0.js",
     "runtime-main.js.map": "/csci49900-capstone-project/static/js/runtime-main.c034eed0.js.map",
     "static/css/2.d548169e.chunk.css": "/csci49900-capstone-project/static/css/2.d548169e.chunk.css",
-    "static/js/2.ed75a005.chunk.js": "/csci49900-capstone-project/static/js/2.ed75a005.chunk.js",
-    "static/js/2.ed75a005.chunk.js.map": "/csci49900-capstone-project/static/js/2.ed75a005.chunk.js.map",
+    "static/js/2.8355d863.chunk.js": "/csci49900-capstone-project/static/js/2.8355d863.chunk.js",
+    "static/js/2.8355d863.chunk.js.map": "/csci49900-capstone-project/static/js/2.8355d863.chunk.js.map",
     "static/js/3.3ea162b7.chunk.js": "/csci49900-capstone-project/static/js/3.3ea162b7.chunk.js",
     "static/js/3.3ea162b7.chunk.js.map": "/csci49900-capstone-project/static/js/3.3ea162b7.chunk.js.map",
     "index.html": "/csci49900-capstone-project/index.html",
     "static/css/2.d548169e.chunk.css.map": "/csci49900-capstone-project/static/css/2.d548169e.chunk.css.map",
-    "static/css/main.134cd7c6.chunk.css.map": "/csci49900-capstone-project/static/css/main.134cd7c6.chunk.css.map",
-    "static/js/2.ed75a005.chunk.js.LICENSE.txt": "/csci49900-capstone-project/static/js/2.ed75a005.chunk.js.LICENSE.txt",
+    "static/css/main.3afcae75.chunk.css.map": "/csci49900-capstone-project/static/css/main.3afcae75.chunk.css.map",
+    "static/js/2.8355d863.chunk.js.LICENSE.txt": "/csci49900-capstone-project/static/js/2.8355d863.chunk.js.LICENSE.txt",
     "static/media/Alex.e1a79976.png": "/csci49900-capstone-project/static/media/Alex.e1a79976.png",
     "static/media/Diego.0d97ef74.png": "/csci49900-capstone-project/static/media/Diego.0d97ef74.png",
     "static/media/Edwin.0f0733df.png": "/csci49900-capstone-project/static/media/Edwin.0f0733df.png",
@@ -26,8 +26,8 @@
   "entrypoints": [
     "static/js/runtime-main.c034eed0.js",
     "static/css/2.d548169e.chunk.css",
-    "static/js/2.ed75a005.chunk.js",
-    "static/css/main.134cd7c6.chunk.css",
-    "static/js/main.56f122fd.chunk.js"
+    "static/js/2.8355d863.chunk.js",
+    "static/css/main.3afcae75.chunk.css",
+    "static/js/main.1129e494.chunk.js"
   ]
 }

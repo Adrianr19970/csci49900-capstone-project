@@ -49,24 +49,25 @@ const Home = () => {
     console.log(toggleLine);
   }
   
-  /*
+  
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
 
   
   async function tbappChange() {
     try {
-    let response = await axios.get('/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-06&end_date=2021-10-10' , { mode: "no-cors" });
-    let response = await axios.get("https://goweather.herokuapp.com/weather/"+ stock ); 
+    let response = await axios.get('https://young-harbor-33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-09-21&end_date=2021-10-19')
+    /*let response = await axios.get('/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-06&end_date=2021-10-10' , { mode: "no-cors" });
+    let response = await axios.get("https://goweather.herokuapp.com/weather/"+ stock ); */
       settbapp(response);
-      console.log(response.data); 
+      console.log(stock); 
     }catch(error) {
       if(error.response) {
-        console.log(error.response.data);
+        console.log(stock);
       }
     }
   }
-  */
+  
 
   useEffect(() => {
     const getArticles = async () => {
@@ -77,6 +78,7 @@ const Home = () => {
       getStockInfo();
       getchartInfo();
       setStockName(stock);
+      tbappChange();
     };
     getArticles();
     
@@ -109,8 +111,12 @@ const Home = () => {
     getStockInfo();
     getchartInfo();
     setStockName(stock);
-    /* tbappChange(); */
+    tbappChange();
   };
+
+  const back2Home = () => {
+    setHidden("block");
+  }
 
   const enterKey = (e) => {
     if (e.key === "Enter") {
@@ -152,7 +158,7 @@ const Home = () => {
  
           <NavMenu id="menu">
 
-          <NavLink id="link" to='/index' activeStyle>
+          <NavLink id="link" to='/index' onClick={back2Home} activeStyle>
             Home
           </NavLink>
           <NavLink id="link" to='/products' activeStyle>

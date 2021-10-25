@@ -13,6 +13,10 @@
 
 /* Background Div */
 
+  #menu {
+    margin-right: 3%;
+  }
+
   #background {
     margin-top: 0%;
     padding: 0%;
@@ -71,6 +75,7 @@
     margin-left: -6%;
     padding-left: 0%;
   }
+
   
   #images {
     /*
