@@ -119,7 +119,9 @@ const Home = () => {
   }
 
   const enterKey = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      console.log("Enter Pressed from Home")
       getArticles();
     }
   };
