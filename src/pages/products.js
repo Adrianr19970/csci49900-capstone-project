@@ -22,6 +22,8 @@ const Home = () => {
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
 
+  const [show_List, set_show_List] = useState("block")
+
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
 
@@ -29,9 +31,13 @@ const Home = () => {
     setStock(event.target.value.toUpperCase());
   } 
 
-  function clickedStock(value){
+  const clickedStock = (value) => {
     setStock(value);
-    setStockName(stock);
+    setStockName(value);
+    listCall();
+  }
+
+  const listCall = () => {
     getArticles();
   }
 
@@ -47,6 +53,12 @@ const Home = () => {
     console.log(toggleLine);
   }
 
+  let viewList = () => {
+    setHidden("block");
+    setShowing("none");
+    set_show_List("block");
+    setStock("");
+  }
 
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
@@ -90,6 +102,7 @@ const Home = () => {
     console.log(res); 
     setHidden("none");
     setShowing("block"); 
+    set_show_List("none");
     getStockInfo();
     getchartInfo();
     setStockName(stock);
@@ -168,6 +181,7 @@ const Home = () => {
         height: 'auto',
         display: show
     }}>
+        <button id="toggle" onClick={viewList}>Back to List</button>
         <h1 style = {{
           marginLeft: '10%'
         }}> 
@@ -317,7 +331,9 @@ const Home = () => {
           </div>
         </div>
 
-    <div id='list'>
+    <div id='list' style = {{
+      display: show_List,
+    }}>
       <div id='products-title'>
         <h1> Products </h1>
       </div>

@@ -353,7 +353,7 @@ const About = () => {
     <div className = "eight">
       
       <h1 className = "nine">Who We Are</h1>
-      <p className = "eleven"> We are stduent of Hunter College and this website is a project for the class CSCI 49900.</p>
+      <p className = "eleven"> We are students from Hunter College and this website is a project for the class CSCI 49900.</p>
       <img className = "thirteen" src = {HunterPic} alt = "hunterPic"></img>
       
     </div>

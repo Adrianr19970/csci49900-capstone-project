@@ -34,6 +34,7 @@ const Line = ({ symbol }) => {
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
       'https://api.marketstack.com/v1/eod?access_key=7ba49202483340bca37ab953c66b592c&symbols=' + symbol , { mode: "no-cors" }
+      
     );
     setPrice(priceAndDate.data.data);
   }

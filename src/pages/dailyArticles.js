@@ -24,7 +24,9 @@ const DailyArticles = () => {
     const prev = () => whirligig.prev()
 
     return (
-        <div>
+        <div style={{
+          
+        }}>
             <div id='article-title'>
                 <h1>Top News Articles: </h1>
                 

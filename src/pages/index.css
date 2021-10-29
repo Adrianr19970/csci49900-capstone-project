@@ -23,7 +23,15 @@
     height: 100%;
     border-bottom: solid;
   }
-  
+
+  .daily-News {
+    background-color: rgba(0, 0, 0, 0.70);
+    padding-top: 1%;
+    padding-bottom: 1%;
+    margin-left: 0%;
+    margin-right: 0%;
+  }
+
   #slider {
     max-width: 95%;
     margin-left: 15%;
@@ -111,10 +119,11 @@
   #newsArticles {
     height: 100%;
     max-width: 100%;
+    opacity: 100%;
   }
 
 /* Product Article */
-#product-articl {
+#product-article {
   height: 100%;
   max-width: 100%;
 }

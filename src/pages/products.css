@@ -74,3 +74,23 @@
     font-weight: bold;
     font-size: 22.5px;
   }
+
+ #toggle {
+    margin-top: 1%;
+    margin-left: 49%;
+    padding-left: 1%;
+    padding-right: 1%;
+    padding-top: 0.25%;
+    padding-bottom: 0.25%;
+    color: #fff;
+    background-color: #000;
+    border: 1px solid #fff;
+    font-size: 1em;
+    border-radius: 35px;
+  }
+
+  #toggle:hover {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;  
+  }

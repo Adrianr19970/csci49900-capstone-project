@@ -87,7 +87,8 @@ const Home = () => {
 
   const getStockInfo = async () => {
     const info = await axios.get (
-      'https://api.marketstack.com/v1/eod/latest?access_key=7ba49202483340bca37ab953c66b592c&symbols=' + stock /*+ '&%20date_from=2021-10-15'*/ , { mode: "no-cors" }
+      'https://api.marketstack.com/v1/eod/latest?access_key=7ba49202483340bca37ab953c66b592c&symbols=' + stock , { mode: "no-cors" }
+      
     );
     setStockInfo(info.data.data);
     console.log(info);
@@ -96,6 +97,7 @@ const Home = () => {
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
       'https://api.marketstack.com/v1/eod?access_key=7ba49202483340bca37ab953c66b592c&symbols=' + stock , { mode: "no-cors" }
+     
     );
     setPrice(priceAndDate.data.data);
     console.log(priceAndDate.data);
@@ -204,7 +206,9 @@ const Home = () => {
           <hr></hr>
 
           <div id='newsArticles'>
-            <DailyArticles></DailyArticles>
+            <div className='daily-News'>
+              <DailyArticles></DailyArticles>
+            </div>
           </div>
         </div>
     </div>
