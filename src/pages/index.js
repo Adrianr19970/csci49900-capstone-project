@@ -32,9 +32,6 @@ const Home = () => {
 
   /* const [block, setBlock] = useState("block") */
   const [hidden, setHidden] = useState("block");
-
-  const dotenv = require('dotenv').config()
-  const access_Key = process.env.REACT_APP_API_KEY
   
   function stockChange(event){
     setStock(event.target.value.toUpperCase());
@@ -56,22 +53,6 @@ const Home = () => {
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
 
-  
-  async function tbappChange() {
-    try {
-    let response = await axios.get('https://young-harbor-33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-09-21&end_date=2021-10-19')
-    /*let response = await axios.get('/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-06&end_date=2021-10-10' , { mode: "no-cors" });
-    let response = await axios.get("https://goweather.herokuapp.com/weather/"+ stock ); */
-      settbapp(response);
-      console.log(stock); 
-    }catch(error) {
-      if(error.response) {
-        console.log(stock);
-      }
-    }
-  }
-  
-
   useEffect(() => {
     const getArticles = async () => {
       const res = await axios.get(
@@ -81,7 +62,6 @@ const Home = () => {
       getStockInfo();
       getchartInfo();
       setStockName(stock);
-      tbappChange();
     };
     getArticles();
     
@@ -90,7 +70,7 @@ const Home = () => {
 
   const getStockInfo = async () => {
     const info = await axios.get (
-      `https://api.marketstack.com/v1/eod/latest?access_key=${process.env.REACT_APP_API_KEY}&symbols=` + stock /*+ '&%20date_from=2021-10-15'*/ , { mode: "no-cors" }
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=/latest', { mode: "no-cors" }
     );
     setStockInfo(info.data.data);
     console.log(info);
@@ -98,7 +78,7 @@ const Home = () => {
 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      `https://api.marketstack.com/v1/eod?access_key=${process.env.REACT_APP_API_KEY}&symbols=` + stock , { mode: "no-cors" }
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }
     );
     setPrice(priceAndDate.data.data);
     console.log(priceAndDate.data);
@@ -114,7 +94,6 @@ const Home = () => {
     getStockInfo();
     getchartInfo();
     setStockName(stock);
-    tbappChange();
   };
 
   const back2Home = () => {

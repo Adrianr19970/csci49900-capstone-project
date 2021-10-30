@@ -18,23 +18,9 @@ const Line = ({ symbol }) => {
     
   });
 
-  /*
-  useEffect(() => {
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      'https://api.marketstack.com/v1/eod?access_key=7ba49202483340bca37ab953c66b592c&symbols=' + symbol , { mode: "no-cors" }
-    );
-    setPrice(priceAndDate.data.data);
-    };
-    getchartInfo();
-  },
-  [null]);
-  */
-
-  const getchartInfo = async () => {
-    const priceAndDate = await axios.get (
-      'https://api.marketstack.com/v1/eod?access_key=7ba49202483340bca37ab953c66b592c&symbols=' + symbol , { mode: "no-cors" }
-      
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + symbol + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }
     );
     setPrice(priceAndDate.data.data);
   }
