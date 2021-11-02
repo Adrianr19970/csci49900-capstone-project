@@ -11,7 +11,7 @@ const DailyArticles = () => {
     useEffect(() => {
         const getArticles = async () => {
           const res = await axios.get(
-            'https://stocknewsapi.com/api/v1?tickers=A&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
+            'https://stocknewsapi.com/api/v1/category?section=general&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
           );
           setArticles(res.data.data);
         };

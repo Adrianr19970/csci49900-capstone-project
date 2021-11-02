@@ -78,7 +78,7 @@ const Home = () => {
 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors",  }
     );
     setPrice(priceAndDate.data.data);
     console.log(priceAndDate.data);
@@ -183,7 +183,10 @@ const Home = () => {
             <h1>Our mission is to let <br/> you invest safely</h1>
           </div>
 
-          <hr></hr>
+          <hr style={{
+            marginLeft: '0%',
+            marginRight: '0%'
+          }}></hr>
 
           <div id='newsArticles'>
             <div className='daily-News'>

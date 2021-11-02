@@ -43,7 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:8000",
+  "proxy": "https://young-harbor33717.herokuapp.com/",
   "eslintConfig": {
     "extends": [
       "react-app",
