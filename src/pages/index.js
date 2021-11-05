@@ -30,8 +30,13 @@ const Home = () => {
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
 
+  const [prevValidStock, setPrev] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [check, setCheck] = useState([]);
+
   /* const [block, setBlock] = useState("block") */
   const [hidden, setHidden] = useState("block");
+  const [hideError, setHideError] = useState("none");
   
   function stockChange(event){
     setStock(event.target.value.toUpperCase());
@@ -53,12 +58,34 @@ const Home = () => {
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
 
+  const checker = async () => {
+      const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
+      console.log(stock);
+      setCheck(response.data.data);
+      console.log(response.data.data);
+      console.log(response.data.data.length);
+      if (response.data.data.length === 0) {
+        console.log("Invalid Stock Code: " + stock);
+        console.log(check.length);
+        setHideError("block");
+        setCheck([]);
+      }
+      else {
+        setCheck([]);
+        console.log("Valid Stock Code: " + stock);
+        setHideError("none");
+        getArticles();
+      }
+  }
+
   useEffect(() => {
+    setPrev("TSLA");
     const getArticles = async () => {
       const res = await axios.get(
         'https://stocknewsapi.com/api/v1?tickers=TSLA&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
       );
       setArticles(res.data.data);
+      console.log(articles.length);
       getStockInfo();
       getchartInfo();
       setStockName(stock);
@@ -85,6 +112,7 @@ const Home = () => {
   }
 
   const getArticles = async () => {
+    setPrev(stock);
     const res = await axios.get(
       'https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
     );
@@ -104,7 +132,8 @@ const Home = () => {
     if (e.key === 'Enter') {
       e.preventDefault()
       console.log("Enter Pressed from Home")
-      getArticles();
+      /*getArticles();*/
+      checker();
     }
   };
 
@@ -161,7 +190,8 @@ const Home = () => {
           />
 
             <Button id="searchButton" 
-              onClick={getArticles}>
+              /*onClick={getArticles}>*/
+              onClick={checker}>
               Search 
             </Button>
           </Form>
@@ -170,7 +200,20 @@ const Home = () => {
         </Nav>
 
         </div>
-      
+        
+        <div style = {{
+          textAlign: "center",
+          background: "#fff",
+          paddingTop: "0%",
+          overflow: 'hidden',
+          border: '1px solid #fff',
+          borderLeft: 'none',
+          borderRight: 'none',
+          display: hideError
+        }}>
+          <h3 id='error-message'>Invalid Stock Code! Enter A Valid Stock Code!</h3>
+        </div>
+
         <div id='statement-and-articles'
         style={{
           paddingTop: '8%',

@@ -26,12 +26,14 @@ const About = () => {
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
   const [stock, setStock]= useState("");
+  const [check, setCheck] = useState([]);
 
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
 
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
+  const [hideError, setHideError] = useState("none");
 
   function stockChange(event){
     setStock(event.target.value.toUpperCase());
@@ -53,20 +55,25 @@ const About = () => {
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
 
-  /*
-  async function tbappChange() {
-    try {
-    let response = await axios.get('/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-06&end_date=2021-10-10' , { mode: "no-cors" });
-    let response = await axios.get("https://goweather.herokuapp.com/weather/"+ stock ); 
-      settbapp(response);
-      console.log(response.data); 
-    }catch(error) {
-      if(error.response) {
-        console.log(error.response.data);
-      }
+  const checker = async () => {
+    const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
+    console.log(stock);
+    setCheck(response.data.data);
+    console.log(response.data.data);
+    console.log(response.data.data.length);
+    if (response.data.data.length === 0) {
+      console.log("Invalid Stock Code: " + stock);
+      console.log(check.length);
+      setHideError("block");
+      setCheck([]);
+    }
+    else {
+      setCheck([]);
+      console.log("Valid Stock Code: " + stock);
+      setHideError("none");
+      getArticles();
     }
   }
-  */
 
   const getStockInfo = async () => {
     const info = await axios.get (
@@ -101,7 +108,8 @@ const About = () => {
     if (e.key === 'Enter') {
       e.preventDefault()
       console.log("Enter Pressed from About")
-      getArticles();
+      /*getArticles();*/
+      checker();
     }
   };
 
@@ -147,7 +155,8 @@ const About = () => {
         />
 
           <Button id="searchButton" 
-            onClick={getArticles}>
+            /*onClick={getArticles}>*/
+            onClick={checker}>
               Search
             </Button>
         </Form>
@@ -157,6 +166,18 @@ const About = () => {
 
     </div>
 
+    <div style = {{
+          textAlign: "center",
+          background: "#fff",
+          paddingTop: "0%",
+          overflow: 'hidden',
+          border: '1px solid #fff',
+          borderLeft: 'none',
+          borderRight: 'none',
+          display: hideError
+        }}>
+          <h3 id='error-message'>Invalid Stock Code! Enter A Valid Stock Code!</h3>
+    </div>
 
     <div 
       style ={{

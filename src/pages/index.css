@@ -187,3 +187,13 @@
     margin-left: 0%;
     list-style: none;
   }
+
+  #error-message {
+    animation: blinker 1s linear infinite;
+  }
+
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }

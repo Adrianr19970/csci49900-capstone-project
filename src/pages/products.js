@@ -18,9 +18,11 @@ const Home = () => {
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
   const [stock, setStock]= useState("");
+  const [check, setCheck] = useState([]);
 
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
+  const [hideError, setHideError] = useState("none");
 
   const [show_List, set_show_List] = useState("block")
 
@@ -38,6 +40,7 @@ const Home = () => {
   }
 
   const listCall = () => {
+    setHideError("none");
     getArticles();
   }
 
@@ -62,6 +65,26 @@ const Home = () => {
 
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
+
+  const checker = async () => {
+    const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
+    console.log(stock);
+    setCheck(response.data.data);
+    console.log(response.data.data);
+    console.log(response.data.data.length);
+    if (response.data.data.length === 0) {
+      console.log("Invalid Stock Code: " + stock);
+      console.log(check.length);
+      setHideError("block");
+      setCheck([]);
+    }
+    else {
+      setCheck([]);
+      console.log("Valid Stock Code: " + stock);
+      setHideError("none");
+      getArticles();
+    }
+  }
 
   const getStockInfo = async () => {
     const info = await axios.get (
@@ -97,7 +120,8 @@ const Home = () => {
     if (e.key === 'Enter') {
       e.preventDefault()
       console.log("Enter Pressed from Products")
-      getArticles();
+      /*getArticles();*/
+      checker();
     }
   };
 
@@ -144,7 +168,8 @@ const Home = () => {
         />
 
           <Button id="searchButton" 
-            onClick={getArticles}>
+            /*onClick={getArticles}>*/
+            onClick={checker}>
               Search
             </Button>
         </Form>
@@ -152,6 +177,19 @@ const Home = () => {
         </NavMenu>
       </Nav>
 
+    </div>
+
+    <div style = {{
+          textAlign: "center",
+          background: "#fff",
+          paddingTop: "0%",
+          overflow: 'hidden',
+          border: '1px solid #fff',
+          borderLeft: 'none',
+          borderRight: 'none',
+          display: hideError
+        }}>
+          <h3 id='error-message'>Invalid Stock Code! Enter A Valid Stock Code!</h3>
     </div>
 
     <div 
