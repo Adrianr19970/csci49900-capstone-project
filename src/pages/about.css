@@ -1,141 +1,106 @@
-.container {
+.aboutPage{
+    font-family: 'Helvetica', 'Arial', sans-serif;
+  }
+
+/* Full height image header */
+.firstPortion {
+    background-image: url("https://images.unsplash.com/photo-1535320903710-d993d3d77d29?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1740&q=80");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 850px;
+  }
+  
+  .firstTitleandSub {
+    background-color: rgba(0,0,0,0.25);
+  }
+  
+  .h1Title {
+    margin: 0;
+    color: white;
+    font-size: 100px;
+    font-family: "Didot", serif;
+    padding-top: 5%;
+    padding-left: 5%;  
+  }
+  
+  .firstSubTitle {
     font-size: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    color: white;
+    padding-left: 20%;
+    padding-bottom: 5%;
+  }
+  
+  /* About Section */
+  .secondPortion {
+    background: white;
+    padding-bottom: 5%;
+  }
+  
+  .h3Title {
+    font-size: 30px;
+    text-align: center;
+    padding-top: 10%;
+  }
+  
+  .explain {
+    text-align: center;
+    font-size: 17px;
+    margin: 3%;
+  }
+  
+  .secondSub {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    padding: 2%
+  }
+  
+  .symbolContainer {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+  }
+  
+  .column {
+    float: left;
+    padding-top: 3%;
     margin-left: 10%;
     margin-right: 10%;
-    border: 1px solid #000;
-}
-
-/* .aboutContainer {
-    
-} */
-
-.aboutTitle {
+  }
+  
+  .symbolTitle {
+    font-weight: bold;
+  }
+  
+  /* Team Section */
+  .thirdPortion {
+    background: rgb(235, 235, 235);
+    padding-bottom: 5%;
+  }
+  
+  .peopleContainer {
+    display: flex;
+    justify-content: space-between;
     text-align: center;
-    padding-left: 100px;
-    padding-right: 100px;
-    padding-top: 15px;
-}
-
-.aboutContent {
-    padding-left: 100px;
-    padding-right: 100px;
-}
-
-.stockPic {
-    display: block;
-    margin-left: 100px;
-    margin-right: auto;
-    width: 25%;
+  }
+  
+  .columns {
     float: left;
-    padding-right: 30px;
-}
-
-.chartTitle {
+    padding-top: 3%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+  
+  .personName {
+    font-weight: bold;
+  }
+  
+  /* Who We Are Section */
+  .fourthPortion {
+    padding-bottom: 5%;
+  }
+  
+  .hunterPic {
     text-align: center;
-    padding-left: 100px;
-    padding-right: 100px;
-    padding-top: 15px;
-}
-
-.chartContent {
-    padding-left: 100px;
-    padding-right: 100px;
-}
-
-.whoTitle {
-    text-align: center;
-    margin-top: 100px;
-    padding-left: 100px;
-    padding-right: 100px;
-}
-
-.whoContent {
-    padding-left: 100px;
-    padding-right: 100px;
-}
-
-.hunterPic {
-    display: block;
-    margin-right: 100px;
-    margin-left: auto;
-    width: 20%;
-    float: right;
-    padding-left: 30px;
-}
-
-.peopleContainer {
-    display: flex;
-    justify-content: center;
-}
-
-.people {
-    max-width: 100%;
-    height: auto;
-    margin-left: 50px;
-    padding-bottom: 50px;
-}
-
-.one {
-    background-color: rgb(170, 224, 255);
-    padding: 100px 16px;
-}
-
-.two {
-    text-align: center;
-    font-size: 75px;
-    color: white;
-}
-
-.three {
-    text-align: center;
-    font-size: 30px;
-    color: white;
-}
-
-.four {
-    padding: 84px
-}
-
-.five {
-    font-size: 55px;
-}
-
-.six {
-    font-size: 20px;
-}
-.seven {
-    width: 400px;
-    float: right;
-    padding-right: 30px;
-}
-
-.eight {
-    padding: 80px;
-    background-color: rgb(228, 228, 228);
-}
-
-.nine {
-    font-size: 55px;
-    text-align: center;
-}
-
-.eleven {
-    font-size: 20px;
-    text-align: center;
-}
-
-.twelve {
-    padding-top: 64px;
-    display: flex;
-    justify-content: center;
-}
-
-.thirteen {
-    display: block;  
-    margin-left: auto;
-    margin-right: auto;
-    padding: 30px;
-    width: 300px;
-}
+    margin-top: 5%
+  }

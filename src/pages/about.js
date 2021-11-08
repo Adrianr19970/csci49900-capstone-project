@@ -9,10 +9,10 @@ import StockInformation from './stockInformation';
 import Line from './linechartv2';
 import axios, { Axios } from 'axios';
 import './about.css';
-import Adrian from './Adrian.png'
-import Alex from './Alex.png'
-import Diego from './Diego.png'
-import Edwin from './Edwin.png'
+import adrian from './Adrian.png'
+import alex from './Alex.png'
+import diego from './Diego.png'
+import edwin from './Edwin.png'
 
 import { CanvasJSChart } from 'canvasjs-react-charts';
 
@@ -342,100 +342,84 @@ const About = () => {
       display: hidden
     }}>
     
-    <div className ="one">
-      <h1 className = "two">About Us</h1>
-      <p className = "three">TradeBreath</p>
-    </div>
+    <div className = "aboutPage">
+      {/* Full height image header */}
+      <div class = "firstPortion">
+        <div class = "firstTitleandSub"> 
+          <h1 class = "h1Title">TradeBreath</h1>
+          <p class = "firstSubTitle">Finanical News For Your Safe Investment</p>
+        </div>
+      </div> 
 
-    <div className = "four">
-      
-      <h1 className = "five">What is TradeBreath?</h1>
-      <img className = "seven" src = {StockPic} alt = "decoPic"></img>
-      <p className = "six"> TradeBreath is a finanicial website which provides stock information such as: open, close, high low, volume of the stock with the line chart and a candlestick chart. <br></br><br></br> Line chart provides the current price of the stock with the dates. Investor can filter the data by the periods of 3 months, 1 month, 7 days, or 1 day. <br></br><br></br> Candlestick chart provides the investor with the open price, close price, high price and a low price for the stock. <br></br><br></br> We want every investor to invest safe by providing the lastest news of the specific sotck along with the news from the stock market. </p>
-      
-      
-    </div>
+      {/* About Section */}
+      <div class = "secondPortion">
+        <h3 class = "h3Title">About TradeBreath</h3>
+        <p class = "explain">Our mission is to make you invest safer by providing you with our key features.</p>
+        <p class = "secondSub">Key Features of TradeBreath</p>
 
-    <div className = "eight">
-      
-      <h1 className = "nine">Who We Are</h1>
-      <p className = "eleven"> We are students from Hunter College and this website is a project for the class CSCI 49900.</p>
-      <img className = "thirteen" src = {HunterPic} alt = "hunterPic"></img>
-      
-    </div>
-      <div className = "twelve">
-          <img className = "people" src = {Adrian} alt = "Adrian Ramirez"></img>
-          <img className = "people" src = {Alex} alt = "Alex Jun"></img>
-          <img className = "people" src = {Diego} alt = "Diego Kervabon"></img>
-          <img className = "people" src = {Edwin} alt = "Edwin Zhu"></img>
-      </div>
+        <div class = "symbolContainer">
+          <div class = "column">
+            <img src = "https://cdn-icons-png.flaticon.com/128/876/876225.png" height = "100px" width = "100px"/>
+            <p class = "symbolTitle">Line Chart</p>         
+            <p class = "symbolExpain">We provide line chart which shows closing stock price for each of the day for a year.</p>  
+          </div>
 
+          <div class = "column">
+            <img src = "https://cdn-icons-png.flaticon.com/512/31/31358.png" height = "100px" width = "100px"/>  
+            <p class = "symbolTitle">Candlestick Chart</p>           
+            <p class = "symbolExpain">We provide candlestick chart which shows open, high, low, close for each of the day for a year.</p>  
+          </div>
 
-
-
-
-
-
-
-    {/* <div className = "container">
-      <div className = "aboutContainer">
-        <div className = "aboutTitle">
-        <h1>TradeBreath</h1>
-      </div>
-        <img className = "stockPic" src = {StockPic} alt = "decoPic"></img>
-        <div className = "aboutContent">
-             <p> TradeBreath is a finanicial website which provides stock information such as: open, close, high low, volume of the stock with the line chart and a candlestick chart. <br></br><br></br> Line chart provides the current price of the stock with the dates. Investor can filter the data by the periods of 3 months, 1 month, 7 days, or 1 day. <br></br><br></br> Candlestick chart provides the investor with the open price, close price, high price and a low price for the stock. <br></br><br></br> We want every investor to invest safe by providing the lastest news of the specific sotck along with the news from the stock market. </p>
+          <div class = "column">
+            <img src = "https://cdn-icons.flaticon.com/png/128/2537/premium/2537926.png?token=exp=1636339923~hmac=b3478463ccdbc50e4ea881ab0265bcf1" height = "100px" width = "100px"/>  
+            <p class = "symbolTitle">Recent News Articles</p>       
+            <p class = "symbolExpain">We provide top news articles for the day and the recent news articles for a searched stock. </p>      
+          </div>
         </div>
       </div>
-      
+
+      {/* Team Section */}
+      <div class = "thirdPortion">
+        <h3 class = "h3Title">Team Members</h3>
+        <div class = "peopleContainer">
+          <div class = "columns">
+            <img src = {adrian}/>
+            <p class = "personName">Adrian Ramirez</p>    
+            <p class = "poersonComent">"Blah Blah Blah"</p>    
+          </div>
+
+          <div class = "columns">
+            <img src = {alex}/>
+            <p class = "personName">Alex Jun</p>  
+            <p class = "poersonComent">"Blah Blah Blah"</p>      
+          </div>
+
+          <div class = "columns">
+            <img src = {diego}/>
+            <p class = "personName">Diego Kervabon</p>    
+            <p class = "poersonComent">"Blah Blah Blah"</p>    
+          </div>
+
+          <div class = "columns">
+            <img src = {edwin}/>
+            <p class = "personName">Edwin Zhu</p>  
+            <p class = "poersonComent">"Blah Blah Blah"</p>      
+          </div>
+        </div>
+      </div>
+
+      {/* Who We Are Section */}    
+      <div class = "fourthPortion">
+        <h3 class = "h3Title">Who We Are</h3>
+        <p class = "explain">We are stduent of Hunter College and this website is a project for the class CSCI 49900.</p>
         
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <div className = "whoTitle">
-        <h1>Who We Are</h1>
+        <div class = "hunterPic">
+          <img src = "https://d92mrp7hetgfk.cloudfront.net/images/sites/misc/cunyhunter-1/standard.png?1548463925"/>
+        </div>
       </div>
-        <img className = "hunterPic" src = {HunterPic} alt = "hunterPic"></img>
-        <div className = "whoContent">
-             <p> We are stduent of Hunter College and this website is a project for the class CSCI 49900.  </p>
-        </div>
-
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-
-        <div className = "peopleContainer">
-          <img className = "people" src = {Adrian} alt = "Adrian Ramirez"></img>
-          <img className = "people" src = {Alex} alt = "Alex Jun"></img>
-          <img className = "people" src = {Diego} alt = "Diego Kervabon"></img>
-          <img className = "people" src = {Edwin} alt = "Edwin Zhu"></img>
-        </div>
-      </div>   */}
+    
+    
+    </div>
 
       </div>
     </div>
