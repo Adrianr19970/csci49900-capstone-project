@@ -16,8 +16,10 @@ import edwin from './Edwin.png'
 
 import { CanvasJSChart } from 'canvasjs-react-charts';
 
-import StockPic from './stock.jpeg'
-import HunterPic from './hunter.jpg'
+import candlePNG from './candle.png'
+import linePNG from './line.png'
+import newsPNG from './news.png'
+import hunterPNG from './hunter.png'
 
 const About = () => {
 
@@ -361,19 +363,19 @@ const About = () => {
 
         <div class = "symbolContainer">
           <div class = "column">
-            <img src = "https://cdn-icons-png.flaticon.com/128/876/876225.png" height = "100px" width = "100px"/>
+            <img src = {linePNG} height = "100px" width = "100px"/>
             <p class = "symbolTitle">Line Chart</p>         
             <p class = "symbolExpain">We provide line chart which shows closing stock price for each of the day for a year.</p>  
           </div>
 
           <div class = "column">
-            <img src = "https://cdn-icons-png.flaticon.com/512/31/31358.png" height = "100px" width = "100px"/>  
+            <img src = {candlePNG} height = "100px" width = "100px"/>  
             <p class = "symbolTitle">Candlestick Chart</p>           
             <p class = "symbolExpain">We provide candlestick chart which shows open, high, low, close for each of the day for a year.</p>  
           </div>
 
           <div class = "column">
-            <img src = "https://cdn-icons.flaticon.com/png/128/2537/premium/2537926.png?token=exp=1636339923~hmac=b3478463ccdbc50e4ea881ab0265bcf1" height = "100px" width = "100px"/>  
+            <img src = {newsPNG} height = "100px" width = "100px"/>  
             <p class = "symbolTitle">Recent News Articles</p>       
             <p class = "symbolExpain">We provide top news articles for the day and the recent news articles for a searched stock. </p>      
           </div>
@@ -416,7 +418,7 @@ const About = () => {
         <p class = "explain">We are stduent of Hunter College and this website is a project for the class CSCI 49900.</p>
         
         <div class = "hunterPic">
-          <img src = "https://d92mrp7hetgfk.cloudfront.net/images/sites/misc/cunyhunter-1/standard.png?1548463925"/>
+          <img src = {hunterPNG}/>
         </div>
       </div>
     
