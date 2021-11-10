@@ -42,13 +42,11 @@ const About = () => {
   let viewCandle = () => {
     setLine("none");
     setCandle("block");
-    console.log(toggleCandle);
   }
 
   let viewLine = () => {
     setLine("block");
     setCandle("none");
-    console.log(toggleLine);
   }
 
 
@@ -59,16 +57,18 @@ const About = () => {
     const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
     console.log(stock);
     setCheck(response.data.data);
-    console.log(response.data.data);
-    console.log(response.data.data.length);
+    /*console.log(response.data.data);*/
+    /*console.log(response.data.data.length);*/
     if (response.data.data.length === 0) {
+      console.log("No data recieved")
       console.log("Invalid Stock Code: " + stock);
-      console.log(check.length);
+      /*console.log(check.length);*/
       setHideError("block");
       setCheck([]);
     }
     else {
       setCheck([]);
+      console.log("Data recieved")
       console.log("Valid Stock Code: " + stock);
       setHideError("none");
       getArticles();
@@ -80,7 +80,7 @@ const About = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=/latest', { mode: "no-cors" }
     );
     setStockInfo(info.data.data);
-    console.log(info);
+    /*console.log(info);*/
   };
 
   const getchartInfo = async () => {
@@ -88,6 +88,7 @@ const About = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }
     );
     setPrice(priceAndDate.data.data);
+    console.log("Getting Chart Data");
     console.log(priceAndDate.data);
   }
 
@@ -96,6 +97,7 @@ const About = () => {
       'https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
     );
     setArticles(res.data.data);
+    console.log("Getting News Articles");
     console.log(res); 
     setHidden("none");
     setShowing("block");
