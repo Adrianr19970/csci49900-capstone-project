@@ -52,6 +52,28 @@ const Home = () => {
     setCandle("none");
   }
   
+  /* ----------Dates Calculation---------- */
+    var todayDate = new Date()
+    todayDate.setDate(todayDate.getDate())
+    console.log("Today's date" + todayDate)
+    
+    var monthAgo = new Date();
+    monthAgo.setMonth(monthAgo.getMonth() - 1)
+    console.log("Month ago's date" + monthAgo)
+
+    var threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+    console.log("Three month ago's date" + threeMonthsAgo)
+
+    var sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
+    console.log("Six month ago's date" + sixMonthsAgo)
+
+    var yearAgo = new Date();
+    yearAgo.setMonth(yearAgo.getMonth() -12)
+    console.log("Year ago's date" + yearAgo)
+  /* ------------------------------------- */
+
   
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
