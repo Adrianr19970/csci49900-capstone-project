@@ -18,7 +18,7 @@ import { CanvasJSChart } from 'canvasjs-react-charts';
 
 import { AxisConstantLineStyle } from 'devextreme-react/chart';
 import ReactHighcharts from 'react-highcharts';
-  
+
 const Home = () => {
 
   const [stockName, setStockName] = useState("");
@@ -55,23 +55,43 @@ const Home = () => {
   /* ----------Dates Calculation---------- */
     var todayDate = new Date()
     todayDate.setDate(todayDate.getDate())
-    console.log("Today's date" + todayDate)
+    var YYYY_today = todayDate.getFullYear();
+    var mm_today = String(todayDate.getMonth() + 1). padStart(2, '0')
+    var dd_today = String(todayDate.getDate()).padStart(2, '0')
+    var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today
+    // console.log("Today's date: " + formated_today)
     
     var monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1)
-    console.log("Month ago's date" + monthAgo)
+    var YYYY_monthAgo = monthAgo.getFullYear();
+    var mm_monthAgo = String(monthAgo.getMonth() + 1). padStart(2, '0')
+    var dd_monthAgo = String(monthAgo.getDate()).padStart(2, '0')
+    var formated_monthAgo = YYYY_monthAgo + '-' + mm_monthAgo + '-' + dd_monthAgo
+    // console.log("Month ago's date: " + formated_monthAgo)
 
     var threeMonthsAgo = new Date();
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-    console.log("Three month ago's date" + threeMonthsAgo)
+    var YYYY_threeMonthsAgo = threeMonthsAgo.getFullYear();
+    var mm_threeMonthsAgo = String(threeMonthsAgo.getMonth() + 1). padStart(2, '0')
+    var dd_threeMonthsAgo = String(threeMonthsAgo.getDate()).padStart(2, '0')
+    var formated_threeMonthsAgo = YYYY_threeMonthsAgo + '-' + mm_threeMonthsAgo + '-' + dd_threeMonthsAgo
+    // console.log("Three month ago's date: " + formated_threeMonthsAgo)
 
     var sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
-    console.log("Six month ago's date" + sixMonthsAgo)
+    var YYYY_sixMonthsAgo = sixMonthsAgo.getFullYear();
+    var mm_sixMonthsAgo = String(sixMonthsAgo.getMonth() + 1). padStart(2, '0')
+    var dd_sixMonthsAgo = String(sixMonthsAgo.getDate()).padStart(2, '0')
+    var formated_sixMonthsAgo = YYYY_sixMonthsAgo + '-' + mm_sixMonthsAgo + '-' + dd_sixMonthsAgo
+    // console.log("Six month ago's date: " + formated_sixMonthsAgo)
 
     var yearAgo = new Date();
     yearAgo.setMonth(yearAgo.getMonth() -12)
-    console.log("Year ago's date" + yearAgo)
+    var YYYY_yearAgo = yearAgo.getFullYear();
+    var mm_yearAgo = String(yearAgo.getMonth() + 1). padStart(2, '0')
+    var dd_yearAgo = String(yearAgo.getDate()).padStart(2, '0')
+    var formated_yearAgo = YYYY_yearAgo + '-' + mm_yearAgo + '-' + dd_yearAgo
+    // console.log("Year ago's date: " + formated_yearAgo)
   /* ------------------------------------- */
 
   
