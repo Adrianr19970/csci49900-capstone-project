@@ -7,6 +7,7 @@ import background from './Sky.jpg';
 import DailyArticles from './dailyArticles';
 import NewsItem from './newsItem';
 import Line from './linechartv2';
+import Candle from './candlechartv2';
 import { Nav, NavLink, NavMenu} from '../components/Navbar/NavbarElements';
 import { Form, FormControl, Button } from "react-bootstrap";
 import StockInformation from './stockInformation';
@@ -34,9 +35,11 @@ const Home = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [check, setCheck] = useState([]);
 
-  /* const [block, setBlock] = useState("block") */
   const [hidden, setHidden] = useState("block");
   const [hideError, setHideError] = useState("none");
+
+  /*Time Frames*/
+  const [time, setTime] = useState("2021-10-11"); /*<- Replace the date here with the variable threeMonthsAgo once it's in this format (YYYY-Month-Day) */
   
   function stockChange(event){
     setStock(event.target.value.toUpperCase());
@@ -53,6 +56,7 @@ const Home = () => {
   }
   
   /* ----------Dates Calculation---------- */
+
     var todayDate = new Date()
     todayDate.setDate(todayDate.getDate())
     console.log("Today's date" + todayDate)
@@ -72,6 +76,7 @@ const Home = () => {
     var yearAgo = new Date();
     yearAgo.setMonth(yearAgo.getMonth() -12)
     console.log("Year ago's date" + yearAgo)
+
   /* ------------------------------------- */
 
   
@@ -129,8 +134,9 @@ const Home = () => {
 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors",  }
-    );
+      /*'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors",  }*/
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + time + '&end_date=&latest=', { mode: "no-cors",  }
+      );
     setPrice(priceAndDate.data.data);
     console.log("Getting Chart Data");
     console.log(priceAndDate.data);
@@ -162,6 +168,38 @@ const Home = () => {
       checker();
     }
   };
+
+  const updateChart = () => {
+    getchartInfo();
+  }
+
+  const month = () => {
+    setTime("2021-10-11"); /*<- Replace the date here with the variable monthAgo once it's in this format (YYYY-Month-Day) */
+    /*Format YYYY-MM-DD*/
+    console.log("Month called");
+    updateChart();
+  }
+
+  const threemonths = () => {
+    setTime("2021-08-11"); /*<- Replace the date here with the variable threeMonthsAgo once it's in this format (YYYY-Month-Day) */
+    /*Format YYYY-MM-DD*/
+    console.log("3 Months called");
+    updateChart();
+  }
+
+  const sixmonths = () => {
+    setTime("2021-05-11"); /*<- Replace the date here with the variable sixMonthsAgo once it's in this format (YYYY-Month-Day) */
+    /*Format YYYY-MM-DD*/
+    console.log("6 Months called");
+    updateChart();
+  }
+
+  const oneYear = (e) => {
+    setTime("2020-11-11"); /*<- Replace the date here with the variable yearAgo once it's in this format (YYYY-Month-Day) */
+    /*Format YYYY-MM-DD*/
+    console.log("1 Year called");
+    updateChart();
+  }
 
   let whirligig
   const next = () => whirligig.next()
@@ -268,6 +306,21 @@ const Home = () => {
     <div id='chart-div'>
       <div id='chart-container'>
         <h1> {stockName} </h1>
+        <div id='time-Frames'>
+          <button onClick={month}>
+            1 Month
+          </button> 
+          <button onClick={threemonths}>
+            3 Months
+          </button> 
+          <button onClick={sixmonths}>
+            6 Months
+          </button> 
+          <button onClick={oneYear}>
+            1 Year
+          </button>
+        </div>
+
         <div style={{
             display: toggleCandle,
             marginLeft: '10%',
@@ -276,6 +329,7 @@ const Home = () => {
             marginTop: '2%',
             marginBottom: '2%'
           }}>
+        
         <CanvasJSChart
           options = { {
             theme: "light1",
@@ -340,6 +394,7 @@ const Home = () => {
               }
             }
           />
+          
           </div>
 
           <div style={{
@@ -353,6 +408,7 @@ const Home = () => {
           {stockInfo.map(({ symbol }) => (
                 <Line
                   symbol={symbol}
+                  time={time}
                 />
           ))}
           </div>
@@ -370,69 +426,6 @@ const Home = () => {
     </div>
 
       <div id='chart-div'>
-        <div id='chart-container'>
-          
-
-          <div className='linechart'>
-            
-            {/* 
-          
-              <HighchartsReact
-                highcharts={Highcharts}
-                
-                options={{
-                  yAxis: [{
-                    offset: 30,
-  
-                      x: -20,
-                      style: {
-                        "color": "#000", "position": "absolute"
-            
-                      },
-                      align: 'left'
-                    },
-                  ],
-                  title: {
-                    text: ''
-                  },
-                  plotOptions: {
-                    series: {
-                      showInNavigator: true,
-                      gapSize: 6,
-                
-                    }
-                  },
-                  rangeSelector: {
-                    selected: 1
-                  },
-                  chart: {
-                    height: '60%',
-                    width: 1400,
-                  },
-                  credits: {
-                    enabled: false
-                  },
-                  legend: {
-                    enabled: false
-                  },
-                  tooltip: {
-                    valueDecimals: 2
-                  },
-                  series: [
-                    {
-                      
-                      data: [
-                            ['2021-10-13', 140.91],
-                            ['2021-10-14', 140.99]
-                          ]
-                    }
-                  ]
-                }}
-                >
-              </HighchartsReact> */}
-          </div>   
-            
-        </div>
         
         <br></br>
 

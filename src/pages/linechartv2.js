@@ -2,27 +2,38 @@ import React, { useEffect, useState } from 'react';
 import { CanvasJSChart } from 'canvasjs-react-charts';
 import axios from 'axios'; 
 
-const Line = ({ symbol }) => {
+const Line = ({ symbol, time }) => {
 
   const [price, setPrice] = useState([]);
   /* const [date, setDate] = useState([]); */
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
   const [stock, setStock]= useState('');
+  const [timeframe, setTime] = useState('');
 
   useEffect(() => {
-    if(stock !== symbol) {
+    if(stock !== symbol ) {
       getchartInfo()
+      setTime(time)
       setStock(symbol)
     }
+    
+    else if(timeframe !== time) {
+      getchartInfo()
+      setTime(time)
+    }
+    
     
   });
 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + symbol + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }
+      /*'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + symbol + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }*/
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + symbol + '&interval=Day&start_date=' + time + '&end_date=&latest=', { mode: "no-cors",  }
     );
     setPrice(priceAndDate.data.data);
+    console.log(stock);
+    console.log(time);
   }
 
   return ( 

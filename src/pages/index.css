@@ -84,6 +84,24 @@
     padding-left: 0%;
   }
 
+  #time-Frames {
+    margin-left: 70%; 
+  }
+
+  #time-Frames button{
+    height: 30px;
+    color: #fff;
+    background-color: #000;
+    border: 1px solid #fff;
+    font-size: 1em;
+  }
+
+  #time-Frames button:hover {
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    font-size: 1em;
+  }
   
   #images {
     /*
