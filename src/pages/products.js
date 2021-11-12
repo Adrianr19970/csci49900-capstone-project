@@ -39,7 +39,7 @@ const Home = () => {
     var mm_today = String(todayDate.getMonth() + 1). padStart(2, '0')
     var dd_today = String(todayDate.getDate()).padStart(2, '0')
     var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today
-    console.log("Today's date: " + formated_today)
+    // console.log("Today's date: " + formated_today)
     
     var monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1)
@@ -47,7 +47,7 @@ const Home = () => {
     var mm_monthAgo = String(monthAgo.getMonth() + 1). padStart(2, '0')
     var dd_monthAgo = String(monthAgo.getDate()).padStart(2, '0')
     var formated_monthAgo = YYYY_monthAgo + '-' + mm_monthAgo + '-' + dd_monthAgo
-    console.log("Month ago's date: " + formated_monthAgo)
+    // console.log("Month ago's date: " + formated_monthAgo)
 
     var threeMonthsAgo = new Date();
     threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
@@ -55,7 +55,7 @@ const Home = () => {
     var mm_threeMonthsAgo = String(threeMonthsAgo.getMonth() + 1). padStart(2, '0')
     var dd_threeMonthsAgo = String(threeMonthsAgo.getDate()).padStart(2, '0')
     var formated_threeMonthsAgo = YYYY_threeMonthsAgo + '-' + mm_threeMonthsAgo + '-' + dd_threeMonthsAgo
-    console.log("Three month ago's date: " + formated_threeMonthsAgo)
+    // console.log("Three month ago's date: " + formated_threeMonthsAgo)
 
     var sixMonthsAgo = new Date();
     sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
@@ -63,7 +63,7 @@ const Home = () => {
     var mm_sixMonthsAgo = String(sixMonthsAgo.getMonth() + 1). padStart(2, '0')
     var dd_sixMonthsAgo = String(sixMonthsAgo.getDate()).padStart(2, '0')
     var formated_sixMonthsAgo = YYYY_sixMonthsAgo + '-' + mm_sixMonthsAgo + '-' + dd_sixMonthsAgo
-    console.log("Six month ago's date: " + formated_sixMonthsAgo)
+    // console.log("Six month ago's date: " + formated_sixMonthsAgo)
 
     var yearAgo = new Date();
     yearAgo.setMonth(yearAgo.getMonth() -12)
@@ -72,7 +72,7 @@ const Home = () => {
     var mm_yearAgo = String(yearAgo.getMonth() + 1). padStart(2, '0')
     var dd_yearAgo = String(yearAgo.getDate()).padStart(2, '0')
     var formated_yearAgo = YYYY_yearAgo + '-' + mm_yearAgo + '-' + dd_yearAgo
-    console.log("Year ago's date: " + formated_yearAgo)
+    // console.log("Year ago's date: " + formated_yearAgo)
 
   const initialTime = formated_threeMonthsAgo;
 
@@ -181,30 +181,38 @@ const Home = () => {
   }
 
   const month = () => {
+    console.log("Month called");
+    console.log("Today's date: " + formated_today)
+    console.log("Months ago's date: " + formated_monthAgo)
     setTime(formated_monthAgo); 
     /*Format YYYY-MM-DD*/
-    console.log("Month called");
     updateChart();
   }
 
   const threemonths = () => {
+    console.log("3 Months called");
+    console.log("Today's date: " + formated_today)
+    console.log("Three months ago's date: " + formated_threeMonthsAgo)
     setTime(formated_threeMonthsAgo); 
     /*Format YYYY-MM-DD*/
-    console.log("3 Months called");
     updateChart();
   }
 
   const sixmonths = () => {
+    console.log("6 Months called");
+    console.log("Today's date: " + formated_today)
+    console.log("Six months ago's date: " + formated_sixMonthsAgo)
     setTime(formated_sixMonthsAgo); 
     /*Format YYYY-MM-DD*/
-    console.log("6 Months called");
     updateChart();
   }
 
   const oneYear = (e) => {
+    console.log("1 Year called");
+    console.log("Today's date: " + formated_today)
+    console.log("Year ago's date: " + formated_yearAgo)
     setTime(formated_yearAgo); 
     /*Format YYYY-MM-DD*/
-    console.log("1 Year called");
     updateChart();
   }
 
