@@ -37,6 +37,55 @@ const About = () => {
   const [show, setShowing] = useState("none");
   const [hideError, setHideError] = useState("none");
 
+  /*Time Frames*/
+
+    /* ----------Dates Calculation---------- */
+
+    var todayDate = new Date()
+    todayDate.setDate(todayDate.getDate())
+    var YYYY_today = todayDate.getFullYear();
+    var mm_today = String(todayDate.getMonth() + 1). padStart(2, '0')
+    var dd_today = String(todayDate.getDate()).padStart(2, '0')
+    var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today
+    console.log("Today's date: " + formated_today)
+    
+    var monthAgo = new Date();
+    monthAgo.setMonth(monthAgo.getMonth() - 1)
+    var YYYY_monthAgo = monthAgo.getFullYear();
+    var mm_monthAgo = String(monthAgo.getMonth() + 1). padStart(2, '0')
+    var dd_monthAgo = String(monthAgo.getDate()).padStart(2, '0')
+    var formated_monthAgo = YYYY_monthAgo + '-' + mm_monthAgo + '-' + dd_monthAgo
+    console.log("Month ago's date: " + formated_monthAgo)
+
+    var threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+    var YYYY_threeMonthsAgo = threeMonthsAgo.getFullYear();
+    var mm_threeMonthsAgo = String(threeMonthsAgo.getMonth() + 1). padStart(2, '0')
+    var dd_threeMonthsAgo = String(threeMonthsAgo.getDate()).padStart(2, '0')
+    var formated_threeMonthsAgo = YYYY_threeMonthsAgo + '-' + mm_threeMonthsAgo + '-' + dd_threeMonthsAgo
+    console.log("Three month ago's date: " + formated_threeMonthsAgo)
+
+    var sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
+    var YYYY_sixMonthsAgo = sixMonthsAgo.getFullYear();
+    var mm_sixMonthsAgo = String(sixMonthsAgo.getMonth() + 1). padStart(2, '0')
+    var dd_sixMonthsAgo = String(sixMonthsAgo.getDate()).padStart(2, '0')
+    var formated_sixMonthsAgo = YYYY_sixMonthsAgo + '-' + mm_sixMonthsAgo + '-' + dd_sixMonthsAgo
+    console.log("Six month ago's date: " + formated_sixMonthsAgo)
+
+    var yearAgo = new Date();
+    yearAgo.setMonth(yearAgo.getMonth() -12)
+    /*console.log("Year ago's date" + yearAgo)*/
+    var YYYY_yearAgo = yearAgo.getFullYear();
+    var mm_yearAgo = String(yearAgo.getMonth() + 1). padStart(2, '0')
+    var dd_yearAgo = String(yearAgo.getDate()).padStart(2, '0')
+    var formated_yearAgo = YYYY_yearAgo + '-' + mm_yearAgo + '-' + dd_yearAgo
+    console.log("Year ago's date: " + formated_yearAgo)
+
+  const initialTime = formated_threeMonthsAgo;
+
+  const [time, setTime] = useState(initialTime); 
+
   function stockChange(event){
     setStock(event.target.value.toUpperCase());
   } 
@@ -50,7 +99,6 @@ const About = () => {
     setLine("block");
     setCandle("none");
   }
-
 
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
@@ -87,7 +135,7 @@ const About = () => {
 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + time + '&end_date=&latest=', { mode: "no-cors",  }
     );
     setPrice(priceAndDate.data.data);
     console.log("Getting Chart Data");
@@ -116,6 +164,38 @@ const About = () => {
       checker();
     }
   };
+
+  const updateChart = () => {
+    getchartInfo();
+  }
+
+  const month = () => {
+    setTime(formated_monthAgo); 
+    /*Format YYYY-MM-DD*/
+    console.log("Month called");
+    updateChart();
+  }
+
+  const threemonths = () => {
+    setTime(formated_threeMonthsAgo); 
+    /*Format YYYY-MM-DD*/
+    console.log("3 Months called");
+    updateChart();
+  }
+
+  const sixmonths = () => {
+    setTime(formated_sixMonthsAgo); 
+    /*Format YYYY-MM-DD*/
+    console.log("6 Months called");
+    updateChart();
+  }
+
+  const oneYear = (e) => {
+    setTime(formated_yearAgo); 
+    /*Format YYYY-MM-DD*/
+    console.log("1 Year called");
+    updateChart();
+  }
 
   let whirligig
   const next = () => whirligig.next()
@@ -198,6 +278,21 @@ const About = () => {
         }}> 
           {stockName} 
         </h1>
+        <div id='time-Frames'>
+          <button onClick={month}>
+            1 Month
+          </button> 
+          <button onClick={threemonths}>
+            3 Months
+          </button> 
+          <button onClick={sixmonths}>
+            6 Months
+          </button> 
+          <button onClick={oneYear}>
+            1 Year
+          </button>
+        </div>
+
         <div style={{
             display: toggleCandle,
             marginLeft: '10%',
@@ -283,6 +378,7 @@ const About = () => {
           {stockInfo.map(({ symbol }) => (
                 <Line
                   symbol={symbol}
+                  time={time}
                 />
           ))}
           </div>
