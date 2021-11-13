@@ -143,7 +143,7 @@ almost_one_year_ago_today_str = str(almost_one_year_ago_today - datetime.timedel
 
 
 def one_year_change_fun(stock): 
-  one_year_ago_today_bars = api.get_bars(stock, TimeFrame.Day, one_year_ago_today_str, almost_one_year_ago_today_str)
+  one_year_ago_today_bars = api.get_bars(stock, TimeFrame.Day, one_year_ago_today_str, MOST_RECENT_TIME)
   one_year_ago_today_close = one_year_ago_today_bars[0].c
   last_week_day_bars = api.get_bars(stock, TimeFrame.Day, last_week, MOST_RECENT_TIME)
   last_day_close= last_week_day_bars[-1].c
@@ -166,6 +166,91 @@ def one_year_low_fun(stock):
   one_year_low = min(one_years_lows)
   return "52 Week Low", one_year_low
 
+def filter_volume(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_volume_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_close(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_close_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_open(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_open_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_dollar_change(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_dollar_change_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_perc_change(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_perc_change_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_low(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_low_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_high(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_high_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_one_year_change(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = one_year_change_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_one_year_high(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = one_year_high_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_one_year_low(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = one_year_low_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def filter_daysRange(stocks):
+  stockDict = {}
+  for x in stocks:
+    stockDict[x] = last_day_high_fun(x)[1] - last_day_low_fun(x)[1]
+  sort_stocks = sorted(stockDict.items(), key=lambda x: x[1], reverse=True)
+  return sort_stocks
+
+def five_days(stock):
+  last_week_day_bars = api.get_bars(stock, TimeFrame.Day, last_week, MOST_RECENT_TIME)
+  le = len(last_week_day_bars)
+  if (le >= 5):
+       return (last_week_day_bars)[(le - 5):le]
+  else:
+       last_week_day_bars = api.get_bars(stock, TimeFrame.Day, last_2weeks, MOST_RECENT_TIME)
+       return (last_week_day_bars)[(le - 5):le]
 
 #print(last_day_close_fun("AAPL"))
 #print(last_day_open_fun("AAPL"))
