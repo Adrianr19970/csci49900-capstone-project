@@ -31,9 +31,11 @@ const Line = ({ symbol, time }) => {
       /*'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + symbol + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }*/
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + symbol + '&interval=Day&start_date=' + time + '&end_date=&latest=', { mode: "no-cors",  }
     );
-    setPrice(priceAndDate.data.data);
+    console.log("LineChart called");
     console.log(stock);
-    console.log(time);
+    setPrice(priceAndDate.data.data);
+
+    // console.log(time);
   }
 
   return ( 
