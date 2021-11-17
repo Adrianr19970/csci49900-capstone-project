@@ -215,3 +215,7 @@
       opacity: 0;
     }
   }
+
+  #button_message {
+    text-align: center;
+  }

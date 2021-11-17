@@ -349,7 +349,6 @@ const Home = () => {
           <button onClick={oneYear}>
             1 Year
           </button>
-          <p id = 'button_message'>*Double click on the button to update the chart properly.*</p>
         </div>
 
         <div style={{
@@ -436,16 +435,8 @@ const Home = () => {
             marginTop: '2%',
             marginBottom: '2%'
           }}>
-
-          {stockInfo.map(({ symbol }) => (
-                <Line
-                  symbol={symbol}
-                  time={time}
-                />
-          ))}
-
-          {/* ---------------------------------------------
           
+
           <CanvasJSChart id='line'
             options = { {
               exportEnabled: true,
@@ -481,9 +472,7 @@ const Home = () => {
               
             } }
           />
-          
-          -------------------------------------------------*/}
-          
+
           </div>
 
           <div id='buttons'>
