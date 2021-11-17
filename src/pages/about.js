@@ -24,6 +24,7 @@ import hunterPNG from './hunter.png'
 const About = () => {
 
   const [stockName, setStockName] = useState("");
+  const [currentStock, setCurrent] = useState("");
   const [price, setPrice] = useState([]);
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
@@ -114,12 +115,14 @@ const About = () => {
       console.log("Invalid Stock Code: " + stock);
       /*console.log(check.length);*/
       setHideError("block");
+      setStock(currentStock);
       setCheck([]);
     }
     else {
       setCheck([]);
       console.log("Data recieved")
       console.log("Valid Stock Code: " + stock);
+      setCurrent(stock);
       setHideError("none");
       getArticles();
     }
@@ -520,7 +523,7 @@ const About = () => {
       {/* Who We Are Section */}    
       <div class = "fourthPortion">
         <h3 class = "h3Title">Who We Are</h3>
-        <p class = "explain">We are stduent of Hunter College and this website is a project for the class CSCI 49900.</p>
+        <p class = "explain">We are students from Hunter College and this website is a project for the class CSCI 49900.</p>
         
         <div class = "hunterPic">
           <img src = {hunterPNG}/>

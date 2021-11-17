@@ -14,6 +14,7 @@ import './products.css';
   
 const Home = () => {
   const [stockName, setStockName] = useState("");
+  const [currentStock, setCurrent] = useState("");
   const [price, setPrice] = useState([]);
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
@@ -124,12 +125,14 @@ const Home = () => {
       console.log("Invalid Stock Code: " + stock);
       /*console.log(check.length);*/
       setHideError("block");
+      setStock(currentStock);
       setCheck([]);
     }
     else {
       setCheck([]);
       console.log("Data recieved")
       console.log("Valid Stock Code: " + stock);
+      setCurrent(stock);
       setHideError("none");
       getArticles();
     }
@@ -470,7 +473,7 @@ const Home = () => {
       <Form inline id="productSearchBar">
         <FormControl type="text" onChange={stockChange} id="productSearchBar" 
         autoComplete="off" placeholder="Use Stock Codes (e.g. AAPL)" onKeyPress={enterKey}/>
-        <Button id="productSearchButton" onClick={getArticles}>
+        <Button id="productSearchButton" onClick={checker}>
           Search
         </Button>   
         {/*}
