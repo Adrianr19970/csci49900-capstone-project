@@ -23,6 +23,7 @@ import ReactHighcharts from 'react-highcharts';
 const Home = () => {
 
   const [stockName, setStockName] = useState("");
+  const [currentStock, setCurrent] = useState("");
   const [price, setPrice] = useState([]);
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
@@ -32,7 +33,6 @@ const Home = () => {
   const [toggleCandle, setCandle] = useState("none");
 
   const [prevValidStock, setPrev] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [check, setCheck] = useState([]);
 
   const [hidden, setHidden] = useState("block");
@@ -100,9 +100,6 @@ const Home = () => {
     setLine("block");
     setCandle("none");
   }
-  
-  const [tbapp, settbapp]= useState("");
-  const [found, setFound]= useState(false);
 
   const checker = async () => {
       const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
@@ -115,19 +112,21 @@ const Home = () => {
         console.log("Invalid Stock Code: " + stock);
         /*console.log(check.length);*/
         setHideError("block");
+        setStock(currentStock);
         setCheck([]);
       }
       else {
         setCheck([]);
         console.log("Data recieved")
         console.log("Valid Stock Code: " + stock);
+        setCurrent(stock);
         setHideError("none");
         getArticles();
       }
   }
 
   useEffect(() => {
-    setPrev("TSLA");
+    setCurrent(stock);
     const getArticles = async () => {
       const res = await axios.get(
         'https://stocknewsapi.com/api/v1?tickers=TSLA&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
