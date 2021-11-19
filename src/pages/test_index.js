@@ -1,42 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Whirligig from 'react-whirligig'
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+import './index.css'
 import background from './Sky.jpg';
-import { Nav, NavLink, NavMenu} from '../components/Navbar/NavbarElements';
-import { Form, FormControl, Button } from "react-bootstrap";
-import Logo from '../components/Navbar/TradeBreath.gif';
+import DailyArticles from './dailyArticles';
 import NewsItem from './newsItem';
 import Line from './linechartv2';
-import { CanvasJSChart } from 'canvasjs-react-charts';
+import Candle from './candlechartv2';
+import { Nav, NavLink, NavMenu} from '../components/Navbar/NavbarElements';
+import { Form, FormControl, Button } from "react-bootstrap";
 import StockInformation from './stockInformation';
-import PreviousStockInfo from './previousStockInfo';
-import axios, { Axios } from 'axios';
-import './products.css';
+import axios from 'axios'; 
 
-  
+import Logo from '../components/Navbar/TradeBreath.gif';
+
+import { CanvasJSChart } from 'canvasjs-react-charts';
+
+import { AxisConstantLineStyle } from 'devextreme-react/chart';
+import ReactHighcharts from 'react-highcharts';
+
 const Home = () => {
+
   const [stockName, setStockName] = useState("");
-  const [currentStock, setCurrent] = useState("");
   const [price, setPrice] = useState([]);
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
-  const [prevStockInfo, setPrevInfo] = useState([]);
-  const [stock, setStock]= useState("");
-  const [check, setCheck] = useState([]);
-
-  const [hidden, setHidden] = useState("block");
-  const [show, setShowing] = useState("none");
-  const [hideError, setHideError] = useState("none");
-
-  const [show_List, set_show_List] = useState("block")
+  const [stock, setStock]= useState("TSLA");
 
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
 
+  const [prevValidStock, setPrev] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [check, setCheck] = useState([]);
+
+  const [hidden, setHidden] = useState("block");
+  const [hideError, setHideError] = useState("none");
+
   /*Time Frames*/
 
     /* ----------Dates Calculation---------- */
-    const today = new Date(),
-    time_now = today.getHours();
 
     var todayDate = new Date()
     todayDate.setDate(todayDate.getDate())
@@ -45,21 +49,6 @@ const Home = () => {
     var dd_today = String(todayDate.getDate()).padStart(2, '0')
     var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today
     // console.log("Today's date: " + formated_today)
-
-    var yesterday = new Date()
-    var time_regulator = 2;
-    if(time_now >= 18) {
-      time_regulator = 1
-    }
-    if (time_now < 18 && time_now >= 8) {
-      time_regulator = 2
-    }
-    yesterday.setDate(yesterday.getDate() - time_regulator);
-    var YYYY_yesterday = yesterday.getFullYear();
-    var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-    var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-    var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-    // console.log("Yesterday's date: " + formated_yesterday)
     
     var monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1)
@@ -97,21 +86,10 @@ const Home = () => {
   const initialTime = formated_threeMonthsAgo;
 
   const [time, setTime] = useState(initialTime); 
-
+  
   function stockChange(event){
     setStock(event.target.value.toUpperCase());
   } 
-
-  const clickedStock = (value) => {
-    setStock(value);
-    setStockName(value);
-    listCall();
-  }
-
-  const listCall = () => {
-    setHideError("none");
-    getArticles();
-  }
 
   let viewCandle = () => {
     setLine("none");
@@ -122,85 +100,91 @@ const Home = () => {
     setLine("block");
     setCandle("none");
   }
-
-  let viewList = () => {
-    setHidden("block");
-    setShowing("none");
-    set_show_List("block");
-    setStock("");
-  }
-
+  
   const [tbapp, settbapp]= useState("");
   const [found, setFound]= useState(false);
 
   const checker = async () => {
-    const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
-    console.log(stock);
-    setCheck(response.data.data);
-    /*console.log(response.data.data);*/
-    /*console.log(response.data.data.length);*/
-    if (response.data.data.length === 0) {
-      console.log("No data recieved")
-      console.log("Invalid Stock Code: " + stock);
-      /*console.log(check.length);*/
-      setHideError("block");
-      setStock(currentStock);
-      setCheck([]);
-    }
-    else {
-      setCheck([]);
-      console.log("Data recieved")
-      console.log("Valid Stock Code: " + stock);
-      setCurrent(stock);
-      setHideError("none");
-      getArticles();
-    }
+      const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
+      console.log(stock);
+      setCheck(response.data.data);
+      /*console.log(response.data.data);*/
+      /*console.log(response.data.data.length);*/
+      if (response.data.data.length === 0) {
+        console.log("No data recieved")
+        console.log("Invalid Stock Code: " + stock);
+        /*console.log(check.length);*/
+        setHideError("block");
+        setCheck([]);
+      }
+      else {
+        setCheck([]);
+        console.log("Data recieved")
+        console.log("Valid Stock Code: " + stock);
+        setHideError("none");
+        getArticles();
+      }
   }
+
+  useEffect(() => {
+    setPrev("TSLA");
+    const getArticles = async () => {
+      const res = await axios.get(
+        'https://stocknewsapi.com/api/v1?tickers=TSLA&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
+      );
+      setArticles(res.data.data);
+      /*console.log(articles.length);*/
+      console.log("Getting News Articles");
+      console.log(res);
+      getStockInfo();
+      getchartInfo();
+      setStockName(stock);
+    };
+    getArticles();
+    
+  },
+  [null]);
 
   const getStockInfo = async () => {
     const info = await axios.get (
-      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=/latest', { mode: "no-cors" }
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-11&end_date=&latest=/latest', { mode: "no-cors" }
     );
     setStockInfo(info.data.data);
-    getPrevStockInfo();
     /*console.log(info);*/
-  };
-
-  const getPrevStockInfo = async () => {
-    const prevInfo = await axios.get (
-      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yesterday + '&end_date=&latest=/' + formated_yesterday, { mode: "no-cors" }
-    );
-    setPrevInfo(prevInfo.data.data);
   };
 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
+      /*'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors",  }*/
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + time + '&end_date=&latest=', { mode: "no-cors",  }
-    );
+      );
     setPrice(priceAndDate.data.data);
     console.log("Getting Chart Data");
     console.log(priceAndDate.data);
   }
 
   const getArticles = async () => {
+    setPrev(stock);
     const res = await axios.get(
       'https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
     );
     setArticles(res.data.data);
+    setHidden("none");
     console.log("Getting News Articles");
     console.log(res); 
-    setHidden("none");
-    setShowing("block"); 
-    set_show_List("none");
     getStockInfo();
     getchartInfo();
     setStockName(stock);
   };
-  
+
+  const back2Home = () => {
+    setHidden("block");
+  }
+
   const enterKey = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
-      console.log("Enter Pressed from Products")
+      console.log("Enter Pressed from Home")
       /*getArticles();*/
       checker();
     }
@@ -246,61 +230,72 @@ const Home = () => {
     updateChart();
   }
 
+
   let whirligig
   const next = () => whirligig.next()
   const prev = () => whirligig.prev()
 
   return (
-    <div id='products'>
-      
-      <div className="navBar-div">
-    <Nav id ="navBar"
-        style={{ 
-        height: '90px',
-        paddingTop: '0.5%',
-        paddingBottom: '0.5%',
+    <div id='content'>
+
+      <div id='background'
+      style={{ 
         backgroundImage: `url(${background})`,
         backgroundCover: `cover`,
         backgroundSize: '100% 100%',
         backgroundAttachment: 'fixed',
         backgroundRepeat: 'no-repeat',
         backgroundColor: '#000'
-        }}
-      >
-        <img id="logo" src={Logo} />
+      }}>
+
+        <div className="navBar-div">
+          <Nav id ="navBar"
+            style={{ 
+            backgroundImage: `url(${background})`,
+            backgroundCover: `cover`,
+            backgroundSize: '100% 100%',
+            backgroundAttachment: 'fixed',
+            backgroundRepeat: 'no-repeat',
+            height: '90px',
+            paddingTop: '0.5%',
+            paddingBottom: '0.5%'
+          }}
+        >
+          <img id="logo" src={Logo} />
  
-        <NavMenu id="menu">
+          <NavMenu id="menu">
 
-        <NavLink id="link" to='/index' activeStyle>
-          Home
-        </NavLink>
-        <NavLink id="link" to='/products' activeStyle>
-          Products
-        </NavLink>
-        <NavLink id="link" to='/about' activeStyle>
-          About Us
-        </NavLink>
+          <NavLink id="link" to='/index' onClick={back2Home} activeStyle>
+            Home
+          </NavLink>
+          <NavLink id="link" to='/products' activeStyle>
+            Products
+          </NavLink>
+          <NavLink id="link" to='/about' activeStyle>
+            About Us
+          </NavLink>
 
-        <Form inline id="searchBar">
-          <FormControl type="text" autoComplete="off"
-            id="searchBar" placeholder="Use Stock Codes (e.g. AAPL)"
-            onChange={stockChange} 
-            onKeyPress={enterKey}
-        />
+          <Form inline id="searchBar">
+              <FormControl type="text" autoComplete="off"
+              id="searchBar" placeholder="Use Stock Codes (e.g. AAPL)"
+              /* value={inputValue} */
+               onChange={stockChange} 
+               onKeyPress={enterKey}
+          />
 
-          <Button id="searchButton" 
-            /*onClick={getArticles}>*/
-            onClick={checker}>
-              Search
+            <Button id="searchButton" 
+              /*onClick={getArticles}>*/
+              onClick={checker}>
+              Search 
             </Button>
-        </Form>
+          </Form>
 
-        </NavMenu>
-      </Nav>
+          </NavMenu>
+        </Nav>
 
-    </div>
-
-    <div style = {{
+        </div>
+        
+        <div style = {{
           textAlign: "center",
           background: "#fff",
           paddingTop: "0%",
@@ -311,25 +306,36 @@ const Home = () => {
           display: hideError
         }}>
           <h3 id='error-message'>Invalid Stock Code! Enter A Valid Stock Code!</h3>
-    </div>
+        </div>
 
-    <div 
-      style ={{
-        justifyContent: 'center',
-        marginLeft: '5%',
-        marginRight: '5%',
-        marginBottom: '2%',
-        overflow: 'auto',
-        alignItems: 'center',
-        height: 'auto',
-        display: show
-    }}>
-        <button id="toggle" onClick={viewList}>Back to List</button>
-        <h1 style = {{
-          marginLeft: '10%'
-        }}> 
-          {stockName} 
-        </h1>
+        <div id='statement-and-articles'
+        style={{
+          paddingTop: '8%',
+          paddingBottom: '2%',
+          overflow: 'hidden',
+          display: hidden,
+          height: '100%'
+        }}>
+          <div id='statement'>
+            <h1>Our mission is to let <br/> you invest safely</h1>
+          </div>
+
+          <hr style={{
+            marginLeft: '0%',
+            marginRight: '0%'
+          }}></hr>
+
+          <div id='newsArticles'>
+            <div className='daily-News'>
+              <DailyArticles></DailyArticles>
+            </div>
+          </div>
+        </div>
+    </div>
+        
+    <div id='chart-div'>
+      <div id='chart-container'>
+        <h1> {stockName} </h1>
         <div id='time-Frames'>
           <button onClick={month}>
             1 Month
@@ -353,6 +359,7 @@ const Home = () => {
             marginTop: '2%',
             marginBottom: '2%'
           }}>
+        
         <CanvasJSChart
           options = { {
             theme: "light1",
@@ -417,6 +424,7 @@ const Home = () => {
               }
             }
           />
+          
           </div>
 
           <div style={{
@@ -427,12 +435,44 @@ const Home = () => {
             marginTop: '2%',
             marginBottom: '2%'
           }}>
-          {stockInfo.map(({ symbol }) => (
-                <Line
-                  symbol={symbol}
-                  time={time}
-                />
-          ))}
+          
+
+          <CanvasJSChart id='line'
+            options = { {
+              exportEnabled: true,
+              animationEnabled: true,
+              height: 450,
+              axisY: {
+                title: "USD",
+                prefix: "$"
+              },
+              axisY: {
+                minimum: Math.min(...price.map(data => data.low)) / 1.1,
+                maximum: Math.max(...price.map(data => data.high)) * 1.1,
+                crosshair: {
+                  enabled: true,
+                  snapToDataPoint: true
+                },
+                prefix: "$",
+              },
+              axisX: {
+                crosshair: {
+                  enabled: true,
+                  snapToDataPoint: true
+                },
+              },
+              data: [{
+                type: "line",
+                yValueFormatString: "$#,###.##",
+                dataPoints : price.map(price => ({
+                  x: new Date(price.date),
+                  y: Number(price.close)
+                }))
+              }],
+              
+            } }
+          />
+
           </div>
 
           <div id='buttons'>
@@ -444,53 +484,36 @@ const Home = () => {
           </button> 
         </div>
 
+      </div>
+    </div>
+
+      <div id='chart-div'>
+        
         <br></br>
 
         <div id="data">
-          <div id="metrics">
           {
-          stockInfo.map(({ close, open, high, low, volume, dividend}) => (
+          stockInfo.map(({ close, open, high, low, volume}) => (
           <StockInformation
             open={open} 
             close={close}
             high={high}
             low={low}
             volume={volume}
-            dividend={dividend}
           />
           ))}
-          </div>
-          <div id="metrics">
-          {
-          prevStockInfo.map(({close, open, high, low, volume}) => (
-          <PreviousStockInfo
-            open={open} 
-            close={close}
-            high={high}
-            low={low}
-            volume={volume}
-          />
-          ))}
-          {
-            //<h3>{time_now}</h3>
-            //<h3>{time_regulator}</h3>
-          }
-          </div>
         </div>
 
-        <div style = {{
-          marginLeft: '10%'
-        }}>
+        <div id='product-article-title'>
           <h1>Recent News Articles: {stockName} </h1>
         </div>
 
-          <div id='newsArticles'>
-            <Whirligig className ='product-slider'
+          <div id='product-article'>
+            <Whirligig id ='product-news-slider'
               visibleSlides={3}
               gutter="1em"
               ref={(_whirligigInstance) => { whirligig = _whirligigInstance}}
             >
-              
               {articles.map(({ title, news_url, image_url, text, date}) => (
                 <NewsItem
                   title={title}
@@ -501,64 +524,17 @@ const Home = () => {
                 />
               ))}
             </Whirligig>
-            
+
             <div className='buttons'>
-                <button id="sliderbutton-prev" onClick={prev}>Prev</button>
-                <button id='sliderbutton-next' onClick={next}>Next</button>
+              <button id="sliderbutton-prev" onClick={prev}>Prev</button>
+              <button id='sliderbutton-next' onClick={next}>Next</button>
             </div>
+
           </div>
-        </div>
-
-    <div id='list' style = {{
-      display: show_List,
-    }}>
-      <div id='products-title'>
-        <h1> Products </h1> <p id = 'button_message'>*Double click on the button to show the product properly.*</p>
       </div>
-
-      <Form inline id="productSearchBar">
-        <FormControl type="text" onChange={stockChange} id="productSearchBar" 
-        autoComplete="off" placeholder="Use Stock Codes (e.g. AAPL)" onKeyPress={enterKey}/>
-        <Button id="productSearchButton" onClick={checker}>
-          Search
-        </Button>   
-        {/*}
-        <FormControl type="text" placeholder="Filter" id="filterSearchBar" autoComplete="off"/>
-        <Button id="productSearchButton">
-          Filter
-        </Button> 
-        */}  
-      </Form>
-        
-        <ul className='product-List'> 
-          <li><button onClick={() => clickedStock("AAPL")}><p>Apple</p></button></li>
-          <li><button onClick={() => clickedStock("AMZN")}><p>Amazon</p></button></li>
-          <li><button onClick={() => clickedStock("AMC")}><p>AMC Entertainement</p></button></li>
-          <li><button onClick={() => clickedStock("AMD")}><p>AMD</p></button></li>
-          <li><button onClick={() => clickedStock("BA")}><p>Boeing</p></button></li>
-          <li><button onClick={() => clickedStock("KO")}><p>Coca-Cola</p></button></li>
-          <li><button onClick={() => clickedStock("COIN")}><p>Coinbase</p></button></li>
-          <li><button onClick={() => clickedStock("DIS")}><p>Disney</p></button></li>
-          <li><button onClick={() => clickedStock("GME")}><p>Gamestop</p></button></li>
-          <li><button onClick={() => clickedStock("MSFT")}><p>Microsoft</p></button></li>
-          <li><button onClick={() => clickedStock("MRNA")}><p>Moderna</p></button></li>
-          <li><button onClick={() => clickedStock("NFLX")}><p>Netflix</p></button></li>
-          <li><button onClick={() => clickedStock("NKE")}><p>Nike</p></button></li>
-          <li><button onClick={() => clickedStock("NIO")}><p>NIO</p></button></li>
-          <li><button onClick={() => clickedStock("NVDA")}><p>NVDIA</p></button></li>
-          <li><button onClick={() => clickedStock("RYCEY")}><p>Rolls-Royce</p></button></li>
-          <li><button onClick={() => clickedStock("LUV")}><p>Southwest Airlines</p></button></li>
-          <li><button onClick={() => clickedStock("SONY")}><p>Sony</p></button></li>
-          <li><button onClick={() => clickedStock("SBUX")}><p>Starbucks</p></button></li>
-          <li><button onClick={() => clickedStock("TSLA")}><p>Tesla</p></button></li>
-          <li><button onClick={() => clickedStock("TWTR")}><p>Twitter</p></button></li>
-          <li><button onClick={() => clickedStock("UBER")}><p>Uber</p></button></li>
-          <li><button onClick={() => clickedStock("WMT")}><p>Walmart</p></button></li>
-          <li><button onClick={() => clickedStock("ZM")}><p>Zoom</p></button></li>
-        </ul>
-      </div>
+              
     </div>
   );
 };
-  
+
 export default Home;
