@@ -191,7 +191,8 @@
     border-style: solid;
     border-width: 1px;
     border-color: #000;
-    display: grid;
+    display: flex;
+    grid-auto-flow: row;
   }
   
   #data h3 {
@@ -204,6 +205,12 @@
     margin-top: 0%;
     margin-left: 0%;
     list-style: none;
+  }
+
+  #metrics {
+    width: 50%;
+    float: left;
+    padding: 10px;
   }
 
   #error-message {

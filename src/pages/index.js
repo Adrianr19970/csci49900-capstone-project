@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Whirligig from 'react-whirligig'
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import './index.css'
 import background from './Sky.jpg';
 import DailyArticles from './dailyArticles';
@@ -11,14 +9,12 @@ import Candle from './candlechartv2';
 import { Nav, NavLink, NavMenu} from '../components/Navbar/NavbarElements';
 import { Form, FormControl, Button } from "react-bootstrap";
 import StockInformation from './stockInformation';
+import PreviousStockInfo from './previousStockInfo';
 import axios from 'axios'; 
 
 import Logo from '../components/Navbar/TradeBreath.gif';
 
 import { CanvasJSChart } from 'canvasjs-react-charts';
-
-import { AxisConstantLineStyle } from 'devextreme-react/chart';
-import ReactHighcharts from 'react-highcharts';
 
 const Home = () => {
 
@@ -26,8 +22,9 @@ const Home = () => {
   const [currentStock, setCurrent] = useState("");
   const [price, setPrice] = useState([]);
   const [stockInfo, setStockInfo] = useState([]);
+  const [prevStockInfo, setPrevInfo] = useState([]);
   const [articles, setArticles] = useState([]);
-  const [stock, setStock]= useState("TSLA");
+  const [stock, setStock] = useState("TSLA");
 
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
@@ -41,6 +38,8 @@ const Home = () => {
   /*Time Frames*/
 
     /* ----------Dates Calculation---------- */
+    const today = new Date(),
+    time_now = today.getHours();
 
     var todayDate = new Date()
     todayDate.setDate(todayDate.getDate())
@@ -50,6 +49,21 @@ const Home = () => {
     var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today
     // console.log("Today's date: " + formated_today)
     
+    var yesterday = new Date()
+    var time_regulator = 2;
+    if(time_now >= 18) {
+      time_regulator = 1
+    }
+    if (time_now < 18 && time_now >= 8) {
+      time_regulator = 2
+    }
+    yesterday.setDate(yesterday.getDate() - time_regulator);
+    var YYYY_yesterday = yesterday.getFullYear();
+    var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+    var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+    var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+    // console.log("Yesterday's date: " + formated_yesterday)
+
     var monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1)
     var YYYY_monthAgo = monthAgo.getFullYear();
@@ -149,7 +163,15 @@ const Home = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-11&end_date=&latest=/latest', { mode: "no-cors" }
     );
     setStockInfo(info.data.data);
+    getPrevStockInfo();
     /*console.log(info);*/
+  };
+
+  const getPrevStockInfo = async () => {
+    const prevInfo = await axios.get (
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yesterday + '&end_date=&latest=/' + formated_yesterday, { mode: "no-cors" }
+    );
+    setPrevInfo(prevInfo.data.data);
   };
 
   const getchartInfo = async () => {
@@ -459,9 +481,23 @@ const Home = () => {
         <br></br>
 
         <div id="data">
+          <div id="metrics">
           {
-          stockInfo.map(({ close, open, high, low, volume}) => (
+          stockInfo.map(({ close, open, high, low, volume, dividend}) => (
           <StockInformation
+            open={open} 
+            close={close}
+            high={high}
+            low={low}
+            volume={volume}
+            dividend={dividend}
+          />
+          ))}
+          </div>
+          <div id="metrics">
+          {
+          prevStockInfo.map(({close, open, high, low, volume}) => (
+          <PreviousStockInfo
             open={open} 
             close={close}
             high={high}
@@ -469,6 +505,11 @@ const Home = () => {
             volume={volume}
           />
           ))}
+          {
+            //<h3>{time_now}</h3>
+            //<h3>{time_regulator}</h3>
+          }
+          </div>
         </div>
 
         <div id='product-article-title'>

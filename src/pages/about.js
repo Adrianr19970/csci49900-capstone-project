@@ -6,6 +6,7 @@ import { Form, FormControl, Button } from "react-bootstrap";
 import Logo from '../components/Navbar/TradeBreath.gif';
 import NewsItem from './newsItem';
 import StockInformation from './stockInformation';
+import PreviousStockInfo from './previousStockInfo';
 import Line from './linechartv2';
 import axios, { Axios } from 'axios';
 import './about.css';
@@ -27,6 +28,7 @@ const About = () => {
   const [currentStock, setCurrent] = useState("");
   const [price, setPrice] = useState([]);
   const [stockInfo, setStockInfo] = useState([]);
+  const [prevStockInfo, setPrevInfo] = useState([]);
   const [articles, setArticles] = useState([]);
   const [stock, setStock]= useState("");
   const [check, setCheck] = useState([]);
@@ -41,6 +43,8 @@ const About = () => {
   /*Time Frames*/
 
     /* ----------Dates Calculation---------- */
+    const today = new Date(),
+    time_now = today.getHours();
 
     var todayDate = new Date()
     todayDate.setDate(todayDate.getDate())
@@ -49,6 +53,21 @@ const About = () => {
     var dd_today = String(todayDate.getDate()).padStart(2, '0')
     var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today
     // console.log("Today's date: " + formated_today)
+
+    var yesterday = new Date()
+    var time_regulator = 2;
+    if(time_now >= 18) {
+      time_regulator = 1
+    }
+    if (time_now < 18 && time_now >= 8) {
+      time_regulator = 2
+    }
+    yesterday.setDate(yesterday.getDate() - time_regulator);
+    var YYYY_yesterday = yesterday.getFullYear();
+    var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+    var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+    var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+    // console.log("Yesterday's date: " + formated_yesterday)
     
     var monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1)
@@ -133,7 +152,15 @@ const About = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=/latest', { mode: "no-cors" }
     );
     setStockInfo(info.data.data);
+    getPrevStockInfo();
     /*console.log(info);*/
+  };
+
+  const getPrevStockInfo = async () => {
+    const prevInfo = await axios.get (
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yesterday + '&end_date=&latest=/' + formated_yesterday, { mode: "no-cors" }
+    );
+    setPrevInfo(prevInfo.data.data);
   };
 
   const getchartInfo = async () => {
@@ -406,10 +433,24 @@ const About = () => {
 
         <br></br>
 
-        <div className="databox">
+        <div id="data">
+          <div id="metrics">
           {
-          stockInfo.map(({ close, open, high, low, volume }) => (
+          stockInfo.map(({ close, open, high, low, volume, dividend}) => (
           <StockInformation
+            open={open} 
+            close={close}
+            high={high}
+            low={low}
+            volume={volume}
+            dividend={dividend}
+          />
+          ))}
+          </div>
+          <div id="metrics">
+          {
+          prevStockInfo.map(({close, open, high, low, volume}) => (
+          <PreviousStockInfo
             open={open} 
             close={close}
             high={high}
@@ -417,6 +458,11 @@ const About = () => {
             volume={volume}
           />
           ))}
+          {
+            //<h3>{time_now}</h3>
+            //<h3>{time_regulator}</h3>
+          }
+          </div>
         </div>
 
         <div style = {{
