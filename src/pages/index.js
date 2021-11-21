@@ -15,6 +15,7 @@ import axios from 'axios';
 import Logo from '../components/Navbar/TradeBreath.gif';
 
 import { CanvasJSChart } from 'canvasjs-react-charts';
+import StockInfo from './stockInformation';
 
 const Home = () => {
 
@@ -37,6 +38,12 @@ const Home = () => {
 
   /*Time Frames*/
 
+    var moment = require('moment-business-days');
+   
+    moment.updateLocale('us', {
+      holidayFormat: 'YYYY-MM-DD'
+    });
+
     /* ----------Dates Calculation---------- */
     const today = new Date(),
     time_now = today.getHours();
@@ -50,19 +57,49 @@ const Home = () => {
     // console.log("Today's date: " + formated_today)
     
     var yesterday = new Date()
-    var time_regulator = 2;
-    if(time_now >= 18) {
+    var time_regulator = 1;
+    /*if(time_now >= 18) {
       time_regulator = 1
     }
     if (time_now < 18 && time_now >= 8) {
       time_regulator = 2
     }
+    */
     yesterday.setDate(yesterday.getDate() - time_regulator);
     var YYYY_yesterday = yesterday.getFullYear();
     var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
     var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
     var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
     // console.log("Yesterday's date: " + formated_yesterday)
+    
+    var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay()
+    var y = formated_yesterday;
+    var z = 0;
+    for (let i = 0; i < 7; i++) {
+      if (x == false)
+      {
+        yesterday.setDate(yesterday.getDate() - time_regulator);
+        var YYYY_yesterday = yesterday.getFullYear();
+        var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+        var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+        var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+        var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
+      }
+      else if (x == true && z == 0) {
+        z = 1;
+        yesterday.setDate(yesterday.getDate() - time_regulator);
+        var YYYY_yesterday = yesterday.getFullYear();
+        var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+        var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+        var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+        var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
+        //y = formated_yesterday;
+      }
+      else if (x == true && z == 1) {
+        y = formated_yesterday;
+      }
+    }
+    // console.log("Previous Business Day date: " + formated_yesterday)
 
     var monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1)
@@ -551,6 +588,7 @@ const Home = () => {
           {
             //<h3>{time_now}</h3>
             //<h3>{time_regulator}</h3>
+            <h3>Prior Business Day: {y}</h3>
           }
           </div>
         </div>

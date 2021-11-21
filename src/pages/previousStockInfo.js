@@ -5,11 +5,11 @@ const previousStockInfo = ({close, open, high, low, volume}) => {
         <div style = {{
             marginLeft: '1%'
         }}>
-            <h3>Yesterday's Open: ${open}</h3>
-            <h3>Yesterday's Close: ${close}</h3>
-            <h3>Yesterday's High: ${high}</h3>
-            <h3>Yesterday's Low: ${low}</h3>
-            <h3>Yesterday's Volume: {volume}</h3>
+            <h3>Previous Open: ${open}</h3>
+            <h3>Previous Close: ${close}</h3>
+            <h3>Previous High: ${high}</h3>
+            <h3>Previous Low: ${low}</h3>
+            <h3>Previous Volume: {volume}</h3>
             
         </div> 
     );
