@@ -77,30 +77,89 @@ const About = () => {
     // console.log("Yesterday's date: " + formated_yesterday)
 
     var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay()
-    var y = formated_yesterday;
-    var z = 0;
+    var wkend = 0;
+    var mon;
     for (let i = 0; i < 7; i++) {
+      //console.log(formated_yesterday);
       if (x == false)
       {
+        wkend = wkend + 1;
         yesterday.setDate(yesterday.getDate() - time_regulator);
-        var YYYY_yesterday = yesterday.getFullYear();
-        var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-        var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-        var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-        var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
+        YYYY_yesterday = yesterday.getFullYear();
+        mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+        dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+        formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+        x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
       }
-      else if (x == true && z == 0) {
-        z = 1;
-        yesterday.setDate(yesterday.getDate() - time_regulator);
-        var YYYY_yesterday = yesterday.getFullYear();
-        var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-        var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-        var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-        var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
-        //y = formated_yesterday;
+      else if (x == true && wkend > 2)
+      {
+        if(time_now >= 18) {
+          yesterday.setDate(yesterday.getDate() + 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+        }
+        if (time_now < 18) {
+          yesterday.setDate(yesterday.getDate() - 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+        }
       }
-      else if (x == true && z == 1) {
-        y = formated_yesterday;
+      else if (x == true && wkend == 2) {
+        if(time_now >= 18) {
+          yesterday.setDate(yesterday.getDate() + 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+        }
+        if (time_now < 18) {
+          yesterday.setDate(yesterday.getDate() - 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+        }
+      }
+      else if (x == true && wkend == 0) {
+        if(time_now >= 18) {
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+        }
+        if (time_now < 18) {
+            var monCheck = yesterday;
+            monCheck.setDate(monCheck.getDate() - 2);
+            var YYYY_monCheck = monCheck.getFullYear();
+            var mm_monCheck = String(monCheck.getMonth() + 1). padStart(2, '0')
+            var dd_monCheck = String(monCheck.getDate()).padStart(2, '0')
+            var formated_monCheck = YYYY_monCheck + '-' + mm_monCheck + '-' + dd_monCheck
+            mon = moment(formated_monCheck, 'YYYY-MM-DD').isBusinessDay();
+          if(mon = false) {
+            yesterday.setDate(yesterday.getDate() - 4);
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            console.log(formated_yesterday);
+            i = 7;
+          }
+          else {
+            yesterday.setDate(yesterday.getDate() - 1);
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            console.log(formated_yesterday);
+            i = 7;
+          }
+        }
       }
     }
     // console.log("Previous Business Day date: " + formated_yesterday)
@@ -498,7 +557,7 @@ const About = () => {
           {
             //<h3>{time_now}</h3>
             //<h3>{time_regulator}</h3>
-            <h3>Prior Business Day: {y}</h3>
+            <h3>Prior Business Day: {formated_yesterday}</h3>
           }
           </div>
         </div>
