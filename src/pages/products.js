@@ -21,13 +21,12 @@ const Home = () => {
   const [articles, setArticles] = useState([]);
   const [prevStockInfo, setPrevInfo] = useState([]);
   const [stock, setStock]= useState("");
-  const [check, setCheck] = useState([]);
 
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
   const [hideError, setHideError] = useState("none");
 
-  const [show_List, set_show_List] = useState("block")
+  const [show_List, set_show_List] = useState("block");
 
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
@@ -53,14 +52,6 @@ const Home = () => {
 
     var yesterday = new Date()
     var time_regulator = 1;
-    /*
-    if(time_now >= 18) {
-      time_regulator = 1
-    }
-    if (time_now < 18 && time_now >= 8) {
-      time_regulator = 2
-    }
-    */
     yesterday.setDate(yesterday.getDate() - time_regulator);
     var YYYY_yesterday = yesterday.getFullYear();
     var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -225,25 +216,16 @@ const Home = () => {
     setStock("");
   }
 
-  const [tbapp, settbapp]= useState("");
-  const [found, setFound]= useState(false);
-
   const checker = async () => {
     const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
     console.log(stock);
-    setCheck(response.data.data);
-    /*console.log(response.data.data);*/
-    /*console.log(response.data.data.length);*/
     if (response.data.data.length === 0) {
       console.log("No data recieved")
       console.log("Invalid Stock Code: " + stock);
-      /*console.log(check.length);*/
       setHideError("block");
       setStock(currentStock);
-      setCheck([]);
     }
     else {
-      setCheck([]);
       console.log("Data recieved")
       console.log("Valid Stock Code: " + stock);
       setCurrent(stock);
@@ -567,8 +549,6 @@ const Home = () => {
           />
           ))}
           {
-            //<h3>{time_now}</h3>
-            //<h3>{time_regulator}</h3>
             <h3>Prior Business Day: {formated_yesterday}</h3>
           }
           </div>
@@ -618,12 +598,6 @@ const Home = () => {
         <Button id="productSearchButton" onClick={checker}>
           Search
         </Button>   
-        {/*}
-        <FormControl type="text" placeholder="Filter" id="filterSearchBar" autoComplete="off"/>
-        <Button id="productSearchButton">
-          Filter
-        </Button> 
-        */}  
       </Form>
         
         <ul className='product-List'> 

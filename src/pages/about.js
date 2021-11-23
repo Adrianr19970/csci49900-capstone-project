@@ -31,7 +31,6 @@ const About = () => {
   const [prevStockInfo, setPrevInfo] = useState([]);
   const [articles, setArticles] = useState([]);
   const [stock, setStock]= useState("");
-  const [check, setCheck] = useState([]);
 
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
@@ -61,14 +60,6 @@ const About = () => {
 
     var yesterday = new Date()
     var time_regulator = 1;
-    /*
-    if(time_now >= 18) {
-      time_regulator = 1
-    }
-    if (time_now < 18 && time_now >= 8) {
-      time_regulator = 2
-    }
-    */
     yesterday.setDate(yesterday.getDate() - time_regulator);
     var YYYY_yesterday = yesterday.getFullYear();
     var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -216,25 +207,21 @@ const About = () => {
     setCandle("none");
   }
 
-  const [tbapp, settbapp]= useState("");
-  const [found, setFound]= useState(false);
+  let viewAbout = () => {
+    setHidden("block");
+    setShowing("none");
+  }
 
   const checker = async () => {
     const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
     console.log(stock);
-    setCheck(response.data.data);
-    /*console.log(response.data.data);*/
-    /*console.log(response.data.data.length);*/
     if (response.data.data.length === 0) {
       console.log("No data recieved")
       console.log("Invalid Stock Code: " + stock);
-      /*console.log(check.length);*/
       setHideError("block");
       setStock(currentStock);
-      setCheck([]);
     }
     else {
-      setCheck([]);
       console.log("Data recieved")
       console.log("Valid Stock Code: " + stock);
       setCurrent(stock);
@@ -286,7 +273,6 @@ const About = () => {
     if (e.key === 'Enter') {
       e.preventDefault()
       console.log("Enter Pressed from About")
-      /*getArticles();*/
       checker();
     }
   };
@@ -374,7 +360,6 @@ const About = () => {
         />
 
           <Button id="searchButton" 
-            /*onClick={getArticles}>*/
             onClick={checker}>
               Search
             </Button>
@@ -408,6 +393,7 @@ const About = () => {
         height: 'auto',
         display: show
     }}>
+        <button id="toggle" onClick={viewAbout}>Back to About Us</button>
         <h1 style = {{
           marginLeft: '10%'
         }}> 
@@ -555,8 +541,6 @@ const About = () => {
           />
           ))}
           {
-            //<h3>{time_now}</h3>
-            //<h3>{time_regulator}</h3>
             <h3>Prior Business Day: {formated_yesterday}</h3>
           }
           </div>

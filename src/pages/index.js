@@ -30,10 +30,8 @@ const Home = () => {
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
 
-  const [prevValidStock, setPrev] = useState("");
-  const [check, setCheck] = useState([]);
-
   const [hidden, setHidden] = useState("block");
+  const [hideButton, setHiddenButton] = useState("none");
   const [hideError, setHideError] = useState("none");
 
   /*Time Frames*/
@@ -58,13 +56,6 @@ const Home = () => {
     
     var yesterday = new Date()
     var time_regulator = 1;
-    /*if(time_now >= 18) {
-      time_regulator = 1
-    }
-    if (time_now < 18 && time_now >= 8) {
-      time_regulator = 2
-    }
-    */
     yesterday.setDate(yesterday.getDate() - time_regulator);
     var YYYY_yesterday = yesterday.getFullYear();
     var mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -211,26 +202,26 @@ const Home = () => {
     setCandle("none");
   }
 
+  let viewNews= () => {
+    setHidden("block");
+    setHiddenButton("none");
+  }
+
   const checker = async () => {
       const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
       console.log(stock);
-      setCheck(response.data.data);
-      /*console.log(response.data.data);*/
-      /*console.log(response.data.data.length);*/
       if (response.data.data.length === 0) {
         console.log("No data recieved")
         console.log("Invalid Stock Code: " + stock);
-        /*console.log(check.length);*/
         setHideError("block");
         setStock(currentStock);
-        setCheck([]);
       }
       else {
-        setCheck([]);
         console.log("Data recieved")
         console.log("Valid Stock Code: " + stock);
         setCurrent(stock);
         setHideError("none");
+        setHiddenButton("block");
         getArticles();
       }
   }
@@ -281,7 +272,6 @@ const Home = () => {
   }
 
   const getArticles = async () => {
-    setPrev(stock);
     const res = await axios.get(
       'https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
     );
@@ -451,6 +441,10 @@ const Home = () => {
     </div>
         
     <div id='chart-div'>
+      <button id="toggle" style = {{
+        display: hideButton
+      }} 
+      onClick={viewNews}>Back to News</button>
       <div id='chart-container'>
         <h1> {stockName} </h1>
         <div id='time-Frames'>
@@ -645,8 +639,6 @@ const Home = () => {
           />
           ))}
           {
-            //<h3>{time_now}</h3>
-            //<h3>{time_regulator}</h3>
             <h3>Prior Business Day: {formated_yesterday}</h3>
           }
           </div>
