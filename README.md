@@ -6,6 +6,24 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
+## Install the Following Packages by Using `npm` Before Running Locally or Deploying
+Install these packages using the console:
+npm i react-whirligig - The Whirligig component is a horizontally oriented container of Slides. Link: https://www.npmjs.com/package/react-whirligig
+npm i axios - Make XMLHttpRequests from the browser
+              Make http requests from node.js
+              Supports the Promise API
+              Intercept request and response
+              Transform request and response data
+              Cancel requests
+              Automatic transforms for JSON data
+              Client side support for protecting against XSRF
+              Link: https://www.npmjs.com/package/axios
+npm i canvasjs - CanvasJS is an easy to use JavaScript & HTML5 Charts library built on Canvas element. This allows you to create rich dashboards that work on all the devices without compromising on maintainability or functionality of your web application. CanvasJS comes with beautiful themes and is over 10x faster than conventional Flash and SVG Charts – resulting in lightweight, beautiful and responsive dashboards. Link: https://www.npmjs.com/package/canvasjs
+
+npm i canvasjs-react-charts Link: https://www.npmjs.com/package/canvasjs-react-charts
+
+npm i moment-business-days - This is a Moment.js plugin that allows you to work with only business days (Monday to Friday). You can customize the working week, and also set custom dates for holidays to exclude them from being counted as business days, for example national holidays. Link: https://www.npmjs.com/package/moment-business-days
+
 ### `npm start`
 
 Runs the app in the development mode.\
@@ -39,32 +57,30 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+### How to Deploy to Github Pages
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Step 1: Add homepage to package.json
+Open your package.json and add a homepage field for your project:
+    "homepage": "https://myusername.github.io/my-app",
+    
+Step 2: Install gh-pages and add deploy to scripts in package.json
+To publish your deployment in your repository, run the following command in your console:
+  npm install --save gh-pages
+ 
+Add these following scripts under "scripts" to your pacakage.json:
+    "scripts": {
++   "predeploy": "npm run build", <- Add this
++   "deploy": "gh-pages -b master -d build", <- Add this
+    "start": "react-scripts start", <- This should already be there
+    "build": "react-scripts build", <- This should already be there
+    
+Step 3: Deploy the site by running npm run deploy
+Run the following command in your console
+  npm run deploy
+  
+Step 4: Ensure your project’s settings use gh-pages
+Finally, make sure GitHub Pages option in your GitHub project settings is set to use the gh-pages branch:
+![image](https://user-images.githubusercontent.com/48028938/143660936-23e780a2-abc5-4d2b-a9e6-0b837ea6ce9c.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Link to the full documentation: https://create-react-app.dev/docs/deployment/#github-pages
