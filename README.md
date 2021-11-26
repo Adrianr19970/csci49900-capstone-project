@@ -8,8 +8,11 @@ In the project directory, you can run:
 
 ## Install the Following Packages by Using `npm` Before Running Locally or Deploying
 Install these packages using the console:
-npm i react-whirligig - The Whirligig component is a horizontally oriented container of Slides. Link: https://www.npmjs.com/package/react-whirligig
-npm i axios - Make XMLHttpRequests from the browser
+
+`npm i react-whirligig` - The Whirligig component is a horizontally oriented container of Slides. 
+Link: https://www.npmjs.com/package/react-whirligig
+
+`npm i axios` - Make XMLHttpRequests from the browser
               Make http requests from node.js
               Supports the Promise API
               Intercept request and response
@@ -18,11 +21,15 @@ npm i axios - Make XMLHttpRequests from the browser
               Automatic transforms for JSON data
               Client side support for protecting against XSRF
               Link: https://www.npmjs.com/package/axios
-npm i canvasjs - CanvasJS is an easy to use JavaScript & HTML5 Charts library built on Canvas element. This allows you to create rich dashboards that work on all the devices without compromising on maintainability or functionality of your web application. CanvasJS comes with beautiful themes and is over 10x faster than conventional Flash and SVG Charts – resulting in lightweight, beautiful and responsive dashboards. Link: https://www.npmjs.com/package/canvasjs
 
-npm i canvasjs-react-charts Link: https://www.npmjs.com/package/canvasjs-react-charts
+`npm i canvasjs` - CanvasJS is an easy to use JavaScript & HTML5 Charts library built on Canvas element. This allows you to create rich dashboards that work on all the devices without compromising on maintainability or functionality of your web application. CanvasJS comes with beautiful themes and is over 10x faster than conventional Flash and SVG Charts – resulting in lightweight, beautiful and responsive dashboards. 
+Link: https://www.npmjs.com/package/canvasjs
 
-npm i moment-business-days - This is a Moment.js plugin that allows you to work with only business days (Monday to Friday). You can customize the working week, and also set custom dates for holidays to exclude them from being counted as business days, for example national holidays. Link: https://www.npmjs.com/package/moment-business-days
+`npm i canvasjs-react-charts`
+Link: https://www.npmjs.com/package/canvasjs-react-charts
+
+`npm i moment-business-days` - This is a Moment.js plugin that allows you to work with only business days (Monday to Friday). You can customize the working week, and also set custom dates for holidays to exclude them from being counted as business days, for example national holidays. 
+Link: https://www.npmjs.com/package/moment-business-days
 
 ### `npm start`
 
@@ -65,18 +72,22 @@ Open your package.json and add a homepage field for your project:
     
 Step 2: Install gh-pages and add deploy to scripts in package.json
 To publish your deployment in your repository, run the following command in your console:
-  npm install --save gh-pages
+  `npm install --save gh-pages`
  
 Add these following scripts under "scripts" to your pacakage.json:
     "scripts": {
+    
 +   "predeploy": "npm run build", <- Add this
+  
 +   "deploy": "gh-pages -b master -d build", <- Add this
+
     "start": "react-scripts start", <- This should already be there
+    
     "build": "react-scripts build", <- This should already be there
     
 Step 3: Deploy the site by running npm run deploy
 Run the following command in your console
-  npm run deploy
+  `npm run deploy`
   
 Step 4: Ensure your project’s settings use gh-pages
 Finally, make sure GitHub Pages option in your GitHub project settings is set to use the gh-pages branch:
