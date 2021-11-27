@@ -128,7 +128,7 @@ const Home = () => {
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday          
-          if(formated_yesterday == '2021-11-25') {
+          if(formated_yesterday == '2021-11-25' || prevStockInfo.data.data.length == 0) {
             yesterday.setDate(yesterday.getDate() - 1);
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -167,6 +167,14 @@ const Home = () => {
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
             i = 7;
+            if(formated_yesterday == '2021-11-25' || prevStockInfo.data.data.length == 0) {
+              yesterday.setDate(yesterday.getDate() - 1);
+              YYYY_yesterday = yesterday.getFullYear();
+              mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+              dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+              formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            }
+            console.log(formated_yesterday)
           }
         }
       }
