@@ -15,6 +15,7 @@ import axios from 'axios';
 import Logo from '../components/Navbar/TradeBreath.gif';
 
 import { CanvasJSChart } from 'canvasjs-react-charts';
+import { Chart } from 'react-charts';
 
 const Home = () => {
   // States that will be changed as the website is used. 
@@ -25,6 +26,9 @@ const Home = () => {
   const [prevStockInfo, setPrevInfo] = useState([]);
   const [articles, setArticles] = useState([]);
   const [stock, setStock] = useState("TSLA");
+
+  const [yearlow, setYearLow] = useState();
+  const [yearHigh, setYearHigh] = useState();
 
   const [toggleLine, setLine] = useState("block");
   const [toggleCandle, setCandle] = useState("none");
@@ -128,7 +132,7 @@ const Home = () => {
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday          
-          if(formated_yesterday == '2021-11-25' || prevStockInfo.data.data.length == 0) {
+          if(formated_yesterday == '2021-11-25') {
             yesterday.setDate(yesterday.getDate() - 1);
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -174,7 +178,7 @@ const Home = () => {
               dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
               formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
             }
-            console.log(formated_yesterday)
+            //console.log(formated_yesterday)
           }
         }
       }
@@ -270,6 +274,7 @@ const Home = () => {
       getStockInfo();
       getchartInfo();
       setStockName(stock);
+      oneYearHighAndLow();
     };
     getArticles();
     
@@ -315,7 +320,49 @@ const Home = () => {
     getStockInfo();
     getchartInfo();
     setStockName(stock);
+    oneYearHighAndLow();
   };
+
+  const oneYearHighAndLow = async () => {
+    const HighAndLow = await axios.get (
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yearAgo + '&end_date=&latest=', { mode: "no-cors",  }
+    );
+    console.log(HighAndLow.data);
+    //setYearLow(HighAndLow.data.data[1].volume - HighAndLow.data.data[0].volume);
+    //console.log(yearlow);
+    //console.log(HighAndLow.data.data.close);
+    //setYearLow(0);
+
+    var temp = HighAndLow.data.data[0].low
+    var temp2 = HighAndLow.data.data[0].high
+    
+    for (let t = 1; t < HighAndLow.data.data.length; t++) {
+      if (HighAndLow.data.data[t].low < temp) {
+          setYearLow(HighAndLow.data.data[t].low);
+          //console.log(t);
+        }
+      if (HighAndLow.data.data[t].high > temp2) {
+          setYearHigh(HighAndLow.data.data[t].high);
+          console.log(t);
+          //console.log(HighAndLow.data.data[t].high);
+      }
+    }
+    
+    console.log(HighAndLow.data.data.length);
+    //console.log(low);
+    //console.log(high);
+
+    //setYearHigh(0);
+    /*
+    for (let z = 1; z < HighAndLow.data.data.length; z++) {
+      if (HighAndLow.data.data[z].close > HighAndLow.data.data[z-1].close) {
+          setYearHigh(HighAndLow.data.data[z].close);
+          //console.log(z);
+      }
+    } 
+    */
+    
+  }
 
   // If the user wants to see general news, they can press this button to make it appear.
   const back2Home = () => {
@@ -375,6 +422,24 @@ const Home = () => {
     /*Format YYYY-MM-DD*/
     updateChart();
   }
+
+  const data = React.useMemo(
+    () => [
+      {
+        label: 'Series 1',
+        data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
+      }
+    ],
+    []
+  )
+
+  const axes = React.useMemo(
+    () => [
+      { primary: true, type: 'linear', position: 'bottom' },
+      { type: 'linear', position: 'left' }
+    ],
+    []
+  )
 
   // Initalizes the buttons for the news carusel.
   let whirligig
@@ -512,8 +577,10 @@ const Home = () => {
           }}>
         
         {/* Candlestick Chart */}
-        <CanvasJSChart 
+        <div>
+        <CanvasJSChart
           options = { {
+            display: "none",
             theme: "light1",
             exportEnabled: true,
             animationEnabled: true,
@@ -572,11 +639,10 @@ const Home = () => {
                     ]
                   }))
                 }],
-          
               }
             }
           />
-          
+          </div>
           </div>
 
           <div style={{
@@ -669,8 +735,13 @@ const Home = () => {
             dividend={dividend}
           />
           ))}
+            <h3>52 Week Low: ${yearlow}</h3>
+            <h3>52 Week High: ${yearHigh}</h3>
           </div>
           <div id="metrics">
+          {
+            <h3>Prior Business Day: {formated_yesterday}</h3>
+          }
           {
           prevStockInfo.map(({close, open, high, low, volume}) => (
           <PreviousStockInfo
@@ -681,9 +752,6 @@ const Home = () => {
             volume={volume}
           />
           ))}
-          {
-            <h3>Prior Business Day: {formated_yesterday}</h3>
-          }
           </div>
         </div>
 
@@ -718,6 +786,28 @@ const Home = () => {
 
           </div>
       </div>
+
+      <div id = "chartContainer3" style={{
+        width: '1400px',
+        height: '300px'
+      }}>
+        {/*
+            <Chart
+                data={[
+                  {
+                    label: 'Series 1',
+                    data: 
+                      price.map(price => ({
+                        x: price.volume,
+                        y: price.close
+                      }))
+                      //[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]
+                    
+                  }
+                ]}
+                axes={axes} />
+          */}
+          </div>
               
     </div>
   );

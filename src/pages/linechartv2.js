@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { CanvasJSChart } from 'canvasjs-react-charts';
 import axios from 'axios'; 
 
-const Line = ({ symbol, time }) => {
+const Line = ({ symbol, time, volume }) => {
 
   const [price, setPrice] = useState([]);
   const [stock, setStock]= useState('');
   const [timeframe, setTime] = useState('');
+  const [parameters, setPara] = useState('data.volume')
+  // const [volume, setVolume] = useState([])
+  var vol = [];
 
   useEffect(() => {
     if(stock !== symbol ) {
@@ -19,7 +22,6 @@ const Line = ({ symbol, time }) => {
       getchartInfo()
       setTime(time)
     }
-    
     
   });
 
@@ -67,7 +69,8 @@ const Line = ({ symbol, time }) => {
                 }))
               }],
               
-            } }
+            } 
+          }
           />
       </div> 
     );
