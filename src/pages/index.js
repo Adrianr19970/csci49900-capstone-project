@@ -328,40 +328,22 @@ const Home = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yearAgo + '&end_date=&latest=', { mode: "no-cors",  }
     );
     console.log(HighAndLow.data);
-    //setYearLow(HighAndLow.data.data[1].volume - HighAndLow.data.data[0].volume);
-    //console.log(yearlow);
-    //console.log(HighAndLow.data.data.close);
-    //setYearLow(0);
 
     var temp = HighAndLow.data.data[0].low
     var temp2 = HighAndLow.data.data[0].high
-    
+
     for (let t = 1; t < HighAndLow.data.data.length; t++) {
       if (HighAndLow.data.data[t].low < temp) {
-          setYearLow(HighAndLow.data.data[t].low);
+          temp = HighAndLow.data.data[t].low
           //console.log(t);
         }
       if (HighAndLow.data.data[t].high > temp2) {
-          setYearHigh(HighAndLow.data.data[t].high);
-          console.log(t);
-          //console.log(HighAndLow.data.data[t].high);
+          temp2 = HighAndLow.data.data[t].high
       }
     }
-    
-    console.log(HighAndLow.data.data.length);
-    //console.log(low);
-    //console.log(high);
 
-    //setYearHigh(0);
-    /*
-    for (let z = 1; z < HighAndLow.data.data.length; z++) {
-      if (HighAndLow.data.data[z].close > HighAndLow.data.data[z-1].close) {
-          setYearHigh(HighAndLow.data.data[z].close);
-          //console.log(z);
-      }
-    } 
-    */
-    
+    setYearLow(temp);
+    setYearHigh(temp2);
   }
 
   // If the user wants to see general news, they can press this button to make it appear.

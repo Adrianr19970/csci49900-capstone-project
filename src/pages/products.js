@@ -23,6 +23,9 @@ const Home = () => {
   const [prevStockInfo, setPrevInfo] = useState([]);
   const [stock, setStock]= useState("");
 
+  const [yearlow, setYearLow] = useState();
+  const [yearHigh, setYearHigh] = useState();
+
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
   const [hideError, setHideError] = useState("none");
@@ -304,7 +307,31 @@ const Home = () => {
     getStockInfo();
     getchartInfo();
     setStockName(stock);
+    oneYearHighAndLow();
   };
+
+  const oneYearHighAndLow = async () => {
+    const HighAndLow = await axios.get (
+      'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yearAgo + '&end_date=&latest=', { mode: "no-cors",  }
+    );
+    console.log(HighAndLow.data);
+
+    var temp = HighAndLow.data.data[0].low
+    var temp2 = HighAndLow.data.data[0].high
+
+    for (let t = 1; t < HighAndLow.data.data.length; t++) {
+      if (HighAndLow.data.data[t].low < temp) {
+          temp = HighAndLow.data.data[t].low
+          //console.log(t);
+        }
+      if (HighAndLow.data.data[t].high > temp2) {
+          temp2 = HighAndLow.data.data[t].high
+      }
+    }
+
+    setYearLow(temp);
+    setYearHigh(temp2);
+  }
   
   // When the user clicks enter on the search bar, the check function is called to verify the stock code.
   const enterKey = (e) => {
@@ -579,6 +606,8 @@ const Home = () => {
             dividend={dividend}
           />
           ))}
+            <h3>52 Week Low: ${yearlow}</h3>
+            <h3>52 Week High: ${yearHigh}</h3>
           </div>
           <div id="metrics">
           {
