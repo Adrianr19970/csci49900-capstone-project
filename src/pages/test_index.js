@@ -155,7 +155,6 @@ const Home = () => {
 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      /*'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors",  }*/
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + time + '&end_date=&latest=', { mode: "no-cors",  }
       );
     setPrice(priceAndDate.data.data);

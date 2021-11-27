@@ -15,10 +15,9 @@ import axios from 'axios';
 import Logo from '../components/Navbar/TradeBreath.gif';
 
 import { CanvasJSChart } from 'canvasjs-react-charts';
-import StockInfo from './stockInformation';
 
 const Home = () => {
-
+  // States that will be changed as the website is used. 
   const [stockName, setStockName] = useState("");
   const [currentStock, setCurrent] = useState("");
   const [price, setPrice] = useState([]);
@@ -36,6 +35,7 @@ const Home = () => {
 
   /*Time Frames*/
 
+    // Sets up US business days and format of the dates.
     var moment = require('moment-business-days');
    
     moment.updateLocale('us', {
@@ -43,15 +43,15 @@ const Home = () => {
     });
 
     /* ----------Dates Calculation---------- */
-    const today = new Date(),
-    time_now = today.getHours();
+    const today = new Date(), // New todays date.
+    time_now = today.getHours(); // Gets current hour.
 
-    var todayDate = new Date()
-    todayDate.setDate(todayDate.getDate())
-    var YYYY_today = todayDate.getFullYear();
-    var mm_today = String(todayDate.getMonth() + 1). padStart(2, '0')
-    var dd_today = String(todayDate.getDate()).padStart(2, '0')
-    var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today
+    var todayDate = new Date() // Sets a new variable to get todays date.
+    todayDate.setDate(todayDate.getDate()) // Gets todays date.
+    var YYYY_today = todayDate.getFullYear(); // Gets curretn year.
+    var mm_today = String(todayDate.getMonth() + 1). padStart(2, '0') // Calculates curretn month.
+    var dd_today = String(todayDate.getDate()).padStart(2, '0') // Calculates current month.
+    var formated_today = YYYY_today + '-' + mm_today + '-' + dd_today // Formats date into the format the backend can read to retrieve date from the API.
     // console.log("Today's date: " + formated_today)
     
     var yesterday = new Date()
@@ -63,12 +63,15 @@ const Home = () => {
     var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
     // console.log("Yesterday's date: " + formated_yesterday)
     
-    var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay()
-    var wkend = 0;
+    var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay() 
+    // Checks if the variable formated_yesterday is a business day or not.
+    var wkend = 0; // Keeps track of non buswiness days.
     var mon;
+
+    // Checks for the amount if business days over the past 7 days.
+    // This updates the previous busniess day and it's metrics that are requested from the backend.
     for (let i = 0; i < 7; i++) {
-      //console.log(formated_yesterday);
-      if (x == false)
+      if (x == false) // Increases the counter of non-business days by one
       {
         wkend = wkend + 1;
         yesterday.setDate(yesterday.getDate() - time_regulator);
@@ -78,9 +81,10 @@ const Home = () => {
         formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
         x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
       }
-      else if (x == true && wkend > 2)
+      else if (x == true && wkend > 2) // If wkend if more than 3, then it calculates dates as normal an extended weekend.
       {
-        if(time_now >= 18) {
+        // Since the stock market has after-hours, metrics will update at 6pm.
+        if(time_now >= 18) { 
           yesterday.setDate(yesterday.getDate() + 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -88,6 +92,7 @@ const Home = () => {
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           i = 7;
         }
+        // If it's prior to 6pm, then the metrics will stay the same as the previous day until 6pm when the market closes.
         if (time_now < 18) {
           yesterday.setDate(yesterday.getDate() - 1);
           YYYY_yesterday = yesterday.getFullYear();
@@ -97,7 +102,7 @@ const Home = () => {
           i = 7;
         }
       }
-      else if (x == true && wkend == 2) {
+      else if (x == true && wkend == 2) { // If wkend is 2, then it calculates dates as normal weekend.
         if(time_now >= 18) {
           yesterday.setDate(yesterday.getDate());
           YYYY_yesterday = yesterday.getFullYear();
@@ -117,12 +122,31 @@ const Home = () => {
       }
       else if (x == true && wkend == 0) {
         if(time_now >= 18) {
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          //formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          yesterday.setDate(yesterday.getDate());
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday          
+          if(formated_yesterday == '2021-11-25') {
+            yesterday.setDate(yesterday.getDate() - 1);
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          }
+          else {
+            yesterday.setDate(yesterday.getDate());
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          }
           i = 7;
         }
         if (time_now < 18) {
             var monCheck = yesterday;
-            monCheck.setDate(monCheck.getDate() - 2);
+            monCheck.setDate(monCheck.getDate());
             var YYYY_monCheck = monCheck.getFullYear();
             var mm_monCheck = String(monCheck.getMonth() + 1). padStart(2, '0')
             var dd_monCheck = String(monCheck.getDate()).padStart(2, '0')
@@ -134,7 +158,6 @@ const Home = () => {
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            console.log(formated_yesterday);
             i = 7;
           }
           else {
@@ -143,7 +166,6 @@ const Home = () => {
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            console.log(formated_yesterday);
             i = 7;
           }
         }
@@ -184,29 +206,30 @@ const Home = () => {
     var formated_yearAgo = YYYY_yearAgo + '-' + mm_yearAgo + '-' + dd_yearAgo
     // console.log("Year ago's date: " + formated_yearAgo)
 
-  const initialTime = formated_threeMonthsAgo;
+  const initialTime = formated_threeMonthsAgo; // Sets 3 months ago as inital time frame to view stock data.
 
   const [time, setTime] = useState(initialTime); 
   
-  function stockChange(event){
+  function stockChange(event){ // Sets all inputs to uppercase
     setStock(event.target.value.toUpperCase());
   } 
 
-  let viewCandle = () => {
+  let viewCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
     setLine("none");
     setCandle("block");
   }
 
-  let viewLine = () => {
+  let viewLine = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
     setLine("block");
     setCandle("none");
   }
 
-  let viewNews= () => {
+  let viewNews= () => { // If the user inputs a stock name, the overall news will be hidden to focus on the stock.
     setHidden("block");
     setHiddenButton("none");
   }
 
+  // Checks if the stock code inputted by user exsits, if not an error message will appear. If it does it will retrieve stock data.
   const checker = async () => {
       const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
       console.log(stock);
@@ -226,6 +249,7 @@ const Home = () => {
       }
   }
 
+  // Used to get inital data for the stock Tesla when the page is loaded.
   useEffect(() => {
     setCurrent(stock);
     const getArticles = async () => {
@@ -233,7 +257,6 @@ const Home = () => {
         'https://stocknewsapi.com/api/v1?tickers=TSLA&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
       );
       setArticles(res.data.data);
-      /*console.log(articles.length);*/
       console.log("Getting News Articles");
       console.log(res);
       getStockInfo();
@@ -245,15 +268,16 @@ const Home = () => {
   },
   [null]);
 
+  // Retrieves stock metrics
   const getStockInfo = async () => {
     const info = await axios.get (
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2021-10-11&end_date=&latest=/latest', { mode: "no-cors" }
     );
     setStockInfo(info.data.data);
     getPrevStockInfo();
-    /*console.log(info);*/
   };
 
+  // Retireves stock metrics on the previous business day.
   const getPrevStockInfo = async () => {
     const prevInfo = await axios.get (
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yesterday + '&end_date=&latest=/' + formated_yesterday, { mode: "no-cors" }
@@ -261,9 +285,9 @@ const Home = () => {
     setPrevInfo(prevInfo.data.data);
   };
 
+  // Gets stock info for the charts.
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
-      /*'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors",  }*/
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + time + '&end_date=&latest=', { mode: "no-cors",  }
       );
     setPrice(priceAndDate.data.data);
@@ -271,6 +295,7 @@ const Home = () => {
     console.log(priceAndDate.data);
   }
 
+  // Gets articles pertaining to the stock.
   const getArticles = async () => {
     const res = await axios.get(
       'https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
@@ -284,23 +309,26 @@ const Home = () => {
     setStockName(stock);
   };
 
+  // If the user wants to see general news, they can press this button to make it appear.
   const back2Home = () => {
     setHidden("block");
   }
 
+  // When the user clicks enter on the search bar, the check function is called to verify the stock code.
   const enterKey = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault()
       console.log("Enter Pressed from Home")
-      /*getArticles();*/
       checker();
     }
   };
 
+  // Updates chart data.
   const updateChart = () => {
     getchartInfo();
   }
 
+  // When user clicks the month button, this calculates 1 months worth of chart data.
   const month = () => {
     console.log("Month called");
     console.log("Today's date: " + formated_today)
@@ -310,6 +338,7 @@ const Home = () => {
     updateChart();
   }
 
+  // When user clicks the 3 month button, this calculates 3 months worth of chart data.
   const threemonths = () => {
     console.log("3 Months called");
     console.log("Today's date: " + formated_today)
@@ -319,6 +348,7 @@ const Home = () => {
     updateChart();
   }
 
+  // When user clicks the 6 month button, this calculates 6 months worth of chart data.
   const sixmonths = () => {
     console.log("6 Months called");
     console.log("Today's date: " + formated_today)
@@ -328,6 +358,7 @@ const Home = () => {
     updateChart();
   }
 
+  // When user clicks the 1 year button, this calculates 1 year worth of chart data.
   const oneYear = (e) => {
     console.log("1 Year called");
     console.log("Today's date: " + formated_today)
@@ -337,7 +368,7 @@ const Home = () => {
     updateChart();
   }
 
-
+  // Initalizes the buttons for the news carusel.
   let whirligig
   const next = () => whirligig.next()
   const prev = () => whirligig.prev()
@@ -440,14 +471,14 @@ const Home = () => {
         </div>
     </div>
         
-    <div id='chart-div'>
+    <div id='chart-div'> {/* Contains the stock charts, metrics, and stock news. */}
       <button id="toggle" style = {{
         display: hideButton
       }} 
-      onClick={viewNews}>Back to News</button>
+      onClick={viewNews}>Back to News</button> {/* Button to view general news. */}
       <div id='chart-container'>
         <h1> {stockName} </h1>
-        <div id='time-Frames'>
+        <div id='time-Frames'> {/* Time frame buttons to view stock data */}
           <button onClick={month}>
             1 Month
           </button> 
@@ -472,7 +503,8 @@ const Home = () => {
             marginBottom: '2%'
           }}>
         
-        <CanvasJSChart
+        {/* Candlestick Chart */}
+        <CanvasJSChart 
           options = { {
             theme: "light1",
             exportEnabled: true,
@@ -548,6 +580,7 @@ const Home = () => {
             marginBottom: '2%'
           }}>
 
+          {/* Bar Chart is called from different file as both charts can't be initialized on the same page. */}
           {stockInfo.map(({ symbol }) => (
                 <Line
                   symbol={symbol}
@@ -597,6 +630,7 @@ const Home = () => {
           
           </div>
 
+          {/* Buttons to change charts */}
           <div id='buttons'>
           <button onClick={viewCandle}
             id="candlesticks-button">Candlestick Chart
@@ -613,6 +647,7 @@ const Home = () => {
         
         <br></br>
 
+        {/* Current Stock metrics and previous business day metrics. */}
         <div id="data">
           <div id="metrics">
           {
@@ -644,10 +679,12 @@ const Home = () => {
           </div>
         </div>
 
+        {/* Displays current stock name. */}
         <div id='product-article-title'>
           <h1>Recent News Articles: {stockName} </h1>
         </div>
 
+        {/* Displays stock related news on a carousel. */}
           <div id='product-article'>
             <Whirligig id ='product-news-slider'
               visibleSlides={3}
@@ -665,6 +702,7 @@ const Home = () => {
               ))}
             </Whirligig>
 
+            {/* Slider buttons to scroll through the 25 stock news articles.  */}
             <div className='buttons'>
               <button id="sliderbutton-prev" onClick={prev}>Prev</button>
               <button id='sliderbutton-next' onClick={next}>Next</button>
