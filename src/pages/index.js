@@ -327,7 +327,7 @@ const Home = () => {
     const HighAndLow = await axios.get (
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yearAgo + '&end_date=&latest=', { mode: "no-cors",  }
     );
-    console.log(HighAndLow.data);
+    //console.log(HighAndLow.data);
 
     var temp = HighAndLow.data.data[0].low
     var temp2 = HighAndLow.data.data[0].high
@@ -335,7 +335,6 @@ const Home = () => {
     for (let t = 1; t < HighAndLow.data.data.length; t++) {
       if (HighAndLow.data.data[t].low < temp) {
           temp = HighAndLow.data.data[t].low
-          //console.log(t);
         }
       if (HighAndLow.data.data[t].high > temp2) {
           temp2 = HighAndLow.data.data[t].high
@@ -345,6 +344,41 @@ const Home = () => {
     setYearLow(temp);
     setYearHigh(temp2);
   }
+
+  /*
+  const [prevdate, setPrevdate] = useState("");
+  const previousDay = () => {
+    x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay()
+    var prevbusinessday;
+    var p = 0;
+
+    for (let i = 0; i < 7; i++) {
+      if(x == false) {
+        yesterday.setDate(yesterday.getDate() - 1);
+        YYYY_yesterday = yesterday.getFullYear();
+        mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+        dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+        formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+        x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
+      }
+      else if (x == true && p == 1) {
+        prevbusinessday = formated_yesterday;
+        i = 7;
+      }
+      else if (x == true && p == 0) {
+        p = 1;
+        yesterday.setDate(yesterday.getDate() - 1);
+        YYYY_yesterday = yesterday.getFullYear();
+        mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+        dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+        formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+        x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
+      }
+    }
+
+    setPrevdate(prevbusinessday);
+  }
+  */
 
   // If the user wants to see general news, they can press this button to make it appear.
   const back2Home = () => {
@@ -404,24 +438,6 @@ const Home = () => {
     /*Format YYYY-MM-DD*/
     updateChart();
   }
-
-  const data = React.useMemo(
-    () => [
-      {
-        label: 'Series 1',
-        data: [[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]]
-      }
-    ],
-    []
-  )
-
-  const axes = React.useMemo(
-    () => [
-      { primary: true, type: 'linear', position: 'bottom' },
-      { type: 'linear', position: 'left' }
-    ],
-    []
-  )
 
   // Initalizes the buttons for the news carusel.
   let whirligig
@@ -768,28 +784,6 @@ const Home = () => {
 
           </div>
       </div>
-
-      <div id = "chartContainer3" style={{
-        width: '1400px',
-        height: '300px'
-      }}>
-        {/*
-            <Chart
-                data={[
-                  {
-                    label: 'Series 1',
-                    data: 
-                      price.map(price => ({
-                        x: price.volume,
-                        y: price.close
-                      }))
-                      //[0, 1], [1, 2], [2, 4], [3, 2], [4, 7]
-                    
-                  }
-                ]}
-                axes={axes} />
-          */}
-          </div>
               
     </div>
   );
