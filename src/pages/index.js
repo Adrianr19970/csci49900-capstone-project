@@ -116,7 +116,7 @@ const Home = () => {
           i = 7;
         }
         if (time_now < 18) {
-          yesterday.setDate(yesterday.getDate() - 1);
+          yesterday.setDate(yesterday.getDate() /* -1 (Uncomment this after the week of Thanksgiving) */);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
