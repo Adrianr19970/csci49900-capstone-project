@@ -696,25 +696,25 @@ const About = () => {
           <div class = "columns">
             <img src = {adrian}/>
             <p class = "personName">Adrian Ramirez</p>    
-            <p class = "poersonComent">"Blah Blah Blah"</p>    
+            <p class = "poersonComent">Front-End</p>    
           </div>
 
           <div class = "columns">
             <img src = {alex}/>
             <p class = "personName">Alex Jun</p>  
-            <p class = "poersonComent">"Blah Blah Blah"</p>      
+            <p class = "poersonComent">Front-End</p>      
           </div>
 
           <div class = "columns">
             <img src = {diego}/>
             <p class = "personName">Diego Kervabon</p>    
-            <p class = "poersonComent">"Blah Blah Blah"</p>    
+            <p class = "poersonComent">Back-End</p>    
           </div>
 
           <div class = "columns">
             <img src = {edwin}/>
             <p class = "personName">Edwin Zhu</p>  
-            <p class = "poersonComent">"Blah Blah Blah"</p>      
+            <p class = "poersonComent">Back-End</p>      
           </div>
         </div>
       </div>

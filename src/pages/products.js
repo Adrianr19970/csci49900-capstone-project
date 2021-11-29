@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Whirligig from 'react-whirligig'
 import background from './Sky.jpg';
 import { Nav, NavLink, NavMenu} from '../components/Navbar/NavbarElements';
@@ -415,6 +415,12 @@ const Home = () => {
   let whirligig
   const next = () => whirligig.next()
   const prev = () => whirligig.prev()
+
+  // Fix to the double click issue. 
+  useEffect(() => {
+    getArticles();
+  },
+  [stockName, stock]);
 
   return (
     <div id='products'>
