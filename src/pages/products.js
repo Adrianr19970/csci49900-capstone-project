@@ -546,9 +546,9 @@ const Home = () => {
               },
             },
             data: [{
-              type: "line",
+              type: "area",
               yValueFormatString: "",
-              color: "blue",
+              color: "#2E2EFF",
               dataPoints : price.map(price => ({
                 x: new Date(price.date),
                 y: Number(price.volume)
