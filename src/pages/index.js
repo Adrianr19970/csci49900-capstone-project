@@ -15,7 +15,6 @@ import axios from 'axios';
 import Logo from '../components/Navbar/TradeBreath.gif';
 
 import { CanvasJSChart } from 'canvasjs-react-charts';
-import { Chart } from 'react-charts';
 
 const Home = () => {
   // States that will be changed as the website is used. 
@@ -30,12 +29,15 @@ const Home = () => {
   const [yearlow, setYearLow] = useState();
   const [yearHigh, setYearHigh] = useState();
 
-  const [toggleLine, setLine] = useState("block");
-  const [toggleCandle, setCandle] = useState("none");
+  const [toggleLineAndCandle, setLineAndCandle] = useState("block");
+  const [toggleVolume, setVolume] = useState("none");
 
   const [hidden, setHidden] = useState("block");
   const [hideButton, setHiddenButton] = useState("none");
   const [hideError, setHideError] = useState("none");
+
+  const [linehide, setHideLine] = useState("line");
+  const [candlehide, setHideCandle] = useState("");
 
   /*Time Frames*/
 
@@ -48,7 +50,8 @@ const Home = () => {
 
     /* ----------Dates Calculation---------- */
     const today = new Date(), // New todays date.
-    time_now = today.getHours(); // Gets current hour.
+    time_now = today.getHours() + ':' + today.getMinutes(); // Gets current hour.
+    //var test = today.getHours() + ':' + today.getMinutes();
 
     var todayDate = new Date() // Sets a new variable to get todays date.
     todayDate.setDate(todayDate.getDate()) // Gets todays date.
@@ -88,7 +91,7 @@ const Home = () => {
       else if (x == true && wkend > 2) // If wkend if more than 3, then it calculates dates as normal an extended weekend.
       {
         // Since the stock market has after-hours, metrics will update at 6pm.
-        if(time_now >= 18) { 
+        if(time_now >= '17:30') { 
           yesterday.setDate(yesterday.getDate() + 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -97,7 +100,7 @@ const Home = () => {
           i = 7;
         }
         // If it's prior to 6pm, then the metrics will stay the same as the previous day until 6pm when the market closes.
-        if (time_now < 18) {
+        if (time_now < '17:30') {
           yesterday.setDate(yesterday.getDate() - 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -107,7 +110,7 @@ const Home = () => {
         }
       }
       else if (x == true && wkend == 2) { // If wkend is 2, then it calculates dates as normal weekend.
-        if(time_now >= 18) {
+        if(time_now >= '17:30') {
           yesterday.setDate(yesterday.getDate());
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -115,7 +118,7 @@ const Home = () => {
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           i = 7;
         }
-        if (time_now < 18) {
+        if (time_now < '17:30') {
           yesterday.setDate(yesterday.getDate() /* -1 (Uncomment this after the week of Thanksgiving) */);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -125,7 +128,7 @@ const Home = () => {
         }
       }
       else if (x == true && wkend == 0) {
-        if(time_now >= 18) {
+        if(time_now >= '17:30') {
           //formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           yesterday.setDate(yesterday.getDate());
           YYYY_yesterday = yesterday.getFullYear();
@@ -148,7 +151,7 @@ const Home = () => {
           }
           i = 7;
         }
-        if (time_now < 18) {
+        if (time_now < '17:30') {
             var monCheck = yesterday;
             monCheck.setDate(monCheck.getDate());
             var YYYY_monCheck = monCheck.getFullYear();
@@ -226,14 +229,34 @@ const Home = () => {
     setStock(event.target.value.toUpperCase());
   } 
 
-  let viewCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
-    setLine("none");
-    setCandle("block");
+  let viewVolumeChart = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
+    setVolume("block");
+    setLineAndCandle("none");
+    //setLine("none");
+    //setCandle("block");
   }
 
-  let viewLine = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
-    setLine("block");
-    setCandle("none");
+  let viewLineAndCandleChart = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
+    setLineAndCandle("block");
+    setVolume("none");
+    //setLine("block");
+    //setCandle("none");
+  }
+
+  let pressCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
+    setHideLine("");
+    setHideCandle("candlestick");
+    viewLineAndCandleChart();
+  }
+
+  let pressLine = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
+    setHideCandle("");
+    setHideLine("line");
+    viewLineAndCandleChart();
+  }
+
+  let pressVolume = () => {
+    viewVolumeChart();
   }
 
   let viewNews= () => { // If the user inputs a stock name, the overall news will be hidden to focus on the stock.
@@ -566,7 +589,7 @@ const Home = () => {
         </div>
 
         <div style={{
-            display: toggleCandle,
+            display: toggleVolume,
             marginLeft: '10%',
             marginRight: '10%',
             height: '25%',
@@ -574,11 +597,44 @@ const Home = () => {
             marginBottom: '2%'
           }}>
         
-        {/* Candlestick Chart */}
+        {/* Volume Chart */}
         <div>
         <CanvasJSChart
           options = { {
-            display: "none",
+            exportEnabled: true,
+            animationEnabled: true,
+            height: 450,
+            axisY: {
+              title: "",
+              prefix: ""
+            },
+            axisY: {
+              minimum: Math.min(...price.map(data => data.volume)) / 1.1,
+              maximum: Math.max(...price.map(data => data.volume)) * 1.1,
+              crosshair: {
+                enabled: true,
+                snapToDataPoint: true
+              },
+              prefix: "",
+            },
+            axisX: {
+              crosshair: {
+                enabled: true,
+                snapToDataPoint: true
+              },
+            },
+            data: [{
+              type: "line",
+              yValueFormatString: "",
+              color: "blue",
+              dataPoints : price.map(price => ({
+                x: new Date(price.date),
+                y: Number(price.volume)
+              }))
+            }],
+            
+          }
+          /*{
             theme: "light1",
             exportEnabled: true,
             animationEnabled: true,
@@ -637,14 +693,14 @@ const Home = () => {
                     ]
                   }))
                 }],
-              }
+              }*/
             }
           />
           </div>
           </div>
 
           <div style={{
-            display: toggleLine,
+            display: toggleLineAndCandle,
             marginLeft: '10%',
             marginRight: '10%',
             height: '25%',
@@ -657,6 +713,8 @@ const Home = () => {
                 <Line
                   symbol={symbol}
                   time={time}
+                  displayLineChart={linehide}
+                  displayCandleStickChart={candlehide}
                 />
           ))}
 
@@ -704,11 +762,14 @@ const Home = () => {
 
           {/* Buttons to change charts */}
           <div id='buttons'>
-          <button onClick={viewCandle}
+          <button onClick={pressCandle/*viewCandle*/}
             id="candlesticks-button">Candlestick Chart
           </button> 
-          <button onClick={viewLine}
+          <button onClick={pressLine/*viewLine*/}
             id="line-button">Line Chart
+          </button> 
+          <button onClick={pressVolume/*viewLine*/}
+            id="volumechart-button" >Volume Based Chart
           </button> 
         </div>
 
@@ -735,6 +796,7 @@ const Home = () => {
           ))}
             <h3>52 Week Low: ${yearlow}</h3>
             <h3>52 Week High: ${yearHigh}</h3>
+            {/*<h3>{test}</h3>*/}
           </div>
           <div id="metrics">
           {

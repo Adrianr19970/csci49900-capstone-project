@@ -35,12 +35,15 @@ const About = () => {
   const [yearlow, setYearLow] = useState();
   const [yearHigh, setYearHigh] = useState();
 
-  const [toggleLine, setLine] = useState("block");
-  const [toggleCandle, setCandle] = useState("none");
+  const [toggleLineAndCandle, setLineAndCandle] = useState("block");
+  const [toggleVolume, setVolume] = useState("none");
 
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
   const [hideError, setHideError] = useState("none");
+
+  const [linehide, setHideLine] = useState("line");
+  const [candlehide, setHideCandle] = useState("");
 
   /*Time Frames*/
     var moment = require('moment-business-days');
@@ -51,7 +54,7 @@ const About = () => {
 
     /* ----------Dates Calculation---------- */
     const today = new Date(), // New todays date.
-    time_now = today.getHours(); // Gets current hour.
+    time_now = today.getHours() + ':' + today.getMinutes(); // Gets current hour.
 
     var todayDate = new Date() // Sets a new variable to get todays date.
     todayDate.setDate(todayDate.getDate()) // Gets todays date.
@@ -99,7 +102,7 @@ const About = () => {
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           i = 7;
         }
-        if (time_now < 18) {
+        if (time_now < '17:30') {
           yesterday.setDate(yesterday.getDate() - 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -109,7 +112,7 @@ const About = () => {
         }
       }
       else if (x == true && wkend == 2) {
-        if(time_now >= 18) {
+        if(time_now >= '17:30') {
           yesterday.setDate(yesterday.getDate() + 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -117,7 +120,7 @@ const About = () => {
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           i = 7;
         }
-        if (time_now < 18) {
+        if (time_now < '17:30') {
           yesterday.setDate(yesterday.getDate() /* -1 (Uncomment this after the week of Thanksgiving) */);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -127,7 +130,7 @@ const About = () => {
         }
       }
       else if (x == true && wkend == 0) {
-        if(time_now >= 18) {
+        if(time_now >= '17:30') {
           //formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           yesterday.setDate(yesterday.getDate());
           YYYY_yesterday = yesterday.getFullYear();
@@ -150,7 +153,7 @@ const About = () => {
           }
           i = 7;
         }
-        if (time_now < 18) {
+        if (time_now < '17:30') {
             var monCheck = yesterday;
             monCheck.setDate(monCheck.getDate());
             var YYYY_monCheck = monCheck.getFullYear();
@@ -223,14 +226,34 @@ const About = () => {
     setStock(event.target.value.toUpperCase());
   } 
 
-  let viewCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
-    setLine("none");
-    setCandle("block");
+  let viewVolumeChart = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
+    setVolume("block");
+    setLineAndCandle("none");
+    //setLine("none");
+    //setCandle("block");
   }
 
-  let viewLine = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
-    setLine("block");
-    setCandle("none");
+  let viewLineAndCandleChart = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
+    setLineAndCandle("block");
+    setVolume("none");
+    //setLine("block");
+    //setCandle("none");
+  }
+
+  let pressCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
+    setHideLine("");
+    setHideCandle("candlestick");
+    viewLineAndCandleChart();
+  }
+
+  let pressLine = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
+    setHideCandle("");
+    setHideLine("line");
+    viewLineAndCandleChart();
+  }
+
+  let pressVolume = () => {
+    viewVolumeChart();
   }
 
   let viewAbout = () => { // If the user inputs a stock name, the About Us section will be hidden to focus on the stock.
@@ -475,7 +498,7 @@ const About = () => {
         </div>
 
         <div style={{
-            display: toggleCandle,
+            display: toggleVolume,
             marginLeft: '10%',
             marginRight: '10%',
             height: '25%',
@@ -486,64 +509,37 @@ const About = () => {
         {/* Candlestick Chart */}
         <CanvasJSChart
           options = { {
-            theme: "light1",
             exportEnabled: true,
             animationEnabled: true,
             height: 450,
             axisY: {
-              minimum: Math.min(...price.map(data => data.low)) / 1.1,
-              maximum: Math.max(...price.map(data => data.high)) * 1.1,
+              title: "",
+              prefix: ""
+            },
+            axisY: {
+              minimum: Math.min(...price.map(data => data.volume)) / 1.1,
+              maximum: Math.max(...price.map(data => data.volume)) * 1.1,
               crosshair: {
                 enabled: true,
                 snapToDataPoint: true
               },
-              prefix: "$",
+              prefix: "",
             },
             axisX: {
               crosshair: {
                 enabled: true,
                 snapToDataPoint: true
               },
-              scaleBreaks: {
-                spacing: 0,
-                fillOpacity: 0,
-                lineThickness: 0,
-                customBreaks: price.reduce((breaks, value, index, array) => {
-                    if (index === 0) return breaks;
-
-                    const currentDataPointUnix = Number(new Date(value.date));
-                    const previousDataPointUnix = Number(new Date(array[index - 1].date));
-
-                    const oneDayInMs = 86400000;
-
-                    const difference = previousDataPointUnix - currentDataPointUnix;
-
-                    return difference === oneDayInMs
-                        ? breaks
-                        : [
-                            ...breaks,
-                            {
-                                startValue: currentDataPointUnix,
-                                endValue: previousDataPointUnix - oneDayInMs
-                            }
-                        ]
-                  }, [])
-                }
-              },
-                data: [{
-                  type: 'candlestick',
-                  risingColor: "green",
-                  fallingColor: "#E40A0A",
-                  dataPoints: price.map(price => ({
-                      x: new Date(price.date),
-                      y: [
-                        price.open,
-                        price.high,
-                        price.low,
-                        price.close
-                    ]
-                  }))
-                }],
+            },
+            data: [{
+              type: "line",
+              yValueFormatString: "",
+              color: "blue",
+              dataPoints : price.map(price => ({
+                x: new Date(price.date),
+                y: Number(price.volume)
+              }))
+            }],
           
               }
             }
@@ -551,7 +547,7 @@ const About = () => {
           </div>
 
           <div style={{
-            display: toggleLine,
+            display: toggleLineAndCandle,
             marginLeft: '10%',
             marginRight: '10%',
             height: '25%',
@@ -564,17 +560,22 @@ const About = () => {
                 <Line
                   symbol={symbol}
                   time={time}
+                  displayLineChart={linehide}
+                  displayCandleStickChart={candlehide}
                 />
           ))}
           </div>
 
           {/* Buttons to change charts */}
           <div id='buttons'>
-          <button onClick={viewCandle}
+          <button onClick={pressCandle/*viewCandle*/}
             id="candlesticks-button">Candlestick Chart
           </button> 
-          <button onClick={viewLine}
+          <button onClick={pressLine/*viewLine*/}
             id="line-button">Line Chart
+          </button> 
+          <button onClick={pressVolume/*viewLine*/}
+            id="volumechart-button" >Volume Based Chart
           </button> 
         </div>
 
