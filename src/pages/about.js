@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Whirligig from 'react-whirligig'
 import background from './Sky.jpg';
 import { Nav, NavLink, NavMenu} from '../components/Navbar/NavbarElements';
@@ -44,6 +44,8 @@ const About = () => {
 
   const [linehide, setHideLine] = useState("line");
   const [candlehide, setHideCandle] = useState("");
+
+  const [fixClick, setFixClick] = useState("")
 
   /*Time Frames*/
     var moment = require('moment-business-days');
@@ -368,6 +370,7 @@ const About = () => {
     setTime(formated_monthAgo); 
     /*Format YYYY-MM-DD*/
     updateChart();
+    setFixClick("1")
   }
 
   // When user clicks the 3 month button, this calculates 3 months worth of chart data.
@@ -378,6 +381,7 @@ const About = () => {
     setTime(formated_threeMonthsAgo); 
     /*Format YYYY-MM-DD*/
     updateChart();
+    setFixClick("3")
   }
 
   // When user clicks the 6 month button, this calculates 6 months worth of chart data.
@@ -388,6 +392,7 @@ const About = () => {
     setTime(formated_sixMonthsAgo); 
     /*Format YYYY-MM-DD*/
     updateChart();
+    setFixClick("6")
   }
 
    // When user clicks the 1 year button, this calculates 1 year worth of chart data.
@@ -398,12 +403,19 @@ const About = () => {
     setTime(formated_yearAgo); 
     /*Format YYYY-MM-DD*/
     updateChart();
+    setFixClick("12")
   }
 
   // Initalizes the buttons for the news carusel.
   let whirligig
   const next = () => whirligig.next()
   const prev = () => whirligig.prev()
+
+  // Fix to the double click issue. 
+  useEffect(() => {
+    getArticles();
+  },
+  [fixClick]);
 
   return (
   <div id = "content">
