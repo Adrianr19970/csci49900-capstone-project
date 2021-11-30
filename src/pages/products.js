@@ -682,7 +682,7 @@ const Home = () => {
       display: show_List,
     }}>
       <div id='products-title'>
-        <h1> Products </h1> <p id = 'button_message'>*Double click on the button to show the product properly.*</p>
+        <h1> Products </h1> 
       </div>
 
       <Form inline id="productSearchBar">
