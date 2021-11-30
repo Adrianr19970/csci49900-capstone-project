@@ -152,37 +152,39 @@ const Home = () => {
           i = 7;
         }
         if (time_now < '17:30') {
-            var monCheck = yesterday;
-            monCheck.setDate(monCheck.getDate());
-            var YYYY_monCheck = monCheck.getFullYear();
-            var mm_monCheck = String(monCheck.getMonth() + 1). padStart(2, '0')
-            var dd_monCheck = String(monCheck.getDate()).padStart(2, '0')
-            var formated_monCheck = YYYY_monCheck + '-' + mm_monCheck + '-' + dd_monCheck
-            mon = moment(formated_monCheck, 'YYYY-MM-DD').isBusinessDay();
-          if(mon = false) {
-            yesterday.setDate(yesterday.getDate() - 4);
-            YYYY_yesterday = yesterday.getFullYear();
-            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            i = 7;
-          }
-          else {
+          var monCheck = yesterday;
+          monCheck.setDate(monCheck.getDate());
+          var YYYY_monCheck = monCheck.getFullYear();
+          var mm_monCheck = String(monCheck.getMonth() + 1). padStart(2, '0')
+          var dd_monCheck = String(monCheck.getDate()).padStart(2, '0')
+          var formated_monCheck = YYYY_monCheck + '-' + mm_monCheck + '-' + dd_monCheck
+          mon = moment(formated_monCheck, 'YYYY-MM-DD').isBusinessDay();
+        if(mon = false) {
+          yesterday.setDate(yesterday.getDate() - 4);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+        }
+        else {
+          yesterday.setDate(yesterday.getDate() /*- 1*/);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          /*
+          if(formated_yesterday == '2021-11-25' || prevStockInfo.data.data.length == 0) {
             yesterday.setDate(yesterday.getDate() - 1);
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            i = 7;
-            if(formated_yesterday == '2021-11-25' || prevStockInfo.data.data.length == 0) {
-              yesterday.setDate(yesterday.getDate() - 1);
-              YYYY_yesterday = yesterday.getFullYear();
-              mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-              dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-              formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            }
-            //console.log(formated_yesterday)
           }
+          */
+          //console.log(formated_yesterday)
+        }
         }
       }
     }
