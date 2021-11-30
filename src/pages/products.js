@@ -78,7 +78,7 @@ const Home = () => {
     // Checks for the amount if business days over the past 7 days.
     // This updates the previous busniess day and it's metrics that are requested from the backend.
     for (let i = 0; i < 7; i++) {
-      if (x == false) // If wkend if more than 3, then it calculates dates as normal an extended weekend.
+      if (x == false) // Increases the counter of non-business days by one
       {
         wkend = wkend + 1;
         yesterday.setDate(yesterday.getDate() - time_regulator);
@@ -88,10 +88,10 @@ const Home = () => {
         formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
         x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
       }
-      else if (x == true && wkend > 2)
+      else if (x == true && wkend > 2) // If wkend if more than 3, then it calculates dates as normal an extended weekend.
       {
         // Since the stock market has after-hours, metrics will update at 6pm.
-        if(time_now >= '17:30') {
+        if(time_now >= '17:30') { 
           yesterday.setDate(yesterday.getDate() + 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
@@ -111,7 +111,7 @@ const Home = () => {
       }
       else if (x == true && wkend == 2) { // If wkend is 2, then it calculates dates as normal weekend.
         if(time_now >= '17:30') {
-          yesterday.setDate(yesterday.getDate() + 1);
+          yesterday.setDate(yesterday.getDate());
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
@@ -119,7 +119,7 @@ const Home = () => {
           i = 7;
         }
         if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate()  -1 /* (Uncomment this after the week of Thanksgiving) */);
+          yesterday.setDate(yesterday.getDate() - 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
@@ -165,7 +165,6 @@ const Home = () => {
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            console.log(formated_yesterday);
             i = 7;
           }
           else {
@@ -174,8 +173,15 @@ const Home = () => {
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            console.log(formated_yesterday);
             i = 7;
+            if(formated_yesterday == '2021-11-25' || prevStockInfo.data.data.length == 0) {
+              yesterday.setDate(yesterday.getDate() - 1);
+              YYYY_yesterday = yesterday.getFullYear();
+              mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+              dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+              formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            }
+            //console.log(formated_yesterday)
           }
         }
       }
@@ -380,7 +386,6 @@ const Home = () => {
     console.log("Months ago's date: " + formated_monthAgo)
     setTime(formated_monthAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("1")
   }
 
@@ -391,7 +396,6 @@ const Home = () => {
     console.log("Three months ago's date: " + formated_threeMonthsAgo)
     setTime(formated_threeMonthsAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("3")
   }
 
@@ -402,7 +406,6 @@ const Home = () => {
     console.log("Six months ago's date: " + formated_sixMonthsAgo)
     setTime(formated_sixMonthsAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("6")
   }
 
@@ -413,7 +416,6 @@ const Home = () => {
     console.log("Year ago's date: " + formated_yearAgo)
     setTime(formated_yearAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("12")
   }
 

@@ -431,7 +431,6 @@ const Home = () => {
     console.log("Months ago's date: " + formated_monthAgo)
     setTime(formated_monthAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("1")
   }
 
@@ -442,7 +441,6 @@ const Home = () => {
     console.log("Three months ago's date: " + formated_threeMonthsAgo)
     setTime(formated_threeMonthsAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("3")
   }
 
@@ -453,7 +451,6 @@ const Home = () => {
     console.log("Six months ago's date: " + formated_sixMonthsAgo)
     setTime(formated_sixMonthsAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("6")
   }
 
@@ -464,7 +461,6 @@ const Home = () => {
     console.log("Year ago's date: " + formated_yearAgo)
     setTime(formated_yearAgo); 
     /*Format YYYY-MM-DD*/
-    updateChart();
     setFixClick("12")
   }
 
@@ -475,7 +471,7 @@ const Home = () => {
 
     // Fix to the double click issue. 
     useEffect(() => {
-      getArticles();
+      getchartInfo();
     },
     [fixClick]);
 
