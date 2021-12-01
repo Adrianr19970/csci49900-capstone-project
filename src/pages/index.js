@@ -595,7 +595,6 @@ const Home = () => {
           <button onClick={oneYear}>
             1 Year
           </button>
-          <p id = 'button_message'>*Double click on the button to update the chart properly.*</p>
         </div>
 
         <div style={{
