@@ -26,6 +26,8 @@ const Home = () => {
   const [articles, setArticles] = useState([]);
   const [stock, setStock] = useState("TSLA");
 
+  const [testData, setTestData] = useState([]);
+
   const [yearlow, setYearLow] = useState();
   const [yearHigh, setYearHigh] = useState();
 
@@ -52,8 +54,10 @@ const Home = () => {
 
     /* ----------Dates Calculation---------- */
     const today = new Date(), // New todays date.
+
     time_now = today.getHours() + ':' + today.getMinutes(); // Gets current hour.
-    //var test = today.getHours() + ':' + today.getMinutes();
+    var hour_now = Number(today.getHours());
+    var min_now = Number(today.getMinutes());
 
     var todayDate = new Date() // Sets a new variable to get todays date.
     todayDate.setDate(todayDate.getDate()) // Gets todays date.
@@ -92,220 +96,206 @@ const Home = () => {
         x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
       }
       if (x == true && dayName == "Monday") {
-        if (time_now >= '17:30') {
-          yesterday.setDate(yesterday.getDate() - 3);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = "It's 6pm or past 6pm"
-        }
-        if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate() - 4);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = formated_yesterday
-        }
-      }
-      if (x == true && dayName == "Tuesday") {
-        if (time_now >= '17:30') {
-          yesterday.setDate(yesterday.getDate());
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = "It's 6pm or past 6pm"
-        }
-        if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate() - 1);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = formated_yesterday
-        }
-      }
-      if (x == true && dayName == "Wendesday") {
-        if (time_now >= '17:30') {
-          yesterday.setDate(yesterday.getDate());
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = "It's 6pm or past 6pm"
-        }
-        if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate() - 1);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = formated_yesterday
-        }
-      }
-      if (x == true && dayName == "Thursday") {
-        if (time_now >= '17:30') {
-          yesterday.setDate(yesterday.getDate());
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = "It's 6pm or past 6pm"
-        }
-        if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate() - 1);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = formated_yesterday
-        }
-      }
-      if (x == true && dayName == "Friday") {
-        if (time_now >= '17:30') {
-          yesterday.setDate(yesterday.getDate());
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = "It's 6pm or past 6pm"
-        }
-        if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate() - 1);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-          test = formated_yesterday
-        }
-      }
-    }
-
-    /*
-    for (let i = 0; i < 7; i++) {
-      if (x == false) // Increases the counter of non-business days by one
-      {
-        wkend = wkend + 1;
-        yesterday.setDate(yesterday.getDate() - time_regulator);
-        YYYY_yesterday = yesterday.getFullYear();
-        mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-        dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-        formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-        x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
-      }
-      else if (x == true && wkend > 2) // If wkend if more than 3, then it calculates dates as normal an extended weekend.
-      {
-        // Since the stock market has after-hours, metrics will update at 6pm.
-        if(time_now >= '17:30') { 
-          yesterday.setDate(yesterday.getDate() + 1);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-        }
-        // If it's prior to 6pm, then the metrics will stay the same as the previous day until 6pm when the market closes.
-        if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate() - 1);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-        }
-      }
-      else if (x == true && wkend == 2) { // If wkend is 2, then it calculates dates as normal weekend.
-        if(time_now >= '17:30') {
-          yesterday.setDate(yesterday.getDate());
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-        }
-        if (time_now < '17:30') {
-          yesterday.setDate(yesterday.getDate() - 1);
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          i = 7;
-        }
-      }
-      else if (x == true && wkend == 0) {
-        if(time_now >= '17:30') {
-          //formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          yesterday.setDate(yesterday.getDate());
-          YYYY_yesterday = yesterday.getFullYear();
-          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday          
-          if(formated_yesterday == '2021-11-25') {
-            yesterday.setDate(yesterday.getDate() - 1);
+        if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
+          if (min_now >= 30) {
+            yesterday.setDate(yesterday.getDate() - 3);
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Tuesday 5:30pm or past 5:30pm"
           }
           else {
-            yesterday.setDate(yesterday.getDate()); 
-            YYYY_yesterday = yesterday.getFullYear();
-            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-          }
-          i = 7;
-        }
-        if (time_now < '17:30') {
-            var monCheck = yesterday;
-            monCheck.setDate(monCheck.getDate());
-            var YYYY_monCheck = monCheck.getFullYear();
-            var mm_monCheck = String(monCheck.getMonth() + 1). padStart(2, '0')
-            var dd_monCheck = String(monCheck.getDate()).padStart(2, '0')
-            var formated_monCheck = YYYY_monCheck + '-' + mm_monCheck + '-' + dd_monCheck
-            mon = moment(formated_monCheck, 'YYYY-MM-DD').isBusinessDay();
-          if(mon = false) {
             yesterday.setDate(yesterday.getDate() - 4);
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
             i = 7;
+            test = "It's Tuesday before 5:30pm"
           }
-          else {
-            yesterday.setDate(yesterday.getDate() );
+        }
+        else if (hour_now > 17) {
+          yesterday.setDate(yesterday.getDate());
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Tuesday past 6pm"
+        }
+        else if (hour_now < 17 /*&& min_now < 30 time_now < '17:30'*/) {
+          yesterday.setDate(yesterday.getDate() - 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Tuesday before 5:30pm"
+        }
+      }
+      if (x == true && dayName == "Tuesday") {
+        if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
+          if (min_now >= 30) {
+            yesterday.setDate(yesterday.getDate());
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
             formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
             i = 7;
-            /*
-            if(formated_yesterday == '2021-11-25' || prevStockInfo.data.data.length == 0) {
-              yesterday.setDate(yesterday.getDate() - 1);
-              YYYY_yesterday = yesterday.getFullYear();
-              mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
-              dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
-              formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-            }
-
+            test = "It's Wednesday 5:30pm or past 5:30pm"
+          }
+          else {
+            yesterday.setDate(yesterday.getDate() - 1);
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Wednesday before 5:30pm"
           }
         }
+        else if (hour_now > 17) {
+          yesterday.setDate(yesterday.getDate());
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Wednesday past 6pm"
+        }
+        else if (hour_now < 17 /*&& min_now < 30 time_now < '17:30'*/) {
+          yesterday.setDate(yesterday.getDate() - 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Wednesday before 5:30pm"
+        }
       }
-    }
-    // console.log("Previous Business Day date: " + formated_yesterday)
-    */
+      if (x == true && dayName == "Wednesday") {
+        if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
+          if (min_now >= 30) {
+            yesterday.setDate(yesterday.getDate());
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Thursday 5:30pm or past 5:30pm"
+          }
+          else {
+            yesterday.setDate(yesterday.getDate() - 1);
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Thursday before 5:30pm"
+          }
+        }
+        else if (hour_now > 17) {
+          yesterday.setDate(yesterday.getDate());
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Thursday past 6pm"
+        }
+        else if (hour_now < 17 /*&& min_now < 30 time_now < '17:30'*/) {
+          yesterday.setDate(yesterday.getDate() - 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Thursday before 5:30pm"
+        }
+      }
+      if (x == true && dayName == "Thursday") {
+        if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
+          if (min_now >= 30) {
+            yesterday.setDate(yesterday.getDate());
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Friday 5:30pm or past 5:30pm"
+          }
+          else {
+            yesterday.setDate(yesterday.getDate() - 1);
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Friday before 5:30pm"
+          }
+        }
+        else if (hour_now > 17) {
+          yesterday.setDate(yesterday.getDate());
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Friday past 6pm"
+        }
+        else if (hour_now < 17 /*&& min_now < 30 time_now < '17:30'*/) {
+          yesterday.setDate(yesterday.getDate() - 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Friday before 5:30pm"
+        }
+      }
+      if (x == true && dayName == "Friday") {
+        if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
+          if (min_now >= 30) {
+            yesterday.setDate(yesterday.getDate());
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Monday 5:30pm or past 5:30pm"
+          }
+          else {
+            yesterday.setDate(yesterday.getDate() - 1);
+            YYYY_yesterday = yesterday.getFullYear();
+            mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+            dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+            formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+            i = 7;
+            test = "It's Monday before 5:30pm"
+          }
+        }
+        else if (hour_now > 17) {
+          yesterday.setDate(yesterday.getDate());
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Monday past 6pm"
+        }
+        else if (hour_now < 17 /*&& min_now < 30 time_now < '17:30'*/) {
+          yesterday.setDate(yesterday.getDate() - 1);
+          YYYY_yesterday = yesterday.getFullYear();
+          mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+          dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+          formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+          i = 7;
+          test = "It's Monday before 5:30pm"
+        }
+      }
+    } 
 
     var monthAgo = new Date();
     monthAgo.setMonth(monthAgo.getMonth() - 1)
@@ -351,15 +341,11 @@ const Home = () => {
   let viewVolumeChart = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
     setVolume("block");
     setLineAndCandle("none");
-    //setLine("none");
-    //setCandle("block");
   }
 
   let viewLineAndCandleChart = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
     setLineAndCandle("block");
     setVolume("none");
-    //setLine("block");
-    //setCandle("none");
   }
 
   let pressCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
@@ -405,8 +391,9 @@ const Home = () => {
 
   // Used to get inital data for the stock Tesla when the page is loaded.
   useEffect(() => {
+
     setCurrent(stock);
-    const getArticles = async () => {
+    const getArticles2 = async () => {
       const res = await axios.get(
         'https://stocknewsapi.com/api/v1?tickers=TSLA&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'
       );
@@ -414,12 +401,12 @@ const Home = () => {
       console.log("Getting News Articles");
       console.log(res);
       getStockInfo();
-      getchartInfo();
+      //getchartInfo();
       setStockName(stock);
       oneYearHighAndLow();
     };
-    getArticles();
-    
+    getArticles2();
+
   },
   [null]);
 
@@ -487,6 +474,53 @@ const Home = () => {
     setYearHigh(temp2);
   }
 
+  // Work in Progress
+  const MLForecast = async () => {
+    const forecast = await axios.get (
+      'https://doraboots99.herokuapp.com/tbapp/?stock=' + stock, { mode: "no-cors",  }
+    );
+    var temp = [];
+    var temp2;
+    var temp3;
+    var x1;
+    var x2;
+    var y1;
+    var y2;
+    
+    temp = forecast.data;
+    //console.log(temp);
+
+    for (let i = temp.length; i > 0; i--) {
+      if (temp[i] == '[') {
+        temp2 = temp.slice(i + 1, temp.length);
+        i = 0;
+        for (let j = temp2.length; j > 0; j--) {
+          if (temp2[j] == ']') {
+            temp2 = temp2.slice(i, temp2.length - 1);
+            j = 0;
+          }
+        }
+      }
+    }  
+
+    //setTestData(temp2);
+    console.log(temp2);
+
+    /*
+    for (let i = temp2.length; i > 0; i--) {
+      if (temp2[i] == '(') {
+        temp3 = temp2.slice(i + 1, temp2.length);
+        i = 0;
+      }
+    }
+
+    //setTestData(temp3);
+    console.log(temp3);
+    */
+
+    //setTestData(forecast);
+  }
+
   // If the user wants to see general news, they can press this button to make it appear.
   const back2Home = () => {
     setHidden("block");
@@ -513,7 +547,7 @@ const Home = () => {
     console.log("Months ago's date: " + formated_monthAgo)
     setTime(formated_monthAgo); 
     /*Format YYYY-MM-DD*/
-    setFixClick("1")
+    setFixClick("1");
   }
 
   // When user clicks the 3 month button, this calculates 3 months worth of chart data.
@@ -537,7 +571,7 @@ const Home = () => {
   }
 
   // When user clicks the 1 year button, this calculates 1 year worth of chart data.
-  const oneYear = (e) => {
+  const oneYear = () => {
     console.log("1 Year called");
     console.log("Today's date: " + formated_today)
     console.log("Year ago's date: " + formated_yearAgo)
@@ -885,7 +919,6 @@ const Home = () => {
             yearHigh={yearHigh}
           />
           ))}
-            {/*<h3>{test}</h3>*/}
           </div>
           <div id="metrics">
           {
@@ -899,10 +932,14 @@ const Home = () => {
             formated_yesterday={formated_yesterday}
           />
           ))}
-            {/* 
+          { /*
             <h3>{dayName}</h3>
-            <h3>{test}</h3> 
-            */}
+            <h3>{time_now}</h3>
+            <h3>{test}</h3>
+            <h3>{hour_now} {min_now}</h3>
+            <h3>{testData}</h3>
+            */
+          }
           </div>
         </div>
 

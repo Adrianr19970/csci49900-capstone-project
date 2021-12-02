@@ -8,7 +8,6 @@ import {Link} from 'react-router-dom';
 import Home from './pages'
 import Products from './pages/products';
 import About from './pages/about';
-import ProductX from './pages/productX';
 import {Redirect} from 'react-router-dom';
 import background from './pages/Sky.jpg';
 
@@ -53,8 +52,6 @@ const hideLandPage = () => {
           <Redirect from='/index' to='/index'/>
           <Route path='/products' exact component={Products} />
           <Redirect from='/products' to='/products'/>
-          <Route path='/productX' exact component={ProductX} />
-          <Redirect from='/productX' to='/products' exact component={Products}/>
           <Route path='/about' exact component={About} />
           <Redirect from='/about' to='/about'/>
         </Switch>

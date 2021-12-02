@@ -181,6 +181,28 @@
     color: #0000FF;;
     -webkit-text-stroke: 1px black;
   }
+
+  .product-slider {
+    max-width: 95%;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-bottom: 1%;
+  }
+
+  .product-slider::-webkit-scrollbar {
+    display: none;
+  }
+  
+  #images {
+    /*
+    height: 350px;
+    width: 400px;
+    */
+    height: 100%;
+    width: 95%;
+    border-style: solid;
+    border-width: 1px;
+  }
   
   #data {
     height: 15%;

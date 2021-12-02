@@ -17,7 +17,7 @@ const Footer = () => {
             style={{ 
                 backgroundImage: `url(${background})`,
                 backgroundCover: `cover`,
-                backgroundSize: '100%',
+                backgroundSize: '100% 100%',
                 backgroundPosition: 'center',
                 backgroundAttachment: 'fixed',
                 height: '100px',
