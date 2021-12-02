@@ -474,52 +474,7 @@ const Home = () => {
     setYearHigh(temp2);
   }
 
-  // Work in Progress
-  const MLForecast = async () => {
-    const forecast = await axios.get (
-      'https://doraboots99.herokuapp.com/tbapp/?stock=' + stock, { mode: "no-cors",  }
-    );
-    var temp = [];
-    var temp2;
-    var temp3;
-    var x1;
-    var x2;
-    var y1;
-    var y2;
-    
-    temp = forecast.data;
-    //console.log(temp);
-
-    for (let i = temp.length; i > 0; i--) {
-      if (temp[i] == '[') {
-        temp2 = temp.slice(i + 1, temp.length);
-        i = 0;
-        for (let j = temp2.length; j > 0; j--) {
-          if (temp2[j] == ']') {
-            temp2 = temp2.slice(i, temp2.length - 1);
-            j = 0;
-          }
-        }
-      }
-    }  
-
-    //setTestData(temp2);
-    console.log(temp2);
-
-    /*
-    for (let i = temp2.length; i > 0; i--) {
-      if (temp2[i] == '(') {
-        temp3 = temp2.slice(i + 1, temp2.length);
-        i = 0;
-      }
-    }
-
-    //setTestData(temp3);
-    console.log(temp3);
-    */
-
-    //setTestData(forecast);
-  }
+  
 
   // If the user wants to see general news, they can press this button to make it appear.
   const back2Home = () => {
