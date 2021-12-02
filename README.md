@@ -30,4 +30,5 @@ $ git add .
 $ git commit -am "make it better"  
 $ git push heroku master  
   
-Disable collect static if compilation fails
+Disable collect static if compilation fails  
+Make sure the name of your heroku app is in the 'Allowed Hosts' section in tradebreath/tradebreath1/settings.py
