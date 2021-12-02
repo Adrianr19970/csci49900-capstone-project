@@ -16,7 +16,24 @@ AVAILABLE_INTERVALS = {'Day': TimeFrame.Day,
                        'Minute': TimeFrame.Minute,
                        'Sec': TimeFrame.Sec} #Sec is no longer available
 
-
+#This function inverts stock splits
+def change(my_bars, s):
+  response = requests.get("https://financialmodelingprep.com/api/v3/stock_split_calendar?from=2020-12-01&to=2021-12-01&apikey=60a8602443e6b0e10151f151fe7c3fd4")
+  stock_splits = (response.json())
+  for x in stock_splits:
+    if s == x['symbol']:
+      #print(x['symbol'])
+      #print("num", x['numerator'])
+      #print("den", x['denominator'])
+      for bar_num in range(0, len(my_bars)):
+        if str(my_bars[bar_num]['t']) < x['date']: 
+            my_bars[bar_num]['c'] = my_bars[bar_num]['c'] * (x['denominator'] / x['numerator']) 
+            my_bars[bar_num]['o'] = my_bars[bar_num]['o'] * (x['denominator'] / x['numerator'])
+            my_bars[bar_num]['l'] = my_bars[bar_num]['l'] * (x['denominator'] / x['numerator'])
+            my_bars[bar_num]['h'] = my_bars[bar_num]['h'] * (x['denominator'] / x['numerator'])
+      break
+  return my_bars
+  
 # THIS FUNCTION CALLS ALPACA API AND STOCK NEWS API
 def get_alpaca_info(stock, interval, start, end):
   if interval not in AVAILABLE_INTERVALS:
@@ -24,8 +41,10 @@ def get_alpaca_info(stock, interval, start, end):
 
   response = requests.get("https://stocknewsapi.com/api/v1?tickers=" + stock + "&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy")
   news = (response.json())
-
-  return api.get_bars(stock, AVAILABLE_INTERVALS[interval], start, end), news
+  a = api.get_bars(stock, AVAILABLE_INTERVALS[interval], start, end)._raw
+  a = change(a, stock)
+  return a, news
+  
 
 
 # THIS PARSES THE QUERY PARAMS FROM THE CLIENT.
