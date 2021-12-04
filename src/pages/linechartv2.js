@@ -2,13 +2,21 @@ import React, { useEffect, useState } from 'react';
 import { CanvasJSChart } from 'canvasjs-react-charts';
 import axios from 'axios'; 
 
-const Line = ({ symbol, time, volume, displayLineChart, displayCandleStickChart}) => {
+const Line = ({ symbol, time, volume, displayLineChart, displayCandleStickChart, displayScatterChart, displayForecastingChart, y1, y2}) => {
 
   const [price, setPrice] = useState([]);
   const [stock, setStock]= useState('');
   const [timeframe, setTime] = useState('');
   const [lineChart, setlinechart] = useState('');
   const [candlestickChart, setcandlestick] = useState('');
+  const [scatterChart, setscatter] = useState('');
+  const [forecastChart, setForecast] = useState('');
+
+  const [y1_Forecast, sety1_Forecast] = useState(0);
+  const [y2_Forecast, sety2_Forecast] = useState(0);
+  const [date1YAgo, setdate1YAgo] = useState([]);
+  const [dateRecent, setdateRecent] = useState([]);
+
   // const [volume, setVolume] = useState([])
   var vol = [];
 
@@ -23,11 +31,31 @@ const Line = ({ symbol, time, volume, displayLineChart, displayCandleStickChart}
       getchartInfo()
       setTime(time)
     }
+
     if(lineChart !== displayLineChart) {
       setlinechart(lineChart);
     }
+
     if(candlestickChart !== displayCandleStickChart) {
       setcandlestick(candlestickChart);
+    }
+
+    if(scatterChart !== displayScatterChart) {
+      setscatter(scatterChart);
+    }
+
+    if(forecastChart !== displayForecastingChart) {
+      setForecast(displayForecastingChart);
+    }
+
+    if(y1_Forecast !== y1) {
+      sety1_Forecast(y1);
+      sety2_Forecast(y2);
+    }
+
+    if(y2_Forecast !== y2) {
+      sety1_Forecast(y1);
+      sety2_Forecast(y2);
     }
   });
 
@@ -38,44 +66,19 @@ const Line = ({ symbol, time, volume, displayLineChart, displayCandleStickChart}
     console.log("LineChart called");
     console.log(stock);
     setPrice(priceAndDate.data.data);
+
+    setdate1YAgo(priceAndDate.data.data[priceAndDate.data.data.length - 1].date);
+    setdateRecent(priceAndDate.data.data[0].date);
+
+    //console.log(priceAndDate.data.data[priceAndDate.data.data.length - 1].date);
+    //console.log(priceAndDate.data.data[0].date);
+    
   }
 
   return ( 
       <div>
           <CanvasJSChart id='line'
-            options = { /*{
-              exportEnabled: true,
-              animationEnabled: true,
-              height: 450,
-              axisY: {
-                title: "USD",
-                prefix: "$"
-              },
-              axisY: {
-                minimum: Math.min(...price.map(data => data.low)) / 1.1,
-                maximum: Math.max(...price.map(data => data.high)) * 1.1,
-                crosshair: {
-                  enabled: true,
-                  snapToDataPoint: true
-                },
-                prefix: "$",
-              },
-              axisX: {
-                crosshair: {
-                  enabled: true,
-                  snapToDataPoint: true
-                },
-              },
-              data: [{
-                type: "line",
-                yValueFormatString: "$#,###.##",
-                dataPoints : price.map(price => ({
-                  x: new Date(price.date),
-                  y: Number(price.close)
-                }))
-              }],
-              
-            }*/
+            options = {
             {
               theme: "light1",
               exportEnabled: true,
@@ -145,10 +148,30 @@ const Line = ({ symbol, time, volume, displayLineChart, displayCandleStickChart}
                 x: new Date(price.date),
                 y: Number(price.close)
                 }))
+              },
+              {
+                type: displayScatterChart, //"line",
+                yValueFormatString: "$#,###.##",
+                fillOpacity: .3,
+                color: "blue",
+                dataPoints : price.map(price => ({
+                x: new Date(price.date),
+                y: Number(price.close)
+                }))
+              },
+              {
+                type: forecastChart, //"line",
+                yValueFormatString: "$#,###.##",
+                fillOpacity: .3,
+                color: "red",
+                dataPoints : [
+                  {x: new Date(date1YAgo), y: y1},
+                  {x: new Date(dateRecent), y: y2}
+                ]
               }
+                
               ]
             }
-
           }
           />
       </div> 

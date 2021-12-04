@@ -23,6 +23,9 @@ const Home = () => {
   const [prevStockInfo, setPrevInfo] = useState([]);
   const [stock, setStock]= useState("");
 
+  const [y1, sety1] = useState();
+  const [y2, sety2] = useState();
+
   const [yearlow, setYearLow] = useState();
   const [yearHigh, setYearHigh] = useState();
 
@@ -37,6 +40,8 @@ const Home = () => {
 
   const [linehide, setHideLine] = useState("line");
   const [candlehide, setHideCandle] = useState("");
+  const [scatterhide, setScatter] = useState("");
+  const [forecasthide, setForecast] = useState("");
 
   const [fixClick, setFixClick] = useState("")
 
@@ -71,6 +76,7 @@ const Home = () => {
     var dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
     var formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
     var dayName = yesterday.toLocaleString("default", { weekday: "long" });
+    var todaydayName = todayDate.toLocaleString("default", { weekday: "long" });
     // console.log("Yesterday's date: " + formated_yesterday)
 
     var x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay()
@@ -82,9 +88,18 @@ const Home = () => {
     // Checks for the amount if business days over the past 7 days.
     // This updates the previous busniess day and it's metrics that are requested from the backend.
     for (let i = 0; i < 7; i++) {
-      if (x == false || dayName == "Sunday" || dayName == "Saturday") {
+      if (x == false || todaydayName == "Sunday") {
         //wkend = wkend + 1;
-        yesterday.setDate(yesterday.getDate() - time_regulator);
+        yesterday.setDate(yesterday.getDate() - 1);
+        YYYY_yesterday = yesterday.getFullYear();
+        mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
+        dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
+        formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
+        x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
+      }
+      if (x == false || todaydayName == "Saturday") {
+        //wkend = wkend + 1;
+        yesterday.setDate(yesterday.getDate() - 1);
         YYYY_yesterday = yesterday.getFullYear();
         mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
         dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
@@ -357,14 +372,28 @@ const Home = () => {
 
   let pressCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
     setHideLine("");
+    setScatter("");
+    setForecast("");
     setHideCandle("candlestick");
     viewLineAndCandleChart();
   }
 
   let pressLine = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
     setHideCandle("");
+    setScatter("");
+    setForecast("");
     setHideLine("line");
     viewLineAndCandleChart();
+  }
+
+  let pressForecast = () => {
+    oneYear();
+    setVolume("none");
+    setLineAndCandle("block");
+    setHideCandle("");
+    setHideLine("");
+    setScatter("scatter");
+    setForecast("line");
   }
 
   let pressVolume = () => {
@@ -440,6 +469,7 @@ const Home = () => {
     getchartInfo();
     setStockName(stock);
     oneYearHighAndLow();
+    MLForecast();
   };
 
   const oneYearHighAndLow = async () => {
@@ -464,6 +494,70 @@ const Home = () => {
     setYearLow(temp);
     setYearHigh(temp2);
   }
+
+    // Work in Progress
+    const MLForecast = async () => {
+      const forecast = await axios.get (
+        'https://doraboots99.herokuapp.com/tbapp/?stock=' + stock, { mode: "no-cors",  }
+      );
+      var temp = [];
+      var temp2;
+      var temp3;
+      var y1;
+      var y2;
+      
+      temp = forecast.data;
+      //console.log(temp);
+  
+      // Gets y1 and y2 for the Forecasting Chart
+      for (let i = temp.length; i > 0; i--) {
+        if (temp[i] == '[') {
+          temp2 = temp.slice(i + 1, temp.length);
+          i = 0;
+          for (let j = temp2.length; j > 0; j--) {
+            if (temp2[j] == ']') {
+              temp2 = temp2.slice(i, temp2.length - 1);
+              j = 0;
+            }
+  
+            for (let z = temp2.length; z > 0; z--) {
+              if (temp2[z] == ',') {
+                y2 = temp2.slice(z + 2, temp2.length - 1);
+                z = 0;
+              }
+            }
+  
+            for (let x = temp2.length; x > 0; x--) {
+              if (temp2[x] == '(') {
+                temp3 = temp2.slice(0 , x - 2)
+                x = 0;
+              }
+            }
+  
+            for (let y = temp3.length; y > 0; y--) {
+              if (temp3[y] == ',') {
+                y1 = temp3.slice(y + 2, temp3.length - 1);
+                y = 0;
+              }
+            }
+  
+          }
+        }
+      }  
+  
+      y2 = Number(y2);
+      y2 = Math.round((y2 + Number.EPSILON) * 100) / 100;
+  
+      //console.log('y2 = ' + y2);
+  
+      y1 = Number(y1);
+      y1 = Math.round((y1 + Number.EPSILON) * 100) / 100;
+  
+      //console.log('y1 = ' + y1);
+  
+      sety1(y1);
+      sety2(y2);
+    }
   
   // When the user clicks enter on the search bar, the check function is called to verify the stock code.
   const enterKey = (e) => {
@@ -690,6 +784,10 @@ const Home = () => {
                   time={time}
                   displayLineChart={linehide}
                   displayCandleStickChart={candlehide}
+                  displayScatterChart={scatterhide}
+                  displayForecastingChart={forecasthide}
+                  y1={y1}
+                  y2={y2}
                 />
           ))}
           </div>
@@ -705,6 +803,10 @@ const Home = () => {
           <button onClick={pressVolume/*viewLine*/}
             id="volumechart-button" >Volume Based Chart
           </button> 
+          <button onClick={pressForecast}
+            id="forecasting-button">
+            Stock Forecasting
+          </button>
         </div>
 
         <br></br>
