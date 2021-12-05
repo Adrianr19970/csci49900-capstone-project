@@ -94,16 +94,16 @@ const About = () => {
     // Checks for the amount if business days over the past 7 days.
     // This updates the previous busniess day and it's metrics that are requested from the backend.
     for (let i = 0; i < 7; i++) {
-      if (x == false || todaydayName == "Sunday") {
+      if (x == false && todaydayName == "Sunday") {
         //wkend = wkend + 1;
-        yesterday.setDate(yesterday.getDate() - 1);
+        yesterday.setDate(yesterday.getDate() - 2);
         YYYY_yesterday = yesterday.getFullYear();
         mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
         dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
         formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
         x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
       }
-      if (x == false || todaydayName == "Saturday") {
+      if (x == false && todaydayName == "Saturday") {
         //wkend = wkend + 1;
         yesterday.setDate(yesterday.getDate() - 1);
         YYYY_yesterday = yesterday.getFullYear();
