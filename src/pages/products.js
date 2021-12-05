@@ -12,7 +12,9 @@ import PreviousStockInfo from './previousStockInfo';
 import axios, { Axios } from 'axios';
 import './products.css';
 
-  
+import Papa from 'papaparse'
+import stockSymbolsCSV from './stock_symbols.csv'
+
 const Home = () => {
   // States that will be changed as the website is used. 
   const [stockName, setStockName] = useState("");
@@ -630,6 +632,19 @@ const Home = () => {
   },
   [stockName, fixClick]);
 
+/* ---------------------------------------------------------------------------------------- */
+var data
+
+// Reading all stock symbols from csv file into array. 
+Papa.parse(stockSymbolsCSV, {
+  download: true,
+  complete: function (results) {
+    console.log(results)
+    data = results.data
+  }
+});
+/* ---------------------------------------------------------------------------------------- */
+
   return (
     <div id='products'>
       
@@ -903,6 +918,12 @@ const Home = () => {
         </Button>   
       </Form>
         
+      {/* ----------------------------------------------------------------------------------------------- */}
+
+
+      
+      {/* ----------------------------------------------------------------------------------------------- */}
+
         <ul className='product-List'> 
           <li><button onClick={() => clickedStock("AAPL")}><p>Apple</p></button></li>
           <li><button onClick={() => clickedStock("AMZN")}><p>Amazon</p></button></li>
