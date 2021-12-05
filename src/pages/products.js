@@ -32,6 +32,7 @@ const Home = () => {
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
   const [hideError, setHideError] = useState("none");
+  const [hideTimeFrames, setHideTimeFrames] = useState("block");
 
   const [show_List, set_show_List] = useState("block");
 
@@ -363,6 +364,7 @@ const Home = () => {
   let viewVolumeChart = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
     setVolume("block");
     setLineAndCandle("none");
+    setHideTimeFrames("block");
   }
 
   let viewLineAndCandleChart = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
@@ -375,6 +377,7 @@ const Home = () => {
     setScatter("");
     setForecast("");
     setHideCandle("candlestick");
+    setHideTimeFrames("block");
     viewLineAndCandleChart();
   }
 
@@ -383,11 +386,13 @@ const Home = () => {
     setScatter("");
     setForecast("");
     setHideLine("line");
+    setHideTimeFrames("block");
     viewLineAndCandleChart();
   }
 
   let pressForecast = () => {
     oneYear();
+    setHideTimeFrames("none");
     setVolume("none");
     setLineAndCandle("block");
     setHideCandle("");
@@ -705,7 +710,9 @@ const Home = () => {
         }}> 
           {stockName} 
         </h1>
-        <div id='time-Frames'> {/* Time frame buttons to view stock data */}
+        <div id='time-Frames'style ={{
+          display: hideTimeFrames
+        }}> {/* Time frame buttons to view stock data */}
           <button onClick={month}>
             1 Month
           </button> 

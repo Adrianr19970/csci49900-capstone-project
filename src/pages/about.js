@@ -44,6 +44,7 @@ const About = () => {
   const [hidden, setHidden] = useState("block");
   const [show, setShowing] = useState("none");
   const [hideError, setHideError] = useState("none");
+  const [hideTimeFrames, setHideTimeFrames] = useState("block");
 
   const [linehide, setHideLine] = useState("line");
   const [candlehide, setHideCandle] = useState("");
@@ -369,6 +370,7 @@ const About = () => {
     setScatter("");
     setForecast("");
     setHideCandle("candlestick");
+    setHideTimeFrames("block");
     viewLineAndCandleChart();
   }
 
@@ -377,11 +379,13 @@ const About = () => {
     setScatter("");
     setForecast("");
     setHideLine("line");
+    setHideTimeFrames("block");
     viewLineAndCandleChart();
   }
 
   let pressForecast = () => {
     oneYear();
+    setHideTimeFrames("none");
     setVolume("none");
     setLineAndCandle("block");
     setHideCandle("");
@@ -691,7 +695,9 @@ const About = () => {
         }}> 
           {stockName} 
         </h1>
-        <div id='time-Frames'> {/* Time frame buttons to view stock data */}
+        <div id='time-Frames' style ={{
+          display: hideTimeFrames
+        }}> {/* Time frame buttons to view stock data */}
           <button onClick={month}>
             1 Month
           </button> 
