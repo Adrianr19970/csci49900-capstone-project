@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/csci49900-capstone-project/static/css/main.4d0639b4.chunk.css",
-    "main.js": "/csci49900-capstone-project/static/js/main.eece980d.chunk.js",
-    "main.js.map": "/csci49900-capstone-project/static/js/main.eece980d.chunk.js.map",
-    "runtime-main.js": "/csci49900-capstone-project/static/js/runtime-main.975faf10.js",
-    "runtime-main.js.map": "/csci49900-capstone-project/static/js/runtime-main.975faf10.js.map",
+    "main.js": "/csci49900-capstone-project/static/js/main.19d5bba7.chunk.js",
+    "main.js.map": "/csci49900-capstone-project/static/js/main.19d5bba7.chunk.js.map",
+    "runtime-main.js": "/csci49900-capstone-project/static/js/runtime-main.316483ac.js",
+    "runtime-main.js.map": "/csci49900-capstone-project/static/js/runtime-main.316483ac.js.map",
     "static/css/2.d548169e.chunk.css": "/csci49900-capstone-project/static/css/2.d548169e.chunk.css",
-    "static/js/2.3deda053.chunk.js": "/csci49900-capstone-project/static/js/2.3deda053.chunk.js",
-    "static/js/2.3deda053.chunk.js.map": "/csci49900-capstone-project/static/js/2.3deda053.chunk.js.map",
-    "static/js/3.027787d9.chunk.js": "/csci49900-capstone-project/static/js/3.027787d9.chunk.js",
-    "static/js/3.027787d9.chunk.js.map": "/csci49900-capstone-project/static/js/3.027787d9.chunk.js.map",
+    "static/js/2.25dcab23.chunk.js": "/csci49900-capstone-project/static/js/2.25dcab23.chunk.js",
+    "static/js/2.25dcab23.chunk.js.map": "/csci49900-capstone-project/static/js/2.25dcab23.chunk.js.map",
+    "static/js/3.612c9a21.chunk.js": "/csci49900-capstone-project/static/js/3.612c9a21.chunk.js",
+    "static/js/3.612c9a21.chunk.js.map": "/csci49900-capstone-project/static/js/3.612c9a21.chunk.js.map",
     "index.html": "/csci49900-capstone-project/index.html",
     "static/css/2.d548169e.chunk.css.map": "/csci49900-capstone-project/static/css/2.d548169e.chunk.css.map",
     "static/css/main.4d0639b4.chunk.css.map": "/csci49900-capstone-project/static/css/main.4d0639b4.chunk.css.map",
-    "static/js/2.3deda053.chunk.js.LICENSE.txt": "/csci49900-capstone-project/static/js/2.3deda053.chunk.js.LICENSE.txt",
+    "static/js/2.25dcab23.chunk.js.LICENSE.txt": "/csci49900-capstone-project/static/js/2.25dcab23.chunk.js.LICENSE.txt",
     "static/media/Alex.e1a79976.png": "/csci49900-capstone-project/static/media/Alex.e1a79976.png",
     "static/media/Diego.0d97ef74.png": "/csci49900-capstone-project/static/media/Diego.0d97ef74.png",
     "static/media/Edwin.0f0733df.png": "/csci49900-capstone-project/static/media/Edwin.0f0733df.png",
@@ -21,13 +21,14 @@
     "static/media/TradeBreath.509520ba.gif": "/csci49900-capstone-project/static/media/TradeBreath.509520ba.gif",
     "static/media/dx.light.css": "/csci49900-capstone-project/static/media/dxicons.d8b3a23c.ttf",
     "static/media/hunter.f0ab26fc.png": "/csci49900-capstone-project/static/media/hunter.f0ab26fc.png",
-    "static/media/news.ae7a24fe.png": "/csci49900-capstone-project/static/media/news.ae7a24fe.png"
+    "static/media/news.ae7a24fe.png": "/csci49900-capstone-project/static/media/news.ae7a24fe.png",
+    "static/media/stock_symbols.c28a794d.csv": "/csci49900-capstone-project/static/media/stock_symbols.c28a794d.csv"
   },
   "entrypoints": [
-    "static/js/runtime-main.975faf10.js",
+    "static/js/runtime-main.316483ac.js",
     "static/css/2.d548169e.chunk.css",
-    "static/js/2.3deda053.chunk.js",
+    "static/js/2.25dcab23.chunk.js",
     "static/css/main.4d0639b4.chunk.css",
-    "static/js/main.eece980d.chunk.js"
+    "static/js/main.19d5bba7.chunk.js"
   ]
 }
