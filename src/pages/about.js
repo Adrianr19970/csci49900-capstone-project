@@ -112,6 +112,7 @@ const About = () => {
         formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
         x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
       }
+
       if (x == false && todaydayName == "Monday") {
         //wkend = wkend + 1;
         yesterday.setDate(yesterday.getDate() - 3);
@@ -160,10 +161,11 @@ const About = () => {
         }
       }
 
+      // 
       if (x == true && dayName == "Monday") {
         if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
           if (min_now >= 30) {
-            yesterday.setDate(yesterday.getDate() - 3);
+            yesterday.setDate(yesterday.getDate());
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
@@ -172,7 +174,7 @@ const About = () => {
             test = "It's Tuesday 5:30pm or past 5:30pm"
           }
           else {
-            yesterday.setDate(yesterday.getDate() - 4);
+            yesterday.setDate(yesterday.getDate() - 3);
             YYYY_yesterday = yesterday.getFullYear();
             mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
             dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
@@ -191,15 +193,16 @@ const About = () => {
           test = "It's Tuesday past 6pm"
         }
         else if (hour_now < 17 /*&& min_now < 30 time_now < '17:30'*/) {
-          yesterday.setDate(yesterday.getDate() - 1);
+          yesterday.setDate(yesterday.getDate() - 3 /*- 1*/);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           i = 7;
-          test = "It's Tuesday before 5:30pm"
+          test = "It's Tuesday before 5:30pm!"
         }
       }
+      
       if (x == true && dayName == "Tuesday") {
         if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
           if (min_now >= 30) {
