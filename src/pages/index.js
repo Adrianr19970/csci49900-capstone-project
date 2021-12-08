@@ -40,6 +40,7 @@ const Home = () => {
   const [hideButton, setHiddenButton] = useState("none");
   const [hideError, setHideError] = useState("none");
   const [hideTimeFrames, setHideTimeFrames] = useState("block");
+  const [view, setView] = useState("3 Months");
 
   const [linehide, setHideLine] = useState("line");
   const [candlehide, setHideCandle] = useState("");
@@ -649,6 +650,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Months ago's date: " + formated_monthAgo)
     setTime(formated_monthAgo); 
+    setView("1 Month");
     /*Format YYYY-MM-DD*/
     setFixClick("1");
   }
@@ -659,6 +661,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Three months ago's date: " + formated_threeMonthsAgo)
     setTime(formated_threeMonthsAgo); 
+    setView("3 Months");
     /*Format YYYY-MM-DD*/
     setFixClick("3")
   }
@@ -669,6 +672,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Six months ago's date: " + formated_sixMonthsAgo)
     setTime(formated_sixMonthsAgo); 
+    setView("6 Months");
     /*Format YYYY-MM-DD*/
     setFixClick("6")
   }
@@ -679,6 +683,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Year ago's date: " + formated_yearAgo)
     setTime(formated_yearAgo); 
+    setView("1 Year");
     /*Format YYYY-MM-DD*/
     setFixClick("12")
   }
@@ -799,7 +804,10 @@ const Home = () => {
       onClick={viewNews}>Back to News</button> {/* Button to view general news. */}
       <div id='chart-container'>
         <h1> {stockName} </h1>
-        <div id='time-Frames' style ={{
+        <h3 style = {{
+          marginLeft: '10%'
+        }} >View: {view}</h3>
+        <div id='time-Frames' style = {{
           display: hideTimeFrames
         }}> {/* Time frame buttons to view stock data */}
           <button onClick={month}>
@@ -894,13 +902,13 @@ const Home = () => {
 
           {/* Buttons to change charts */}
           <div id='buttons'>
-          <button onClick={pressCandle/*viewCandle*/}
+          <button onClick={pressCandle}
             id="candlesticks-button">Candlestick Chart
           </button> 
-          <button onClick={pressLine/*viewLine*/}
+          <button onClick={pressLine}
             id="line-button">Line Chart
           </button> 
-          <button onClick={pressVolume/*viewLine*/}
+          <button onClick={pressVolume}
             id="volumechart-button" >Volume Based Chart
           </button> 
           <button onClick={pressForecast}
@@ -945,12 +953,8 @@ const Home = () => {
           />
           ))}
           { 
-            //<h3>{dayName}</h3>
-            //<h3>{time_now}</h3>
-            <h3>{test}</h3>
-            //<h3>{hour_now} {min_now}</h3>
+            //<h3>{test}</h3>
            //<h3>{testData}</h3>
-            
           }
           </div>
         </div>

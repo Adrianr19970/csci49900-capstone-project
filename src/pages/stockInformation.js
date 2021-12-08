@@ -5,6 +5,7 @@ const StockInfo = ({close, open, high, low, volume, date, yearlow, yearHigh}) =>
         <div style = {{
             marginLeft: '1%'
         }}>
+            <h3>Latest Trading Day</h3>
             <h3>Open: ${open}</h3>
             <h3>Close: ${close}</h3>
             <h3>High: ${high}</h3>

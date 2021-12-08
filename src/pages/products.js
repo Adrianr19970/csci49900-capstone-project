@@ -35,6 +35,7 @@ const Home = () => {
   const [show, setShowing] = useState("none");
   const [hideError, setHideError] = useState("none");
   const [hideTimeFrames, setHideTimeFrames] = useState("block");
+  const [view, setView] = useState("3 Months");
 
   const [show_List, set_show_List] = useState("block");
 
@@ -637,6 +638,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Months ago's date: " + formated_monthAgo)
     setTime(formated_monthAgo); 
+    setView("1 Month");
     /*Format YYYY-MM-DD*/
     setFixClick("1")
   }
@@ -647,6 +649,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Three months ago's date: " + formated_threeMonthsAgo)
     setTime(formated_threeMonthsAgo); 
+    setView("3 Months");
     /*Format YYYY-MM-DD*/
     setFixClick("3")
   }
@@ -657,6 +660,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Six months ago's date: " + formated_sixMonthsAgo)
     setTime(formated_sixMonthsAgo); 
+    setView("6 Months");
     /*Format YYYY-MM-DD*/
     setFixClick("6")
   }
@@ -667,6 +671,7 @@ const Home = () => {
     console.log("Today's date: " + formated_today)
     console.log("Year ago's date: " + formated_yearAgo)
     setTime(formated_yearAgo); 
+    setView("1 Year");
     /*Format YYYY-MM-DD*/
     setFixClick("12")
   }
@@ -775,6 +780,9 @@ Papa.parse(stockSymbolsCSV, {
         }}> 
           {stockName} 
         </h1>
+        <h3 style = {{
+          marginLeft: '10%'
+        }} >View: {view}</h3>
         <div id='time-Frames'style ={{
           display: hideTimeFrames
         }}> {/* Time frame buttons to view stock data */}
