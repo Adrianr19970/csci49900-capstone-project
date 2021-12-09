@@ -5,7 +5,6 @@ import axios from 'axios';
 const Candle = ({ symbol, time }) => {
 
   const [price, setPrice] = useState([]);
-  /* const [date, setDate] = useState([]); */
   const [stockInfo, setStockInfo] = useState([]);
   const [articles, setArticles] = useState([]);
   const [stock, setStock]= useState('');
@@ -26,6 +25,7 @@ const Candle = ({ symbol, time }) => {
     
   });
 
+  // Getting chart information. 
   const getchartInfo = async () => {
     const priceAndDate = await axios.get (
       /*'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + symbol + '&interval=Day&start_date=2020-10-30&end_date=&latest=', { mode: "no-cors" }*/
@@ -47,6 +47,7 @@ const Candle = ({ symbol, time }) => {
             animationEnabled: true,
             height: 450,
             axisY: {
+              // Minimum and Maximum value is +- 10% to display the graph slightly bigger.
               minimum: Math.min(...price.map(data => data.low)) / 1.1,
               maximum: Math.max(...price.map(data => data.high)) * 1.1,
               crosshair: {
@@ -67,15 +68,21 @@ const Candle = ({ symbol, time }) => {
                 customBreaks: price.reduce((breaks, value, index, array) => {
                     if (index === 0) return breaks;
 
+                    // Getting time
                     const currentDataPointUnix = Number(new Date(value.date));
                     const previousDataPointUnix = Number(new Date(array[index - 1].date));
 
+                    // Converting a day to ms. 
                     const oneDayInMs = 86400000;
 
+                    // Calculating the difference. 
                     const difference = previousDataPointUnix - currentDataPointUnix;
 
                     return difference === oneDayInMs
+                    // If the difference is 1 day, scale break is not needed. 
                         ? breaks
+
+                        // If more than 1, create a new scale break. 
                         : [
                             ...breaks,
                             {

@@ -7,8 +7,9 @@ import axios from 'axios';
 const DailyArticles = () => {
 
     const [articles, setArticles] = useState([]);
-
+    
     useEffect(() => {
+      // Getting articles. 
         const getArticles = async () => {
           const res = await axios.get(
             'https://stocknewsapi.com/api/v1/category?section=general&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy'

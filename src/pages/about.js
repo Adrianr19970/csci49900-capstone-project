@@ -417,7 +417,7 @@ const About = () => {
     setVolume("none");
   }
 
-  let pressCandle = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
+  let pressCandle = () => { // If the user presses the ViewCandle button, then it will hide the other charts.
     setHideLine("");
     setScatter("");
     setForecast("");
@@ -426,7 +426,7 @@ const About = () => {
     viewLineAndCandleChart();
   }
 
-  let pressLine = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
+  let pressLine = () => { // If the user presses the Line Chart button, then the other charts will be hidden.
     setHideCandle("");
     setScatter("");
     setForecast("");
@@ -435,7 +435,7 @@ const About = () => {
     viewLineAndCandleChart();
   }
 
-  let pressForecast = () => {
+  let pressForecast = () => { // If the user presses the Forecast Chart button, other charts will be hidden along with time frame buttons.
     oneYear();
     setHideTimeFrames("none");
     setVolume("none");
@@ -446,7 +446,7 @@ const About = () => {
     setForecast("line");
   }
 
-  let pressVolume = () => {
+  let pressVolume = () => { // If the user press the Volume Chart, other charts will be hidden. 
     viewVolumeChart();
   }
 
@@ -518,6 +518,7 @@ const About = () => {
     MLForecast();
   };
   
+  // Gets one year high and low. 
   const oneYearHighAndLow = async () => {
     const HighAndLow = await axios.get (
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yearAgo + '&end_date=&latest=', { mode: "no-cors",  }
