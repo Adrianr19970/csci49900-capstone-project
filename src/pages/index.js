@@ -434,7 +434,7 @@ const Home = () => {
     viewLineAndCandleChart();
   }
 
-  let pressForecast = () => {
+  let pressForecast = () => { // If the user presses the Forecast Chart button, other charts will be hidden along with time frame buttons.
     oneYear();
     setHideTimeFrames("none");
     setVolume("none");
@@ -445,7 +445,7 @@ const Home = () => {
     setForecast("line");
   }
 
-  let pressVolume = () => {
+  let pressVolume = () => { // If the user press the Volume Chart, other charts will be hidden.
     viewVolumeChart();
   }
 
@@ -539,6 +539,7 @@ const Home = () => {
     MLForecast();
   };
 
+  // Gets one year high and low. 
   const oneYearHighAndLow = async () => {
     const HighAndLow = await axios.get (
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yearAgo + '&end_date=&latest=', { mode: "no-cors",  }
