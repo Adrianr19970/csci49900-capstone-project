@@ -36,6 +36,10 @@ const About = () => {
   const [y1, sety1] = useState();
   const [y2, sety2] = useState();
 
+  const [movement, setMovement] = useState("none");
+  const [upMovement, setUpMovement] = useState("none");
+  const [downMovement, setDownMovement] = useState("none");
+
   const [yearlow, setYearLow] = useState();
   const [yearHigh, setYearHigh] = useState();
 
@@ -411,6 +415,9 @@ const About = () => {
   let viewVolumeChart = () => { // If the user presses the ViewCandle button, then it will hide the line chart.
     setVolume("block");
     setLineAndCandle("none");
+    setHideTimeFrames("block");
+
+    setMovement("none");
   }
 
   let viewLineAndCandleChart = () => { // If the user presses the Line Chart button, then the candlestick chart will be hidden.
@@ -425,6 +432,8 @@ const About = () => {
     setHideCandle("candlestick");
     setHideTimeFrames("block");
     viewLineAndCandleChart();
+
+    setMovement("none");
   }
 
   let pressLine = () => { // If the user presses the Line Chart button, then the other charts will be hidden.
@@ -434,6 +443,8 @@ const About = () => {
     setHideLine("line");
     setHideTimeFrames("block");
     viewLineAndCandleChart();
+
+    setMovement("none");
   }
 
   let pressForecast = () => { // If the user presses the Forecast Chart button, other charts will be hidden along with time frame buttons.
@@ -445,6 +456,8 @@ const About = () => {
     setHideLine("");
     setScatter("scatter");
     setForecast("line");
+
+    setMovement("block");
   }
 
   let pressVolume = () => { // If the user press the Volume Chart, other charts will be hidden. 
@@ -507,7 +520,6 @@ const About = () => {
     );
     setPrice(priceAndDate.data.data);
     console.log("Getting Chart Data");
-    console.log(priceAndDate.data);
 
     var temp = JSON.stringify(priceAndDate.data.data);
     setData(temp);
@@ -521,7 +533,6 @@ const About = () => {
     );
     setArticles(res.data.data);
     console.log("Getting News Articles");
-    console.log(res); 
     setHidden("none");
     setShowing("block");
     getStockInfo();
@@ -536,7 +547,6 @@ const About = () => {
     const HighAndLow = await axios.get (
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yearAgo + '&end_date=&latest=', { mode: "no-cors",  }
     );
-    console.log(HighAndLow.data);
 
     var temp = HighAndLow.data.data[0].low
     var temp2 = HighAndLow.data.data[0].high
@@ -567,7 +577,6 @@ const About = () => {
       var y2;
       
       temp = forecast.data;
-      //console.log(temp);
   
       // Gets y1 and y2 for the Forecasting Chart
       for (let i = temp.length; i > 0; i--) {
@@ -617,6 +626,15 @@ const About = () => {
   
       sety1(y1);
       sety2(y2);
+
+      if(y1 < y2) {
+        setUpMovement("block");
+        setDownMovement("none");
+      }
+      if(y1 > y2) {
+        setUpMovement("none");
+        setDownMovement("block");
+      }
     }
 
   // When the user clicks enter on the search bar, the check function is called to verify the stock code.
@@ -712,7 +730,7 @@ const About = () => {
           Home
         </NavLink>
         <NavLink id="link" to='/products' activeStyle>
-          Products
+          Stocks
         </NavLink>
         <NavLink id="link" to='/about' activeStyle>
           About Us
@@ -856,6 +874,24 @@ const About = () => {
                   y2={y2}
                 />
           ))}
+          </div>
+
+          <div style={{display: movement}}>
+            <div style={{display: 'flex', marginTop: '0%'}}>
+              <h3 style={{
+              marginLeft: '10%',
+              display: upMovement
+              }}> Forecast (Based on Year Long Data): General Upward Movement <b id='movement' style={{color: 'green'}}> &uarr; </b> 
+              </h3>
+            </div>
+
+            <div style={{display: 'flex', marginTop: '0%'}}>
+              <h3 style={{
+              marginLeft: '10%',
+              display: downMovement
+              }}> Forecast (Based on Year Long Data): General Downward Movement <b id='movement' style={{color: 'red'}}> &darr; </b> 
+              </h3>
+            </div>
           </div>
 
           {/* Buttons to change charts */}

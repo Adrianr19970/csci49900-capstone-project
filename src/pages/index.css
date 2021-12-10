@@ -317,3 +317,13 @@
     border: 1px solid #000;
     font-size: 1em;
   }
+
+  #movement {
+    animation: blinker 1s linear infinite;
+  }
+
+  @keyframes blinker {
+    50% {
+      opacity: 0;
+    }
+  }
