@@ -12,9 +12,6 @@ import PreviousStockInfo from './previousStockInfo';
 import axios, { Axios } from 'axios';
 import './products.css';
 
-import Papa from 'papaparse'
-import stockSymbolsCSV from './stock_symbols.csv'
-
 const Home = () => {
   // States that will be changed as the website is used. 
   const [stockName, setStockName] = useState("");
@@ -25,6 +22,7 @@ const Home = () => {
   const [prevStockInfo, setPrevInfo] = useState([]);
   const [stock, setStock]= useState("");
 
+  const [Data, setData] = useState([]);
   const [y1, sety1] = useState();
   const [y2, sety2] = useState();
 
@@ -491,7 +489,10 @@ const Home = () => {
     );
     setStockInfo(info.data.data);
     getPrevStockInfo();
-    /*console.log(info);*/
+
+    var temp = JSON.stringify(info.data.data);
+    setData(temp);
+    setData(Data);
   };
 
   // Retireves stock metrics on the previous business day.
@@ -500,6 +501,10 @@ const Home = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yesterday + '&end_date=&latest=/' + formated_yesterday, { mode: "no-cors" }
     );
     setPrevInfo(prevInfo.data.data);
+
+    var temp = JSON.stringify(prevInfo.data.data);
+    setData(temp);
+    setData(Data);
   };
 
   // Gets stock info for the charts.
@@ -510,6 +515,10 @@ const Home = () => {
     setPrice(priceAndDate.data.data);
     console.log("Getting Chart Data");
     console.log(priceAndDate.data);
+
+    var temp = JSON.stringify(priceAndDate.data.data);
+    setData(temp);
+    setData(Data);
   }
 
   // Gets articles pertaining to the stock.
@@ -963,12 +972,6 @@ const Home = () => {
           Search
         </Button>   
       </Form>
-        
-      {/* ----------------------------------------------------------------------------------------------- */}
-
-
-      
-      {/* ----------------------------------------------------------------------------------------------- */}
 
         <ul className='product-List'> 
           <li><button onClick={() => clickedStock("AAPL")}><p>Apple</p></button></li>

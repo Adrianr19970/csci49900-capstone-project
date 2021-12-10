@@ -32,6 +32,7 @@ const About = () => {
   const [articles, setArticles] = useState([]);
   const [stock, setStock]= useState("");
 
+  const [Data, setData] = useState([]);
   const [y1, sety1] = useState();
   const [y2, sety2] = useState();
 
@@ -481,6 +482,10 @@ const About = () => {
     );
     setStockInfo(info.data.data);
     getPrevStockInfo();
+
+    var temp = JSON.stringify(info.data.data);
+    setData(temp);
+    setData(Data);
   };
 
   // Retireves stock metrics on the previous business day.
@@ -489,6 +494,10 @@ const About = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yesterday + '&end_date=&latest=/' + formated_yesterday, { mode: "no-cors" }
     );
     setPrevInfo(prevInfo.data.data);
+
+    var temp = JSON.stringify(prevInfo.data.data);
+    setData(temp);
+    setData(Data);
   };
 
   // Gets stock info for the charts.
@@ -499,6 +508,10 @@ const About = () => {
     setPrice(priceAndDate.data.data);
     console.log("Getting Chart Data");
     console.log(priceAndDate.data);
+
+    var temp = JSON.stringify(priceAndDate.data.data);
+    setData(temp);
+    setData(Data);
   }
 
   // Gets articles pertaining to the stock.

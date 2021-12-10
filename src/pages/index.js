@@ -26,7 +26,7 @@ const Home = () => {
   const [articles, setArticles] = useState([]);
   const [stock, setStock] = useState("TSLA");
 
-  const [testData, setTestData] = useState([]);
+  const [Data, setData] = useState([]);
   const [y1, sety1] = useState();
   const [y2, sety2] = useState();
 
@@ -162,7 +162,7 @@ const Home = () => {
 
       //
       if (x == true && dayName == "Monday") {
-        if (hour_now == 17 /*&& min_now >= 30 time_now >= '17:30'*/) {
+        if (hour_now == 17 ) {
           if (min_now >= 30) {
             yesterday.setDate(yesterday.getDate());
             YYYY_yesterday = yesterday.getFullYear();
@@ -503,6 +503,10 @@ const Home = () => {
     );
     setStockInfo(info.data.data);
     getPrevStockInfo();
+
+    var temp = JSON.stringify(info.data.data);
+    setData(temp);
+    setData(Data);
   };
 
   // Retireves stock metrics on the previous business day.
@@ -511,6 +515,10 @@ const Home = () => {
       'https://young-harbor33717.herokuapp.com/tbapp/?stock=' + stock + '&interval=Day&start_date=' + formated_yesterday + '&end_date=&latest=/' + formated_yesterday, { mode: "no-cors" }
     );
     setPrevInfo(prevInfo.data.data);
+
+    var temp = JSON.stringify(prevInfo.data.data);
+    setData(temp);
+    setData(Data);
   };
 
   // Gets stock info for the charts.
@@ -521,6 +529,10 @@ const Home = () => {
     setPrice(priceAndDate.data.data);
     console.log("Getting Chart Data");
     console.log(priceAndDate.data);
+
+    var temp = JSON.stringify(priceAndDate.data.data);
+    setData(temp);
+    setData(Data);
   }
 
   // Gets articles pertaining to the stock.
