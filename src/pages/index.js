@@ -113,7 +113,7 @@ const Home = () => {
         mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
         dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
         formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
-        x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();
+        x = moment(formated_yesterday, 'YYYY-MM-DD').isBusinessDay();       
       }
 
       if (x == false && todaydayName == "Monday") {
@@ -160,7 +160,7 @@ const Home = () => {
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
           formated_yesterday = YYYY_yesterday + '-' + mm_yesterday + '-' + dd_yesterday
           i = 7;
-          test = "It's Monday before 5:30pm"
+          test = "It's Monday before 5:30pm!"
         }
       }
 
@@ -348,7 +348,7 @@ const Home = () => {
           }
         }
         else if (hour_now > 17) {
-          yesterday.setDate(yesterday.getDate() - 3);
+          yesterday.setDate(yesterday.getDate());
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
@@ -357,7 +357,7 @@ const Home = () => {
           test = "It's Monday past 6pm"
         }
         else if (hour_now < 17 /*&& min_now < 30 time_now < '17:30'*/) {
-          yesterday.setDate(yesterday.getDate() - 5);
+          yesterday.setDate(yesterday.getDate() - 1);
           YYYY_yesterday = yesterday.getFullYear();
           mm_yesterday = String(yesterday.getMonth() + 1). padStart(2, '0')
           dd_yesterday = String(yesterday.getDate()).padStart(2, '0')
