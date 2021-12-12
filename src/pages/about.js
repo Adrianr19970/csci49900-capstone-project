@@ -21,6 +21,9 @@ import candlePNG from './candle.png'
 import linePNG from './line.png'
 import newsPNG from './news.png'
 import hunterPNG from './hunter.png'
+import volumePNG from './volume.png'
+import forecastPNG from './forecast.png'
+import metricsPNG from './metrics.png'
 
 const About = () => {
   // States that will be changed as the website is used. 
@@ -1006,19 +1009,41 @@ const About = () => {
           <div class = "column">
             <img src = {linePNG} height = "100px" width = "100px"/>
             <p class = "symbolTitle">Line Chart</p>         
-            <p class = "symbolExpain">We provide line chart which shows closing stock price for each of the day for a year.</p>  
+            <p class = "symbolExpain">We provide line chart which shows closing stock price for each of the day for a month, three months, six months, and a year.</p>  
           </div>
 
           <div class = "column">
             <img src = {candlePNG} height = "100px" width = "100px"/>  
             <p class = "symbolTitle">Candlestick Chart</p>           
-            <p class = "symbolExpain">We provide candlestick chart which shows open, high, low, close for each of the day for a year.</p>  
+            <p class = "symbolExpain">We provide candlestick chart which shows open, high, low, close for each of the day for a month, three months, six months, and a year.</p>  
           </div>
 
           <div class = "column">
             <img src = {newsPNG} height = "100px" width = "100px"/>  
             <p class = "symbolTitle">Recent News Articles</p>       
             <p class = "symbolExpain">We provide top news articles for the day and the recent news articles for a searched stock. </p>      
+          </div>
+        </div>
+      </div>
+
+      <div class = "secondPortion">
+        <div class = "symbolContainer">
+          <div class = "column">
+            <img src = {volumePNG} height = "100px" width = "100px"/>
+            <p class = "symbolTitle">Volume Based Chart</p>         
+            <p class = "symbolExpain">We provide volume based chart which shows volume of a stock for a month, three months, six months, and a year.</p>  
+          </div>
+
+          <div class = "column">
+            <img src = {forecastPNG} height = "100px" width = "100px"/>  
+            <p class = "symbolTitle">Stock Forecasting</p>           
+            <p class = "symbolExpain">We provide a forecasting feature which shows general trend of how stock has been going for a year.</p>  
+          </div>
+
+          <div class = "column">
+            <img src = {metricsPNG} height = "100px" width = "100px"/>  
+            <p class = "symbolTitle">Metrics of a Stock</p>       
+            <p class = "symbolExpain">We provide a metrics of a stock which contains: open, close, high, low, volume, 52 week low, and a 52 week high. </p>      
           </div>
         </div>
       </div>
