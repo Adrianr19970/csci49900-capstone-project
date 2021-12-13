@@ -477,20 +477,35 @@ const Home = () => {
 
   // Checks if the stock code inputted by user exsits, if not an error message will appear. If it does it will retrieve stock data.
   const checker = async () => {
-    const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
-    console.log(stock);
-    if (response.data.data.length === 0) {
+    let spChars = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    if(spChars.test(stock) == true) {
       console.log("No data recieved")
       console.log("Invalid Stock Code: " + stock);
       setHideError("block");
       setStock(currentStock);
     }
+    else if (/\s/.test(stock)) {
+      console.log("No data recieved")
+      console.log("Invalid Stock Code: Spaces Detected");
+      setHideError("block");
+      setStock(currentStock);
+    }
     else {
-      console.log("Data recieved")
-      console.log("Valid Stock Code: " + stock);
-      setCurrent(stock);
-      setHideError("none");
-      getArticles();
+      const response = await axios.get('https://stocknewsapi.com/api/v1?tickers=' + stock + '&items=25&token=c5nrxp6lw6ftwokpjx08wkycksgzcg0rpgc4hlcy')
+      console.log(stock);
+      if (response.data.data.length === 0) {
+        console.log("No data recieved")
+        console.log("Invalid Stock Code: " + stock);
+        setHideError("block");
+        setStock(currentStock);
+      }
+      else {
+        console.log("Data recieved")
+        console.log("Valid Stock Code: " + stock);
+        setCurrent(stock);
+        setHideError("none");
+        getArticles();
+      }
     }
   }
 
@@ -770,7 +785,8 @@ const Home = () => {
           borderRight: 'none',
           display: hideError
         }}>
-          <h3 id='error-message'>Invalid Stock Code! Enter A Valid Stock Code!</h3>
+          <h3 id='error-message'>Special Characters, Spaces, or Invalid Stock Code Entered! Enter A Valid Stock Code! 
+          <br/> You can still view current stock data!</h3>
     </div>
 
     <div 
