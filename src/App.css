@@ -1,33 +1,125 @@
-.navBar {
-  background-color: rgb(200, 243, 245);
-  padding: none;
-  text-align: left;
-  font-size: 30px;
-  font-weight: bold;
-  padding-left: 25px;
-  padding-right: 25px;
+html {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-.navTabs {
-  background-color: rgb(200, 243, 245);
-  color: black;
-  border: none;
-  outline: none;
-  cursor: pointer;
-  padding: 14px 16px;
-  font-size: 20px;
-  width: 15%;
-  margin-left: 50px;
-  margin-right: 50px;
+body {
+  background-color: #fff;
+}
+
+/* Navigation Bar */
+.navBar-div {
+  border-style: solid;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-color: #fff;
+  border-width: 1px;
+}
+
+hr {
+  margin-left: 7%;
+  margin-right: 7%;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+#menu {
+  margin-left: 20%;
+  align-items: center;
+}
+
+/* --------------- */
+
+
+/* Navigation Links */
+#link {
+  padding-right: 35px;
+  font-size: 1em;
+  color: #FFD700;
+}
+
+#link:hover {
+  color: #fff;
+}
+
+#link.active {
+  color: #fff;
+}
+
+/* --------------- */
+
+/* Search Bar */
+#searchBar {
+  margin-left: 25px;
+  padding: 3px;
+}
+
+#searchButton {
+  color: #fff;
+  background-color: #000;
+  border: 1px solid #fff;
+  margin-left: 10px;
+  font-size: 1em;
+  text-decoration: none;
+}
+
+#searchButton:hover {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+}
+
+/* --------------- */
+
+
+/* Footer */
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 10s linear;
+  }
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------- */
+
+
+/* Landing Page */
+
+.landing-Background h1{
+  color: #fff;
   text-align: center;
+  padding-top: 7%;
+  padding-bottom: 1%;
+  font-size: 80px;
+  font-weight: bold;
+  -webkit-text-stroke: 1px white;
 }
 
-.navTabs:hover {
-  background-color: lightgreen;
-} 
+.landing-Background button {
+  padding-left: 1%;
+  padding-right: 1%;
+  margin-bottom: 15%;
+  margin-left: 48%;
+  color: #fff;
+  background-color: #000;
+  border: 1px solid #fff;
+}
 
-.searchBar {
-  position: relative;
-  top: 30px;
-  left: 35px;
+.landing-Background button:hover {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #000;
+}
+
+.landing-Background button h3 {
+  font-size: 20px;
 }
